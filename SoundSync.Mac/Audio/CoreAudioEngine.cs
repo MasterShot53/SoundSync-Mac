@@ -14,8 +14,10 @@ public class CoreAudioEngine : IAudioEngine
     public bool IsRunning { get; private set; }
 
     public event Action<string>? StatusChanged;
+#pragma warning disable CS0067
     public event Action<string>? Error;
     public event Action<Dictionary<string, float>>? CalibrationApplied;
+#pragma warning restore CS0067
 
     public void Start(IEnumerable<SpeakerDevice> devices, bool autoCalibrate)
     {
