@@ -44,17 +44,16 @@ public class CoreAudioEngine : IAudioEngine
     public void StartAutoCalibrate()                { /* TODO */ }
     public void StopAutoCalibrate()                 { /* TODO */ }
 
-    public async Task<Dictionary<string, float>> CalibrateAsync(
+    public Task<Dictionary<string, float>> CalibrateAsync(
         IEnumerable<SpeakerDevice> devices,
         IProgress<string>? progress = null,
         CancellationToken ct = default,
         bool quietMode = false)
     {
-        // Calibration math is shared via CalibrationMath in SoundSync.Core.
         // TODO: record mic via AVAudioEngine, play click through each device,
         // pass samples to CalibrationMath.FindArrivalTime, return offsets.
         progress?.Report("Calibration not yet implemented on Mac.");
-        return new Dictionary<string, float>();
+        return Task.FromResult(new Dictionary<string, float>());
     }
 
     public void PlayTestTone(char channel)          { /* TODO: AVAudioPlayerNode sine wave */ }
