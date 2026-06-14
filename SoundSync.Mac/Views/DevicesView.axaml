@@ -299,21 +299,10 @@
                     <ScrollViewer Grid.Row="1" Margin="12,14,12,0">
                         <StackPanel x:Name="PickerList" Spacing="6">
                             <Border x:Name="PickerEmpty" Padding="20,16">
-                                <StackPanel Spacing="12">
-                                    <TextBlock Text="No audio devices found."
-                                               FontSize="13" Foreground="#8B8FA8"
-                                               TextWrapping="Wrap" HorizontalAlignment="Center"
-                                               TextAlignment="Center"/>
-                                    <TextBlock Text="Enter a speaker name to add it manually:"
-                                               FontSize="12" Foreground="#4B4F6B"
-                                               HorizontalAlignment="Center"/>
-                                    <TextBox x:Name="TxtPickerName"
-                                             Watermark="Speaker name (e.g. Kitchen, Bedroom)"
-                                             FontSize="13"
-                                             Background="#252A35" Foreground="White"
-                                             BorderBrush="#2266FF" BorderThickness="1"
-                                             CornerRadius="8" Padding="10,8"/>
-                                </StackPanel>
+                                <TextBlock Text="No audio devices found."
+                                           FontSize="13" Foreground="#8B8FA8"
+                                           TextWrapping="Wrap" HorizontalAlignment="Center"
+                                           TextAlignment="Center"/>
                             </Border>
                         </StackPanel>
                     </ScrollViewer>

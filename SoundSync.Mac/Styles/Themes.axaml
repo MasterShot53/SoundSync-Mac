@@ -434,11 +434,7 @@
         <Setter Property="Template">
             <ControlTemplate TargetType="Slider">
                 <Grid MinHeight="{TemplateBinding MinHeight}">
-                    <Track x:Name="PART_Track"
-                           Minimum="{TemplateBinding Minimum}"
-                           Maximum="{TemplateBinding Maximum}"
-                           Value="{TemplateBinding Value}"
-                           VerticalAlignment="Center">
+                    <Track x:Name="PART_Track" VerticalAlignment="Center">
 
                         <!-- Filled: purple→blue gradient -->
                         <Track.DecreaseButton>

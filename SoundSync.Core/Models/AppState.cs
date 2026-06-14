@@ -130,6 +130,13 @@ public class AppState : INotifyPropertyChanged
 
     public string? DefaultWindowsDeviceId { get; set; }
 
+    private string[] _availableOutputs = Array.Empty<string>();
+    public string[] AvailableOutputs
+    {
+        get => _availableOutputs;
+        set { _availableOutputs = value; OnPropertyChanged(); }
+    }
+
     // Computed properties
     public string EngineButtonText => _engineRunning ? "Stop Engine" : "Start Engine";
 

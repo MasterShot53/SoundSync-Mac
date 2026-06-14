@@ -13,6 +13,7 @@ public partial class DevicesView : UserControl
     private SpeakerDevice? _detailDevice;
     private readonly HashSet<string> _expandedCards = new();
     private bool _driftLoading;
+    private string? _pickerSelectedName;
 
     public event Action? CalibrateRequested;
     public event Action? BeatToggleRequested;
@@ -519,8 +520,71 @@ public partial class DevicesView : UserControl
 
     private void BtnAdd_Click(object? sender, RoutedEventArgs e)
     {
-        TxtPickerName.Text = string.Empty;
+        _pickerSelectedName = null;
+        PopulatePicker();
         AddOverlay.IsVisible = true;
+    }
+
+    private void PopulatePicker()
+    {
+        // Remove any previously added device rows (keep PickerEmpty sentinel)
+        while (PickerList.Children.Count > 1)
+            PickerList.Children.RemoveAt(PickerList.Children.Count - 1);
+
+        // Enumerate macOS audio outputs (stub — populated by engine when running)
+        var available = AppState.Instance.AvailableOutputs ?? Array.Empty<string>();
+        var alreadyAdded = new HashSet<string>(AppState.Instance.Devices.Select(d => d.Name),
+                                               StringComparer.OrdinalIgnoreCase);
+
+        var candidates = available.Where(n => !alreadyAdded.Contains(n)).ToList();
+        PickerEmpty.IsVisible = candidates.Count == 0;
+
+        foreach (var name in candidates)
+        {
+            var item = BuildPickerItem(name);
+            PickerList.Children.Add(item);
+        }
+    }
+
+    private Border BuildPickerItem(string name)
+    {
+        var item = new Border
+        {
+            CornerRadius = new Avalonia.CornerRadius(10),
+            Padding = new Avalonia.Thickness(14, 12),
+            Cursor = new Cursor(StandardCursorType.Hand)
+        };
+        var bg = new LinearGradientBrush { StartPoint = new Avalonia.RelativePoint(0, 0, Avalonia.RelativeUnit.Relative), EndPoint = new Avalonia.RelativePoint(0, 1, Avalonia.RelativeUnit.Relative) };
+        bg.GradientStops.Add(new GradientStop(Color.Parse("#1E2230"), 0));
+        bg.GradientStops.Add(new GradientStop(Color.Parse("#141820"), 1));
+        item.Background = bg;
+
+        item.Child = new StackPanel
+        {
+            Orientation = Orientation.Horizontal,
+            Spacing = 10,
+            Children =
+            {
+                new TextBlock { Text = "♪", FontSize = 14, Foreground = new SolidColorBrush(Color.Parse("#2266FF")), VerticalAlignment = VerticalAlignment.Center },
+                new TextBlock { Text = name, FontSize = 13, FontWeight = FontWeight.Medium, Foreground = new SolidColorBrush(Colors.White), VerticalAlignment = VerticalAlignment.Center }
+            }
+        };
+
+        item.PointerPressed += (_, _) =>
+        {
+            _pickerSelectedName = name;
+            foreach (var child in PickerList.Children.OfType<Border>().Where(b => b != PickerEmpty))
+            {
+                var sel = child == item;
+                var selBg = new LinearGradientBrush { StartPoint = new Avalonia.RelativePoint(0, 0, Avalonia.RelativeUnit.Relative), EndPoint = new Avalonia.RelativePoint(0, 1, Avalonia.RelativeUnit.Relative) };
+                selBg.GradientStops.Add(new GradientStop(Color.Parse(sel ? "#1A2266FF" : "#1E2230"), 0));
+                selBg.GradientStops.Add(new GradientStop(Color.Parse(sel ? "#0D1840" : "#141820"), 1));
+                child.Background = selBg;
+                child.BorderThickness = sel ? new Avalonia.Thickness(1) : new Avalonia.Thickness(0);
+                if (sel) child.BorderBrush = new SolidColorBrush(Color.Parse("#2266FF"));
+            }
+        };
+        return item;
     }
 
     private void BtnAddClose_Click(object? sender, RoutedEventArgs e) => AddOverlay.IsVisible = false;
@@ -529,7 +593,7 @@ public partial class DevicesView : UserControl
 
     private void BtnAddConfirm_Click(object? sender, RoutedEventArgs e)
     {
-        var name = TxtPickerName.Text?.Trim();
+        var name = _pickerSelectedName?.Trim();
         if (string.IsNullOrEmpty(name)) return;
 
         AppState.Instance.Devices.Add(new SpeakerDevice
@@ -538,8 +602,8 @@ public partial class DevicesView : UserControl
             IsConnected = true
         });
         DevicePersistence.Save(AppState.Instance.Devices);
+        _pickerSelectedName = null;
         AddOverlay.IsVisible = false;
-        TxtPickerName.Text = string.Empty;
     }
 
     // ── Detail overlay ────────────────────────────────────────────────────
