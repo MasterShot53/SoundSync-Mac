@@ -1,82 +1,86 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- ── Color palette (matches Windows exactly) ── -->
-    <Color x:Key="ColorBg">#0F1115</Color>
-    <Color x:Key="ColorSidebar">#111111</Color>
-    <Color x:Key="ColorSurface">#1A1D24</Color>
-    <Color x:Key="ColorElevated">#252A35</Color>
-    <Color x:Key="ColorAccent">#2266FF</Color>
-    <Color x:Key="ColorAccentSubtle">#0D1B45</Color>
-    <Color x:Key="ColorGreen">#3DDC84</Color>
-    <Color x:Key="ColorWarning">#FFB020</Color>
-    <Color x:Key="ColorRed">#FF453A</Color>
-    <Color x:Key="ColorText">#FFFFFFFF</Color>
-    <Color x:Key="ColorTextSecondary">#8B8FA8</Color>
-    <Color x:Key="ColorTextTertiary">#4B4F6B</Color>
-    <Color x:Key="ColorSeparator">#1F2230</Color>
-    <Color x:Key="ColorPurple">#9B7FFF</Color>
-    <Color x:Key="ColorCardTop">#1E2230</Color>
-    <Color x:Key="ColorCardBottom">#141820</Color>
-    <Color x:Key="ColorCardBorderTop">#28FFFFFF</Color>
-    <Color x:Key="ColorCardBorderBottom">#06FFFFFF</Color>
-    <Color x:Key="ColorSyncCardTop">#1A2440</Color>
-    <Color x:Key="ColorSyncCardBottom">#141820</Color>
-    <Color x:Key="ColorSyncCardBorderTop">#604F7CFF</Color>
-    <Color x:Key="ColorSyncCardBorderBottom">#12FFFFFF</Color>
-    <Color x:Key="ColorPillTop">#1C2035</Color>
-    <Color x:Key="ColorPillBottom">#141828</Color>
-    <Color x:Key="ColorDestructiveBg">#3A1A1A</Color>
-    <Color x:Key="ColorDestructiveBorder">#5A2020</Color>
+    <Styles.Resources>
 
-    <!-- ── Solid brushes ── -->
-    <SolidColorBrush x:Key="BrushBg"              Color="{StaticResource ColorBg}"/>
-    <SolidColorBrush x:Key="BrushSidebar"         Color="{StaticResource ColorSidebar}"/>
-    <SolidColorBrush x:Key="BrushSurface"         Color="{StaticResource ColorSurface}"/>
-    <SolidColorBrush x:Key="BrushElevated"        Color="{StaticResource ColorElevated}"/>
-    <SolidColorBrush x:Key="BrushAccent"          Color="{StaticResource ColorAccent}"/>
-    <SolidColorBrush x:Key="BrushAccentSubtle"    Color="{StaticResource ColorAccentSubtle}"/>
-    <SolidColorBrush x:Key="BrushGreen"           Color="{StaticResource ColorGreen}"/>
-    <SolidColorBrush x:Key="BrushRed"             Color="{StaticResource ColorRed}"/>
-    <SolidColorBrush x:Key="BrushText"            Color="{StaticResource ColorText}"/>
-    <SolidColorBrush x:Key="BrushTextSecondary"   Color="{StaticResource ColorTextSecondary}"/>
-    <SolidColorBrush x:Key="BrushTextTertiary"    Color="{StaticResource ColorTextTertiary}"/>
-    <SolidColorBrush x:Key="BrushSeparator"       Color="{StaticResource ColorSeparator}"/>
-    <SolidColorBrush x:Key="BrushPurple"          Color="{StaticResource ColorPurple}"/>
-    <SolidColorBrush x:Key="BrushDestructiveBg"   Color="{StaticResource ColorDestructiveBg}"/>
-    <SolidColorBrush x:Key="BrushDestructiveBorder" Color="{StaticResource ColorDestructiveBorder}"/>
+        <!-- ── Color palette (matches Windows exactly) ── -->
+        <Color x:Key="ColorBg">#0F1115</Color>
+        <Color x:Key="ColorSidebar">#111111</Color>
+        <Color x:Key="ColorSurface">#1A1D24</Color>
+        <Color x:Key="ColorElevated">#252A35</Color>
+        <Color x:Key="ColorAccent">#2266FF</Color>
+        <Color x:Key="ColorAccentSubtle">#0D1B45</Color>
+        <Color x:Key="ColorGreen">#3DDC84</Color>
+        <Color x:Key="ColorWarning">#FFB020</Color>
+        <Color x:Key="ColorRed">#FF453A</Color>
+        <Color x:Key="ColorText">#FFFFFFFF</Color>
+        <Color x:Key="ColorTextSecondary">#8B8FA8</Color>
+        <Color x:Key="ColorTextTertiary">#4B4F6B</Color>
+        <Color x:Key="ColorSeparator">#1F2230</Color>
+        <Color x:Key="ColorPurple">#9B7FFF</Color>
+        <Color x:Key="ColorCardTop">#1E2230</Color>
+        <Color x:Key="ColorCardBottom">#141820</Color>
+        <Color x:Key="ColorCardBorderTop">#28FFFFFF</Color>
+        <Color x:Key="ColorCardBorderBottom">#06FFFFFF</Color>
+        <Color x:Key="ColorSyncCardTop">#1A2440</Color>
+        <Color x:Key="ColorSyncCardBottom">#141820</Color>
+        <Color x:Key="ColorSyncCardBorderTop">#604F7CFF</Color>
+        <Color x:Key="ColorSyncCardBorderBottom">#12FFFFFF</Color>
+        <Color x:Key="ColorPillTop">#1C2035</Color>
+        <Color x:Key="ColorPillBottom">#141828</Color>
+        <Color x:Key="ColorDestructiveBg">#3A1A1A</Color>
+        <Color x:Key="ColorDestructiveBorder">#5A2020</Color>
 
-    <!-- ── Gradient brushes ── -->
-    <LinearGradientBrush x:Key="BrushCardBg" StartPoint="0%,0%" EndPoint="0%,100%">
-        <GradientStop Color="{StaticResource ColorCardTop}"    Offset="0"/>
-        <GradientStop Color="{StaticResource ColorCardBottom}" Offset="1"/>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="BrushCardBorder" StartPoint="0%,0%" EndPoint="0%,100%">
-        <GradientStop Color="{StaticResource ColorCardBorderTop}"    Offset="0"/>
-        <GradientStop Color="{StaticResource ColorCardBorderBottom}" Offset="1"/>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="BrushAccentCardBg" StartPoint="0%,0%" EndPoint="0%,100%">
-        <GradientStop Color="{StaticResource ColorSyncCardTop}"    Offset="0"/>
-        <GradientStop Color="{StaticResource ColorSyncCardBottom}" Offset="1"/>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="BrushAccentCardBorder" StartPoint="0%,0%" EndPoint="0%,100%">
-        <GradientStop Color="{StaticResource ColorSyncCardBorderTop}"    Offset="0"/>
-        <GradientStop Color="{StaticResource ColorSyncCardBorderBottom}" Offset="1"/>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="BrushPillBg" StartPoint="0%,0%" EndPoint="0%,100%">
-        <GradientStop Color="{StaticResource ColorPillTop}"    Offset="0"/>
-        <GradientStop Color="{StaticResource ColorPillBottom}" Offset="1"/>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="BrushAccentBtn" StartPoint="0%,0%" EndPoint="100%,0%">
-        <GradientStop Color="#2266FF" Offset="0"/>
-        <GradientStop Color="#1A55EE" Offset="1"/>
-    </LinearGradientBrush>
+        <!-- ── Solid brushes ── -->
+        <SolidColorBrush x:Key="BrushBg"              Color="{StaticResource ColorBg}"/>
+        <SolidColorBrush x:Key="BrushSidebar"         Color="{StaticResource ColorSidebar}"/>
+        <SolidColorBrush x:Key="BrushSurface"         Color="{StaticResource ColorSurface}"/>
+        <SolidColorBrush x:Key="BrushElevated"        Color="{StaticResource ColorElevated}"/>
+        <SolidColorBrush x:Key="BrushAccent"          Color="{StaticResource ColorAccent}"/>
+        <SolidColorBrush x:Key="BrushAccentSubtle"    Color="{StaticResource ColorAccentSubtle}"/>
+        <SolidColorBrush x:Key="BrushGreen"           Color="{StaticResource ColorGreen}"/>
+        <SolidColorBrush x:Key="BrushRed"             Color="{StaticResource ColorRed}"/>
+        <SolidColorBrush x:Key="BrushText"            Color="{StaticResource ColorText}"/>
+        <SolidColorBrush x:Key="BrushTextSecondary"   Color="{StaticResource ColorTextSecondary}"/>
+        <SolidColorBrush x:Key="BrushTextTertiary"    Color="{StaticResource ColorTextTertiary}"/>
+        <SolidColorBrush x:Key="BrushSeparator"       Color="{StaticResource ColorSeparator}"/>
+        <SolidColorBrush x:Key="BrushPurple"          Color="{StaticResource ColorPurple}"/>
+        <SolidColorBrush x:Key="BrushDestructiveBg"   Color="{StaticResource ColorDestructiveBg}"/>
+        <SolidColorBrush x:Key="BrushDestructiveBorder" Color="{StaticResource ColorDestructiveBorder}"/>
 
-    <!-- ── Corner radii ── -->
-    <CornerRadius x:Key="RadiusCard">14</CornerRadius>
-    <CornerRadius x:Key="RadiusButton">10</CornerRadius>
-    <CornerRadius x:Key="RadiusPill">22</CornerRadius>
-    <CornerRadius x:Key="RadiusSmall">8</CornerRadius>
+        <!-- ── Gradient brushes ── -->
+        <LinearGradientBrush x:Key="BrushCardBg" StartPoint="0%,0%" EndPoint="0%,100%">
+            <GradientStop Color="{StaticResource ColorCardTop}"    Offset="0"/>
+            <GradientStop Color="{StaticResource ColorCardBottom}" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="BrushCardBorder" StartPoint="0%,0%" EndPoint="0%,100%">
+            <GradientStop Color="{StaticResource ColorCardBorderTop}"    Offset="0"/>
+            <GradientStop Color="{StaticResource ColorCardBorderBottom}" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="BrushAccentCardBg" StartPoint="0%,0%" EndPoint="0%,100%">
+            <GradientStop Color="{StaticResource ColorSyncCardTop}"    Offset="0"/>
+            <GradientStop Color="{StaticResource ColorSyncCardBottom}" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="BrushAccentCardBorder" StartPoint="0%,0%" EndPoint="0%,100%">
+            <GradientStop Color="{StaticResource ColorSyncCardBorderTop}"    Offset="0"/>
+            <GradientStop Color="{StaticResource ColorSyncCardBorderBottom}" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="BrushPillBg" StartPoint="0%,0%" EndPoint="0%,100%">
+            <GradientStop Color="{StaticResource ColorPillTop}"    Offset="0"/>
+            <GradientStop Color="{StaticResource ColorPillBottom}" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="BrushAccentBtn" StartPoint="0%,0%" EndPoint="100%,0%">
+            <GradientStop Color="#2266FF" Offset="0"/>
+            <GradientStop Color="#1A55EE" Offset="1"/>
+        </LinearGradientBrush>
+
+        <!-- ── Corner radii ── -->
+        <CornerRadius x:Key="RadiusCard">14</CornerRadius>
+        <CornerRadius x:Key="RadiusButton">10</CornerRadius>
+        <CornerRadius x:Key="RadiusPill">22</CornerRadius>
+        <CornerRadius x:Key="RadiusSmall">8</CornerRadius>
+
+    </Styles.Resources>
 
     <!-- ── Global TextBlock foreground ── -->
     <Style Selector="TextBlock">
@@ -180,11 +184,6 @@
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Transitions">
-            <Transitions>
-                <BrushTransition Property="Background" Duration="0:0:0.1"/>
-            </Transitions>
-        </Setter>
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Background="{TemplateBinding Background}"
@@ -220,7 +219,7 @@
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Transitions">
             <Transitions>
-                <BrushTransition Property="Background" Duration="0:0:0.12"/>
+                <DoubleTransition Property="Opacity" Duration="0:0:0.12"/>
             </Transitions>
         </Setter>
         <Setter Property="Template">
@@ -258,4 +257,4 @@
         <Setter Property="BoxShadow" Value="0 4 24 0 #55000000"/>
     </Style>
 
-</ResourceDictionary>
+</Styles>

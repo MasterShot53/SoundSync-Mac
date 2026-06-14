@@ -16,7 +16,7 @@
             <Rectangle Fill="#07080E"/>
             <Rectangle>
                 <Rectangle.Fill>
-                    <RadialGradientBrush Center="22%,28%" GradientOrigin="22%,28%" RadiusX="90%" RadiusY="90%">
+                    <RadialGradientBrush Center="22%,28%" GradientOrigin="22%,28%" RadiusX="0.9" RadiusY="0.9">
                         <GradientStop Color="#0F1E55" Offset="0"/>
                         <GradientStop Color="#0007080E" Offset="1"/>
                     </RadialGradientBrush>
@@ -24,7 +24,7 @@
             </Rectangle>
             <Rectangle>
                 <Rectangle.Fill>
-                    <RadialGradientBrush Center="78%,55%" GradientOrigin="78%,55%" RadiusX="80%" RadiusY="80%">
+                    <RadialGradientBrush Center="78%,55%" GradientOrigin="78%,55%" RadiusX="0.8" RadiusY="0.8">
                         <GradientStop Color="#0D1B4A" Offset="0"/>
                         <GradientStop Color="#0007080E" Offset="1"/>
                     </RadialGradientBrush>
@@ -32,7 +32,7 @@
             </Rectangle>
             <Rectangle>
                 <Rectangle.Fill>
-                    <RadialGradientBrush Center="42%,82%" GradientOrigin="42%,82%" RadiusX="72%" RadiusY="72%">
+                    <RadialGradientBrush Center="42%,82%" GradientOrigin="42%,82%" RadiusX="0.72" RadiusY="0.72">
                         <GradientStop Color="#0B1840" Offset="0"/>
                         <GradientStop Color="#0007080E" Offset="1"/>
                     </RadialGradientBrush>
@@ -51,7 +51,7 @@
                 <Panel Grid.RowSpan="4" IsHitTestVisible="False">
                     <Rectangle>
                         <Rectangle.Fill>
-                            <RadialGradientBrush Center="-30%,-20%" GradientOrigin="-30%,-20%" RadiusX="110%" RadiusY="110%">
+                            <RadialGradientBrush Center="-30%,-20%" GradientOrigin="-30%,-20%" RadiusX="1.1" RadiusY="1.1">
                                 <GradientStop Color="#0C1535" Offset="0"/>
                                 <GradientStop Color="#00111111" Offset="1"/>
                             </RadialGradientBrush>
@@ -59,7 +59,7 @@
                     </Rectangle>
                     <Rectangle>
                         <Rectangle.Fill>
-                            <RadialGradientBrush Center="120%,130%" GradientOrigin="120%,130%" RadiusX="110%" RadiusY="110%">
+                            <RadialGradientBrush Center="120%,130%" GradientOrigin="120%,130%" RadiusX="1.1" RadiusY="1.1">
                                 <GradientStop Color="#091228" Offset="0"/>
                                 <GradientStop Color="#00111111" Offset="1"/>
                             </RadialGradientBrush>
