@@ -1,0 +1,36 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:SoundSync.Mac.Views"
+        x:Class="SoundSync.Mac.MainWindow"
+        Title="SoundSync" Width="860" Height="640"
+        MinWidth="700" MinHeight="480">
+
+    <Grid ColumnDefinitions="200,*">
+
+        <!-- Sidebar navigation -->
+        <Border Grid.Column="0" Padding="12,20,12,12">
+            <StackPanel Spacing="4">
+                <TextBlock Text="SoundSync" FontSize="18" FontWeight="Bold" Margin="8,0,0,16"/>
+
+                <Button x:Name="NavDevices" Content="Devices" HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left" Padding="12,8"
+                        Click="NavDevices_Click"/>
+                <Button x:Name="NavSync" Content="Sync" HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left" Padding="12,8"
+                        Click="NavSync_Click"/>
+                <Button x:Name="NavSettings" Content="Settings" HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left" Padding="12,8"
+                        Click="NavSettings_Click"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Content area -->
+        <ScrollViewer Grid.Column="1" Padding="0,20,0,0">
+            <Panel>
+                <views:DevicesView x:Name="PageDevices"/>
+                <views:SyncView    x:Name="PageSync"    IsVisible="False"/>
+                <views:SettingsView x:Name="PageSettings" IsVisible="False"/>
+            </Panel>
+        </ScrollViewer>
+    </Grid>
+</Window>

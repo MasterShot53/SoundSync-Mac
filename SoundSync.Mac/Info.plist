@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleExecutable</key>
+    <string>SoundSync</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.soundsync.app</string>
+    <key>CFBundleName</key>
+    <string>SoundSync</string>
+    <key>CFBundleDisplayName</key>
+    <string>SoundSync</string>
+    <key>CFBundleVersion</key>
+    <string>1.0.0</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleSignature</key>
+    <string>????</string>
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    <key>NSSupportsAutomaticGraphicsSwitching</key>
+    <true/>
+    <!-- Required — without this macOS silently blocks mic access during calibration -->
+    <key>NSMicrophoneUsageDescription</key>
+    <string>SoundSync uses the microphone only during speaker calibration to measure audio arrival time. It is never accessed in the background.</string>
+</dict>
+</plist>
