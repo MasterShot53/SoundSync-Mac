@@ -2,38 +2,88 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using SoundSync.Mac.Audio;
+using SoundSync.Models;
 
 namespace SoundSync.Mac.Views;
 
 public partial class SettingsView : UserControl
 {
+    private bool _loading;
+
     public SettingsView()
     {
         InitializeComponent();
-        SliderDefaultDelay.Value = 150;
+        Loaded += (_, _) => LoadFromAppState();
     }
+
+    private void LoadFromAppState()
+    {
+        _loading = true;
+        ToggleAutoStart.IsChecked     = AppState.Instance.AutoStart;
+        ToggleAutoCalibrate.IsChecked = AppState.Instance.AutoCalibrate;
+        SliderDriftInterval.Value     = AppState.Instance.DriftCorrectionIntervalMs / 1000.0;
+        SliderDefaultDelay.Value      = 150;
+        _loading = false;
+        UpdateDriftLabel((int)SliderDriftInterval.Value);
+    }
+
+    // ── Auto Start ───────────────────────────────────────────────────────────
+
+    private void ToggleAutoStart_Changed(object? sender, RoutedEventArgs e)
+    {
+        if (_loading) return;
+        AppState.Instance.AutoStart = ToggleAutoStart.IsChecked == true;
+    }
+
+    // ── Auto Calibrate ───────────────────────────────────────────────────────
+
+    private void ToggleAutoCalibrate_Changed(object? sender, RoutedEventArgs e)
+    {
+        if (_loading) return;
+        AppState.Instance.AutoCalibrate = ToggleAutoCalibrate.IsChecked == true;
+    }
+
+    // ── Drift Interval ───────────────────────────────────────────────────────
+
+    private void SliderDriftInterval_Changed(object? sender, RangeBaseValueChangedEventArgs e)
+    {
+        if (_loading) return;
+        int secs = (int)e.NewValue;
+        AppState.Instance.DriftCorrectionIntervalMs = secs * 1000;
+        UpdateDriftLabel(secs);
+    }
+
+    private void UpdateDriftLabel(int secs)
+    {
+        DriftIntervalLabel.Text = secs >= 60
+            ? $"{secs / 60} min {secs % 60:D2} s"
+            : $"{secs} s";
+    }
+
+    // ── Launch at Login ──────────────────────────────────────────────────────
 
     private void ToggleLaunchAtLogin_Changed(object? sender, RoutedEventArgs e)
     {
-        bool on = ToggleLaunchAtLogin.IsChecked == true;
-        // TODO: on macOS 13+ use SMAppService.mainApp.register()/unregister()
-        // On older macOS write/delete a LaunchAgent plist in ~/Library/LaunchAgents/
+        if (_loading) return;
+        // TODO: SMAppService.mainApp.register() / unregister() (macOS 13+)
+        // or write/delete ~/Library/LaunchAgents/com.soundsync.plist
     }
+
+    // ── Default Delay ────────────────────────────────────────────────────────
 
     private void SliderDefaultDelay_Changed(object? sender, RangeBaseValueChangedEventArgs e)
     {
         DefaultDelayLabel.Text = $"{(int)e.NewValue} ms";
-        // TODO: AppState.Instance.Settings.DefaultDelayMs = (int)e.NewValue;
     }
+
+    // ── Uninstall ────────────────────────────────────────────────────────────
 
     private async void BtnUninstall_Click(object? sender, RoutedEventArgs e)
     {
-        // Confirm
         var dialog = new Window
         {
             Title = "Uninstall SoundSync",
-            Width = 400,
-            Height = 180,
+            Width = 400, Height = 180,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
             CanResize = false,
             Content = new StackPanel
@@ -45,7 +95,7 @@ public partial class SettingsView : UserControl
                     new TextBlock
                     {
                         Text = "This will remove the BlackHole audio driver and all SoundSync data. " +
-                               "You will need admin access. Continue?",
+                               "Admin access is required. Continue?",
                         TextWrapping = Avalonia.Media.TextWrapping.Wrap,
                         FontSize = 13
                     },
@@ -58,8 +108,8 @@ public partial class SettingsView : UserControl
                         {
                             new Button { Content = "Cancel",    Tag = false },
                             new Button { Content = "Uninstall", Tag = true,
-                                         Foreground = new Avalonia.Media.SolidColorBrush(
-                                             Avalonia.Media.Color.Parse("#FF4444")) }
+                                Foreground = new Avalonia.Media.SolidColorBrush(
+                                    Avalonia.Media.Color.Parse("#FF4444")) }
                         }
                     }
                 }
@@ -74,21 +124,17 @@ public partial class SettingsView : UserControl
         if (owner != null) await dialog.ShowDialog(owner);
         if (!confirmed) return;
 
-        // Run uninstall
         BtnUninstall.IsEnabled = false;
         UninstallProgress.IsVisible = true;
 
         try
         {
-            // 1. Release BlackHole (restores original default output)
             UninstallStatusText.Text = "Restoring audio device…";
             BlackHoleManager.Release();
 
-            // 2. Remove BlackHole driver
             UninstallStatusText.Text = "Removing BlackHole driver (admin required)…";
             await BlackHoleManager.UninstallBlackHoleAsync();
 
-            // 3. Delete app data
             UninstallStatusText.Text = "Removing app data…";
             string dataDir = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
@@ -96,7 +142,6 @@ public partial class SettingsView : UserControl
             if (Directory.Exists(dataDir))
                 Directory.Delete(dataDir, recursive: true);
 
-            // 4. Done — tell user to trash the app
             UninstallStatusText.Text = "Done. Drag SoundSync.app to Trash to finish.";
             UninstallProgressBar.IsIndeterminate = false;
             UninstallProgressBar.Value = 100;

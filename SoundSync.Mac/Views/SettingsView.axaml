@@ -3,15 +3,58 @@
              x:Class="SoundSync.Mac.Views.SettingsView">
 
     <ScrollViewer>
-        <StackPanel Margin="20,0,20,20" Spacing="14">
+        <StackPanel Margin="24,20,24,20" Spacing="12">
 
             <!-- Header -->
             <StackPanel Spacing="4" Margin="0,0,0,6">
-                <TextBlock Text="Settings" FontSize="22" FontWeight="Bold" Foreground="White"/>
-                <TextBlock Text="Global options for SoundSync." FontSize="13" Foreground="#8B8FA8"/>
+                <TextBlock Text="Settings" FontSize="28" FontWeight="Bold" Foreground="White"/>
+                <TextBlock Text="Configure SoundSync preferences." FontSize="13" Foreground="#8B8FA8"/>
             </StackPanel>
 
-            <!-- Launch at login -->
+            <!-- Auto Start -->
+            <Border Classes="Card" Padding="16,13">
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
+                        <TextBlock Text="Start Engine Automatically" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
+                        <TextBlock Text="Start routing audio as soon as SoundSync opens."
+                                   FontSize="12" Foreground="#8B8FA8"/>
+                    </StackPanel>
+                    <ToggleSwitch x:Name="ToggleAutoStart" Grid.Column="1"
+                                  IsCheckedChanged="ToggleAutoStart_Changed"/>
+                </Grid>
+            </Border>
+
+            <!-- Auto Calibrate -->
+            <Border Classes="Card" Padding="16,13">
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
+                        <TextBlock Text="Auto-Calibrate on Start" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
+                        <TextBlock Text="Run a calibration pass automatically when the engine starts."
+                                   FontSize="12" Foreground="#8B8FA8"/>
+                    </StackPanel>
+                    <ToggleSwitch x:Name="ToggleAutoCalibrate" Grid.Column="1"
+                                  IsCheckedChanged="ToggleAutoCalibrate_Changed"/>
+                </Grid>
+            </Border>
+
+            <!-- Drift Correction Interval -->
+            <Border Classes="Card" Padding="16,13">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="Drift Correction Interval" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
+                    <TextBlock Text="How often SoundSync resyncs buffers to prevent clock drift."
+                               FontSize="12" Foreground="#8B8FA8"/>
+                    <Grid ColumnDefinitions="*,10,80">
+                        <Slider x:Name="SliderDriftInterval" Grid.Column="0"
+                                Minimum="10" Maximum="600" TickFrequency="10"
+                                ValueChanged="SliderDriftInterval_Changed"/>
+                        <TextBlock x:Name="DriftIntervalLabel" Grid.Column="2"
+                                   Text="2 min 30 s" VerticalAlignment="Center"
+                                   FontSize="12" Foreground="White"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Launch at Login (macOS only) -->
             <Border Classes="Card" Padding="16,13">
                 <Grid ColumnDefinitions="*,Auto">
                     <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
@@ -24,7 +67,7 @@
                 </Grid>
             </Border>
 
-            <!-- Default delay -->
+            <!-- Default Delay (macOS only) -->
             <Border Classes="Card" Padding="16,13">
                 <StackPanel Spacing="10">
                     <TextBlock Text="Default Delay" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
@@ -35,7 +78,8 @@
                                 Minimum="0" Maximum="500" TickFrequency="10"
                                 ValueChanged="SliderDefaultDelay_Changed"/>
                         <TextBlock x:Name="DefaultDelayLabel" Grid.Column="2"
-                                   Text="150 ms" VerticalAlignment="Center" FontSize="13" Foreground="White"/>
+                                   Text="150 ms" VerticalAlignment="Center"
+                                   FontSize="13" Foreground="White"/>
                     </Grid>
                 </StackPanel>
             </Border>
@@ -43,13 +87,18 @@
             <!-- About -->
             <Border Classes="Card" Padding="16,13">
                 <StackPanel Spacing="4">
-                    <TextBlock Text="About SoundSync" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
-                    <TextBlock x:Name="VersionLabel" Text="Version 1.0" FontSize="12" Foreground="#8B8FA8"/>
+                    <TextBlock Text="SoundSync" FontSize="15" FontWeight="SemiBold" Foreground="White"/>
+                    <TextBlock Text="Multi-room audio synchronization" FontSize="12" Foreground="#8B8FA8"/>
+                    <Border Background="#252A35" CornerRadius="8" Padding="8,4"
+                            Margin="0,4,0,0" HorizontalAlignment="Left">
+                        <TextBlock x:Name="VersionLabel" Text="v1.0.0"
+                                   FontSize="12" Foreground="#2266FF"/>
+                    </Border>
                 </StackPanel>
             </Border>
 
-            <!-- Uninstall -->
-            <Border Classes="Card" Padding="16,13" Margin="0,10,0,0">
+            <!-- Uninstall (macOS only) -->
+            <Border Classes="Card" Padding="16,13" Margin="0,6,0,0">
                 <Grid ColumnDefinitions="*,12,Auto">
                     <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
                         <TextBlock Text="Uninstall SoundSync" FontSize="14" FontWeight="SemiBold" Foreground="White"/>

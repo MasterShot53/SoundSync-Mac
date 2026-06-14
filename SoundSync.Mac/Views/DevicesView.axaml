@@ -2,42 +2,44 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="SoundSync.Mac.Views.DevicesView">
 
-    <Grid Margin="20,0,20,20" RowDefinitions="Auto,Auto,Auto,*">
+    <Grid Margin="24,20,24,20" RowDefinitions="Auto,Auto,*">
 
         <!-- Header -->
-        <StackPanel Grid.Row="0" Margin="0,0,0,14" Spacing="4">
-            <TextBlock Text="Devices" FontSize="22" FontWeight="Bold" Foreground="White"/>
-            <TextBlock Text="Add the speakers you want to sync."
+        <StackPanel Grid.Row="0" Margin="0,0,0,16" Spacing="4">
+            <TextBlock Text="Devices" FontSize="28" FontWeight="Bold" Foreground="White"/>
+            <TextBlock x:Name="SubtitleText" Text="Add the speakers you want to sync."
                        FontSize="13" Foreground="#8B8FA8"/>
         </StackPanel>
 
         <!-- Add device bar -->
-        <Grid Grid.Row="1" ColumnDefinitions="*,10,Auto" Margin="0,0,0,10">
-            <ComboBox x:Name="DevicePicker" Grid.Column="0"
-                      PlaceholderText="Select a speaker to add…"
-                      HorizontalAlignment="Stretch"/>
+        <Grid Grid.Row="1" ColumnDefinitions="*,10,Auto" Margin="0,0,0,14">
+            <TextBox x:Name="TxtNewDeviceName" Grid.Column="0"
+                     Watermark="Speaker name (e.g. Bedroom Sonos)…"
+                     Background="#1A1D24" Foreground="White"
+                     BorderBrush="#252A35" BorderThickness="1"
+                     CornerRadius="10" Padding="12,9"
+                     FontSize="13"/>
             <Button x:Name="BtnAdd" Grid.Column="2" Classes="Primary"
-                    Content="Add" Click="BtnAdd_Click"/>
+                    Content="+ Add Speaker" Click="BtnAdd_Click"/>
         </Grid>
 
-        <!-- Scan button -->
-        <Button x:Name="BtnScan" Grid.Row="2" Classes="Secondary"
-                Content="Scan for Devices" HorizontalAlignment="Left"
-                Margin="0,0,0,14" Click="BtnScan_Click"/>
-
         <!-- Device list / empty state -->
-        <ScrollViewer Grid.Row="3">
-            <StackPanel>
-                <Border x:Name="EmptyState" IsVisible="True" Classes="Card" Padding="32">
-                    <StackPanel HorizontalAlignment="Center" Spacing="8">
-                        <TextBlock Text="No speakers added" FontSize="16" FontWeight="SemiBold"
+        <ScrollViewer Grid.Row="2">
+            <StackPanel Spacing="10">
+                <Border x:Name="EmptyState" IsVisible="True" Classes="Card" Padding="40">
+                    <StackPanel HorizontalAlignment="Center" Spacing="10">
+                        <TextBlock Text="◉" FontSize="40" Foreground="#252A35"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="No speakers yet" FontSize="16" FontWeight="SemiBold"
                                    Foreground="White" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Select a device above and tap Add."
-                                   FontSize="13" Foreground="#8B8FA8" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Type a speaker name above and tap Add Speaker."
+                                   FontSize="13" Foreground="#8B8FA8"
+                                   HorizontalAlignment="Center" TextWrapping="Wrap"/>
                     </StackPanel>
                 </Border>
-                <StackPanel x:Name="DeviceList" Spacing="12"/>
+                <StackPanel x:Name="DeviceList" Spacing="10"/>
             </StackPanel>
         </ScrollViewer>
+
     </Grid>
 </UserControl>

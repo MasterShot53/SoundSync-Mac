@@ -3,15 +3,13 @@
         xmlns:shapes="clr-namespace:Avalonia.Controls.Shapes;assembly=Avalonia.Controls"
         xmlns:views="clr-namespace:SoundSync.Mac.Views"
         x:Class="SoundSync.Mac.MainWindow"
-        Title="SoundSync" Width="1100" Height="760"
-        MinWidth="860" MinHeight="560"
-        Background="#07080E"
-        ExtendClientAreaToDecorationsHint="True"
-        ExtendClientAreaChromeHints="NoChrome">
+        Title="SoundSync" Width="1200" Height="840"
+        MinWidth="860" MinHeight="600"
+        Background="#07080E">
 
     <Grid ColumnDefinitions="220,*">
 
-        <!-- ── Dark background gradient blobs ── -->
+        <!-- ── Background gradient blobs (5 total, matching Windows) ── -->
         <Panel Grid.ColumnSpan="2" IsHitTestVisible="False">
             <Rectangle Fill="#07080E"/>
             <Rectangle>
@@ -38,6 +36,22 @@
                     </RadialGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
+            <Rectangle>
+                <Rectangle.Fill>
+                    <RadialGradientBrush Center="8%,72%" GradientOrigin="8%,72%" Radius="0.6">
+                        <GradientStop Color="#091228" Offset="0"/>
+                        <GradientStop Color="#0007080E" Offset="1"/>
+                    </RadialGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle>
+                <Rectangle.Fill>
+                    <RadialGradientBrush Center="88%,18%" GradientOrigin="88%,18%" Radius="0.55">
+                        <GradientStop Color="#080E2A" Offset="0"/>
+                        <GradientStop Color="#0007080E" Offset="1"/>
+                    </RadialGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
         </Panel>
 
         <!-- ══════════════════════════════════════
@@ -45,10 +59,10 @@
         ══════════════════════════════════════ -->
         <Border Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="#1F2230"
                 Background="#EE111111">
-            <Grid RowDefinitions="Auto,Auto,*,Auto">
+            <Grid RowDefinitions="Auto,Auto,Auto,*,Auto,Auto">
 
                 <!-- Sidebar gradient blobs -->
-                <Panel Grid.RowSpan="4" IsHitTestVisible="False">
+                <Panel Grid.RowSpan="6" IsHitTestVisible="False">
                     <Rectangle>
                         <Rectangle.Fill>
                             <RadialGradientBrush Center="-30%,-20%" GradientOrigin="-30%,-20%" Radius="1.1">
@@ -67,8 +81,8 @@
                     </Rectangle>
                 </Panel>
 
-                <!-- Logo -->
-                <Border Grid.Row="0" Padding="16,22,16,12">
+                <!-- Row 0 — Logo (left padding leaves room for macOS traffic lights) -->
+                <Border Grid.Row="0" Padding="16,18,16,12">
                     <StackPanel Orientation="Horizontal" Spacing="9">
                         <Viewbox Width="22" Height="22" VerticalAlignment="Center">
                             <Canvas Width="24" Height="20">
@@ -82,7 +96,7 @@
                     </StackPanel>
                 </Border>
 
-                <!-- Nav -->
+                <!-- Row 1 — Nav buttons -->
                 <StackPanel Grid.Row="1" Margin="0,4,0,0">
                     <Button x:Name="NavDevices" Classes="NavBtn Active" Click="NavDevices_Click">
                         <StackPanel Orientation="Horizontal" Spacing="10">
@@ -104,44 +118,76 @@
                     </Button>
                 </StackPanel>
 
-                <!-- Spacer -->
-                <Panel Grid.Row="2"/>
+                <!-- Row 2 — Quick Actions -->
+                <StackPanel Grid.Row="2" Margin="10,10,10,4" Spacing="6">
+                    <TextBlock Text="QUICK ACTIONS" FontSize="9" FontWeight="SemiBold"
+                               Foreground="#4B4F6B" Margin="4,0,0,0"/>
+                    <Grid ColumnDefinitions="*,6,*">
+                        <Button x:Name="BtnQaBeat" Grid.Column="0" Classes="Secondary"
+                                Content="Play Beat" FontSize="11" Padding="0,7"
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                Click="BtnQaBeat_Click"/>
+                        <Button x:Name="BtnQaMute" Grid.Column="2" Classes="Secondary"
+                                Content="Mute All" FontSize="11" Padding="0,7"
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                Click="BtnQaMute_Click"/>
+                    </Grid>
+                </StackPanel>
 
-                <!-- Engine card -->
-                <Border Grid.Row="3" Margin="10,0,10,16" Padding="14,16" Classes="AccentCard">
+                <!-- Row 3 — Spacer -->
+                <Panel Grid.Row="3"/>
+
+                <!-- Row 4 — Master Volume card -->
+                <Border Grid.Row="4" Margin="10,0,10,10" Padding="14,13" Classes="Card">
+                    <StackPanel Spacing="6">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="MASTER VOLUME" FontSize="9" FontWeight="SemiBold"
+                                       Foreground="#4B4F6B"/>
+                            <TextBlock x:Name="SidebarVolLabel" Grid.Column="1"
+                                       Text="100%" FontSize="11" Foreground="#8B8FA8"/>
+                        </Grid>
+                        <Slider x:Name="SidebarVolumeSlider" Minimum="0" Maximum="100" Value="100"
+                                TickFrequency="1"
+                                ValueChanged="SidebarVolumeSlider_Changed"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Row 5 — Engine card -->
+                <Border Grid.Row="5" Margin="10,0,10,16" Padding="14,16" Classes="AccentCard">
                     <StackPanel Spacing="4">
-                        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,0,4">
+                        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,0,2">
                             <Ellipse x:Name="StatusDot" Width="8" Height="8"
                                      Fill="#4B4F6B" VerticalAlignment="Center"/>
-                            <TextBlock Text="ENGINE" FontSize="10" FontWeight="SemiBold"
+                            <TextBlock Text="ENGINE" FontSize="9" FontWeight="SemiBold"
                                        Foreground="#4B4F6B"/>
                         </StackPanel>
                         <TextBlock x:Name="SidebarStatusText" Text="Stopped"
                                    FontSize="15" FontWeight="SemiBold" Foreground="#8B8FA8"/>
+                        <TextBlock x:Name="SidebarSourceName" Text="No Source"
+                                   FontSize="11" Foreground="#4B4F6B" IsVisible="False"/>
+                        <TextBlock x:Name="SidebarSampleRate" Text=""
+                                   FontSize="11" Foreground="#4B4F6B" IsVisible="False"/>
                         <Button x:Name="SidebarEngineBtn" Classes="Primary"
                                 Margin="0,10,0,0" HorizontalAlignment="Stretch"
                                 Click="SidebarEngineBtn_Click">
                             <TextBlock x:Name="SidebarEngineBtnText" Text="Start Engine"
-                                       FontSize="13" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                       FontSize="13" FontWeight="SemiBold"
+                                       HorizontalAlignment="Center"/>
                         </Button>
                     </StackPanel>
                 </Border>
+
             </Grid>
         </Border>
 
         <!-- ══════════════════════════════════════
              CONTENT AREA
         ══════════════════════════════════════ -->
-        <Grid Grid.Column="1" RowDefinitions="32,*">
-            <!-- macOS traffic light drag area -->
-            <Panel Grid.Row="0" Background="Transparent"
-                   PointerPressed="TitleBar_PointerPressed"/>
-            <!-- Pages -->
-            <Panel Grid.Row="1">
-                <views:DevicesView  x:Name="PageDevices"/>
-                <views:SyncView     x:Name="PageSync"     IsVisible="False"/>
-                <views:SettingsView x:Name="PageSettings" IsVisible="False"/>
-            </Panel>
-        </Grid>
+        <Panel Grid.Column="1">
+            <views:DevicesView  x:Name="PageDevices"/>
+            <views:SyncView     x:Name="PageSync"     IsVisible="False"/>
+            <views:SettingsView x:Name="PageSettings" IsVisible="False"/>
+        </Panel>
+
     </Grid>
 </Window>

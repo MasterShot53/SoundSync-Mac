@@ -1,7 +1,9 @@
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using SoundSync.Audio;
 using SoundSync.Mac.Audio;
 using SoundSync.Models;
 
@@ -10,16 +12,44 @@ namespace SoundSync.Mac;
 public partial class MainWindow : Window
 {
     private readonly CoreAudioEngine _engine = new();
-    private bool _engineRunning;
 
     public MainWindow()
     {
         InitializeComponent();
+
+        // Share the single engine with SyncView
+        PageSync.Engine = _engine;
+
+        // Load persisted state
+        foreach (var d in DevicePersistence.Load())
+            AppState.Instance.Devices.Add(d);
+        AppSettingsPersistence.Load();
+
+        // Restore volume slider
+        SidebarVolumeSlider.Value = AppState.Instance.MasterVolume;
+        SidebarVolLabel.Text = $"{(int)AppState.Instance.MasterVolume}%";
+
+        // Engine status → AppState → sidebar + SyncView
+        _engine.StatusChanged += status =>
+        {
+            AppState.Instance.EngineStatus = status;
+            SidebarStatusText.Text = status;
+            PageSync.UpdateUI();
+        };
+
         ShowPage("Devices");
-        _engine.StatusChanged += status => SidebarStatusText.Text = status;
+        UpdateEngineCard();
     }
 
-    // ── Navigation ───────────────────────────────────────────────────────────
+    protected override void OnClosed(EventArgs e)
+    {
+        DevicePersistence.Save(AppState.Instance.Devices);
+        AppSettingsPersistence.Save();
+        _engine.Dispose();
+        base.OnClosed(e);
+    }
+
+    // ── Navigation ──────────────────────────────────────────────────────────
 
     private void ShowPage(string name)
     {
@@ -42,34 +72,67 @@ public partial class MainWindow : Window
     private void NavSync_Click(object? sender, RoutedEventArgs e)     => ShowPage("Sync");
     private void NavSettings_Click(object? sender, RoutedEventArgs e) => ShowPage("Settings");
 
-    // ── Engine button ────────────────────────────────────────────────────────
+    // ── Engine ──────────────────────────────────────────────────────────────
 
     private void SidebarEngineBtn_Click(object? sender, RoutedEventArgs e)
     {
-        if (_engineRunning)
+        if (AppState.Instance.EngineRunning)
         {
             _engine.Stop();
             BlackHoleManager.Release();
-            _engineRunning = false;
-            SidebarEngineBtnText.Text = "Start Engine";
-            StatusDot.Fill = new SolidColorBrush(Color.Parse("#4B4F6B"));
+            AppState.Instance.EngineRunning = false;
+            AppState.Instance.EngineStatus  = "Stopped";
         }
         else
         {
             if (!BlackHoleManager.IsInstalled()) { ShowPage("Sync"); return; }
             BlackHoleManager.Acquire();
-            _engine.Start(AppState.Instance.Devices, autoCalibrate: false);
-            _engineRunning = true;
-            SidebarEngineBtnText.Text = "Stop Engine";
-            StatusDot.Fill = new SolidColorBrush(Color.Parse("#3DDC84"));
+            _engine.Start(AppState.Instance.Devices, autoCalibrate: AppState.Instance.AutoCalibrate);
+            AppState.Instance.EngineRunning = true;
         }
+
+        UpdateEngineCard();
+        PageSync.UpdateUI();
     }
 
-    // ── Drag to move (macOS custom chrome) ───────────────────────────────────
-
-    private void TitleBar_PointerPressed(object? sender, PointerPressedEventArgs e)
+    private void UpdateEngineCard()
     {
-        if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
-            BeginMoveDrag(e);
+        bool running = AppState.Instance.EngineRunning;
+        SidebarEngineBtnText.Text   = running ? "Stop Engine" : "Start Engine";
+        SidebarStatusText.Text      = AppState.Instance.EngineStatus;
+        StatusDot.Fill              = new SolidColorBrush(Color.Parse(running ? "#3DDC84" : "#4B4F6B"));
+        SidebarSourceName.IsVisible = running;
+        SidebarSampleRate.IsVisible = running && AppState.Instance.AudioSourceRate > 0;
+        SidebarSourceName.Text      = AppState.Instance.AudioSourceName;
+        SidebarSampleRate.Text      = AppState.Instance.AudioRateText;
+
+        // Disable quick-action buttons when stopped
+        BtnQaBeat.IsEnabled = running;
+        BtnQaMute.IsEnabled = running;
+    }
+
+    // ── Quick Actions ────────────────────────────────────────────────────────
+
+    private void BtnQaBeat_Click(object? sender, RoutedEventArgs e)
+    {
+        AppState.Instance.IsBeatPlaying = !AppState.Instance.IsBeatPlaying;
+        if (AppState.Instance.IsBeatPlaying) _engine.StartBeat(); else _engine.StopBeat();
+        BtnQaBeat.Content = AppState.Instance.IsBeatPlaying ? "Stop Beat" : "Play Beat";
+        PageSync.UpdateUI();
+    }
+
+    private void BtnQaMute_Click(object? sender, RoutedEventArgs e)
+    {
+        bool muting = (string?)BtnQaMute.Content == "Mute All";
+        BtnQaMute.Content = muting ? "Unmute All" : "Mute All";
+        // TODO: engine.MuteAll(muting) when CoreAudioEngine implements it
+    }
+
+    // ── Volume ───────────────────────────────────────────────────────────────
+
+    private void SidebarVolumeSlider_Changed(object? sender, RangeBaseValueChangedEventArgs e)
+    {
+        AppState.Instance.MasterVolume = (float)e.NewValue;
+        SidebarVolLabel.Text = $"{(int)e.NewValue}%";
     }
 }

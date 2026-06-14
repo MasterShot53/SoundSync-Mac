@@ -2,11 +2,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="SoundSync.Mac.Views.SyncView">
 
-    <Grid Margin="20,0,20,20" RowDefinitions="Auto,*,Auto,Auto">
+    <Grid Margin="24,20,24,20" RowDefinitions="Auto,*,Auto,Auto">
 
         <!-- Header -->
         <StackPanel Grid.Row="0" Margin="0,0,0,14" Spacing="4">
-            <TextBlock Text="Sync" FontSize="22" FontWeight="Bold" Foreground="White"/>
+            <TextBlock Text="Sync" FontSize="28" FontWeight="Bold" Foreground="White"/>
             <TextBlock x:Name="EngineStatusText"
                        Text="Start the engine to route audio to your speakers."
                        FontSize="13" Foreground="#8B8FA8"/>
@@ -18,7 +18,7 @@
                     <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
                         <TextBlock Text="BlackHole not found" FontSize="13" FontWeight="SemiBold"
                                    Foreground="#FFB020"/>
-                        <TextBlock Text="Required for full sync. Free install — takes 30 seconds."
+                        <TextBlock Text="Required for full sync. Free one-time install — takes 30 seconds."
                                    FontSize="11" Foreground="#8B8FA8"/>
                     </StackPanel>
                     <Button x:Name="BtnGetBlackHole" Grid.Column="2" Classes="Secondary"
@@ -48,7 +48,7 @@
                 <Grid ColumnDefinitions="*,10,Auto">
                     <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
                         <TextBlock Text="Beat Sync" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
-                        <TextBlock Text="Adjust sliders until both speakers sound as one."
+                        <TextBlock Text="Plays a click beat. Adjust sliders until both speakers sound as one."
                                    FontSize="11" Foreground="#8B8FA8" TextWrapping="Wrap"/>
                     </StackPanel>
                     <Button x:Name="BtnBeat" Grid.Column="2" Classes="Secondary"
@@ -59,7 +59,8 @@
             <Border Grid.Column="2" Classes="Card" Padding="16,13">
                 <StackPanel Spacing="8">
                     <TextBlock Text="Auto Calibrate" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
-                    <TextBlock Text="Mic only used during calibration." FontSize="11" Foreground="#8B8FA8"/>
+                    <TextBlock Text="Mic only used during calibration — never accessed in the background."
+                               FontSize="11" Foreground="#8B8FA8" TextWrapping="Wrap"/>
                     <Grid ColumnDefinitions="Auto,*,Auto">
                         <ToggleButton x:Name="BtnAutoCalibrate" Grid.Column="0" Classes="Secondary"
                                       Content="Auto: Off" Click="BtnAutoCalibrate_Click"/>
@@ -75,7 +76,7 @@
             <Grid ColumnDefinitions="*,10,Auto,8,Auto">
                 <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
                     <TextBlock Text="Drift Correction" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
-                    <TextBlock Text="Periodically resyncs buffers to prevent clock drift."
+                    <TextBlock Text="Periodically resyncs speaker buffers to prevent clock drift. Enable if speakers fall out of sync over time."
                                FontSize="11" Foreground="#8B8FA8" TextWrapping="Wrap"/>
                 </StackPanel>
                 <Button x:Name="BtnSyncNow" Grid.Column="2" Classes="Secondary"
@@ -84,5 +85,6 @@
                               Content="Off" Click="BtnDriftCorrection_Click"/>
             </Grid>
         </Border>
+
     </Grid>
 </UserControl>
