@@ -6,23 +6,24 @@
 
         <!-- Header -->
         <StackPanel Grid.Row="0" Margin="0,0,0,14" Spacing="4">
-            <TextBlock Text="Sync" FontSize="22" FontWeight="Bold"/>
+            <TextBlock Text="Sync" FontSize="22" FontWeight="Bold" Foreground="White"/>
             <TextBlock x:Name="EngineStatusText"
                        Text="Start the engine to route audio to your speakers."
-                       FontSize="13" Opacity="0.5"/>
+                       FontSize="13" Foreground="#8B8FA8"/>
 
             <!-- BlackHole missing banner -->
-            <Border x:Name="BlackHoleBanner" IsVisible="False"
-                    CornerRadius="10" Padding="14,10" Margin="0,10,0,0">
+            <Border x:Name="BlackHoleBanner" IsVisible="False" Classes="AccentCard"
+                    Padding="14,10" Margin="0,10,0,0">
                 <Grid ColumnDefinitions="*,10,Auto">
                     <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
-                        <TextBlock Text="BlackHole not found" FontSize="13" FontWeight="SemiBold"/>
+                        <TextBlock Text="BlackHole not found" FontSize="13" FontWeight="SemiBold"
+                                   Foreground="#FFB020"/>
                         <TextBlock Text="Required for full sync. Free install — takes 30 seconds."
-                                   FontSize="11" Opacity="0.5"/>
+                                   FontSize="11" Foreground="#8B8FA8"/>
                     </StackPanel>
-                    <Button x:Name="BtnGetBlackHole" Grid.Column="2"
-                            Content="Download Free" Click="BtnGetBlackHole_Click"
-                            VerticalAlignment="Center"/>
+                    <Button x:Name="BtnGetBlackHole" Grid.Column="2" Classes="Secondary"
+                            Content="Download Free" VerticalAlignment="Center"
+                            Click="BtnGetBlackHole_Click"/>
                 </Grid>
             </Border>
         </StackPanel>
@@ -30,13 +31,12 @@
         <!-- Per-device delay cards -->
         <ScrollViewer Grid.Row="1">
             <StackPanel x:Name="SyncCards" Spacing="12">
-                <Border x:Name="SyncEmpty" IsVisible="True"
-                        CornerRadius="10" Padding="32">
+                <Border x:Name="SyncEmpty" IsVisible="True" Classes="Card" Padding="32">
                     <StackPanel HorizontalAlignment="Center" Spacing="8">
                         <TextBlock Text="No speakers added" FontSize="16" FontWeight="SemiBold"
-                                   HorizontalAlignment="Center"/>
+                                   Foreground="White" HorizontalAlignment="Center"/>
                         <TextBlock Text="Add speakers in the Devices tab first."
-                                   FontSize="13" Opacity="0.5" HorizontalAlignment="Center"/>
+                                   FontSize="13" Foreground="#8B8FA8" HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Border>
             </StackPanel>
@@ -44,28 +44,26 @@
 
         <!-- Sync tools -->
         <Grid Grid.Row="2" ColumnDefinitions="*,10,*" Margin="0,14,0,0">
-            <!-- Beat sync -->
-            <Border Grid.Column="0" CornerRadius="10" Padding="16,13">
+            <Border Grid.Column="0" Classes="Card" Padding="16,13">
                 <Grid ColumnDefinitions="*,10,Auto">
                     <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
-                        <TextBlock Text="Beat Sync" FontSize="14" FontWeight="SemiBold"/>
+                        <TextBlock Text="Beat Sync" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
                         <TextBlock Text="Adjust sliders until both speakers sound as one."
-                                   FontSize="11" Opacity="0.5" TextWrapping="Wrap"/>
+                                   FontSize="11" Foreground="#8B8FA8" TextWrapping="Wrap"/>
                     </StackPanel>
-                    <Button x:Name="BtnBeat" Grid.Column="2" Content="Play Beat"
-                            VerticalAlignment="Center" Click="BtnBeat_Click"/>
+                    <Button x:Name="BtnBeat" Grid.Column="2" Classes="Secondary"
+                            Content="Play Beat" VerticalAlignment="Center" Click="BtnBeat_Click"/>
                 </Grid>
             </Border>
 
-            <!-- Auto calibrate -->
-            <Border Grid.Column="2" CornerRadius="10" Padding="16,13">
+            <Border Grid.Column="2" Classes="Card" Padding="16,13">
                 <StackPanel Spacing="8">
-                    <TextBlock Text="Auto Calibrate" FontSize="14" FontWeight="SemiBold"/>
-                    <TextBlock Text="Mic only used during calibration." FontSize="11" Opacity="0.5"/>
+                    <TextBlock Text="Auto Calibrate" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
+                    <TextBlock Text="Mic only used during calibration." FontSize="11" Foreground="#8B8FA8"/>
                     <Grid ColumnDefinitions="Auto,*,Auto">
-                        <ToggleButton x:Name="BtnAutoCalibrate" Grid.Column="0"
+                        <ToggleButton x:Name="BtnAutoCalibrate" Grid.Column="0" Classes="Secondary"
                                       Content="Auto: Off" Click="BtnAutoCalibrate_Click"/>
-                        <Button x:Name="BtnCalibrate" Grid.Column="2"
+                        <Button x:Name="BtnCalibrate" Grid.Column="2" Classes="Secondary"
                                 Content="Calibrate Now" Click="BtnCalibrate_Click"/>
                     </Grid>
                 </StackPanel>
@@ -73,16 +71,16 @@
         </Grid>
 
         <!-- Drift correction -->
-        <Border Grid.Row="3" CornerRadius="10" Padding="16,13" Margin="0,10,0,0">
+        <Border Grid.Row="3" Classes="Card" Padding="16,13" Margin="0,10,0,0">
             <Grid ColumnDefinitions="*,10,Auto,8,Auto">
                 <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
-                    <TextBlock Text="Drift Correction" FontSize="14" FontWeight="SemiBold"/>
+                    <TextBlock Text="Drift Correction" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
                     <TextBlock Text="Periodically resyncs buffers to prevent clock drift."
-                               FontSize="11" Opacity="0.5" TextWrapping="Wrap"/>
+                               FontSize="11" Foreground="#8B8FA8" TextWrapping="Wrap"/>
                 </StackPanel>
-                <Button x:Name="BtnSyncNow" Grid.Column="2" Content="Sync Now"
-                        VerticalAlignment="Center" Click="BtnSyncNow_Click"/>
-                <ToggleButton x:Name="BtnDriftCorrection" Grid.Column="4"
+                <Button x:Name="BtnSyncNow" Grid.Column="2" Classes="Secondary"
+                        Content="Sync Now" VerticalAlignment="Center" Click="BtnSyncNow_Click"/>
+                <ToggleButton x:Name="BtnDriftCorrection" Grid.Column="4" Classes="Secondary"
                               Content="Off" Click="BtnDriftCorrection_Click"/>
             </Grid>
         </Border>

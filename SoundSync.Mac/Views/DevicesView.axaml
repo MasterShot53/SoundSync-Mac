@@ -1,15 +1,14 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:models="clr-namespace:SoundSync.Models;assembly=SoundSync.Core"
              x:Class="SoundSync.Mac.Views.DevicesView">
 
     <Grid Margin="20,0,20,20" RowDefinitions="Auto,Auto,Auto,*">
 
         <!-- Header -->
         <StackPanel Grid.Row="0" Margin="0,0,0,14" Spacing="4">
-            <TextBlock Text="Devices" FontSize="22" FontWeight="Bold"/>
+            <TextBlock Text="Devices" FontSize="22" FontWeight="Bold" Foreground="White"/>
             <TextBlock Text="Add the speakers you want to sync."
-                       FontSize="13" Opacity="0.5"/>
+                       FontSize="13" Foreground="#8B8FA8"/>
         </StackPanel>
 
         <!-- Add device bar -->
@@ -17,29 +16,26 @@
             <ComboBox x:Name="DevicePicker" Grid.Column="0"
                       PlaceholderText="Select a speaker to add…"
                       HorizontalAlignment="Stretch"/>
-            <Button x:Name="BtnAdd" Grid.Column="2"
+            <Button x:Name="BtnAdd" Grid.Column="2" Classes="Primary"
                     Content="Add" Click="BtnAdd_Click"/>
         </Grid>
 
         <!-- Scan button -->
-        <Button x:Name="BtnScan" Grid.Row="2" Content="Scan for Devices"
-                HorizontalAlignment="Left" Margin="0,0,0,14"
-                Click="BtnScan_Click"/>
+        <Button x:Name="BtnScan" Grid.Row="2" Classes="Secondary"
+                Content="Scan for Devices" HorizontalAlignment="Left"
+                Margin="0,0,0,14" Click="BtnScan_Click"/>
 
         <!-- Device list / empty state -->
         <ScrollViewer Grid.Row="3">
             <StackPanel>
-                <Border x:Name="EmptyState" IsVisible="True"
-                        CornerRadius="10" Padding="32">
+                <Border x:Name="EmptyState" IsVisible="True" Classes="Card" Padding="32">
                     <StackPanel HorizontalAlignment="Center" Spacing="8">
                         <TextBlock Text="No speakers added" FontSize="16" FontWeight="SemiBold"
-                                   HorizontalAlignment="Center"/>
+                                   Foreground="White" HorizontalAlignment="Center"/>
                         <TextBlock Text="Select a device above and tap Add."
-                                   FontSize="13" Opacity="0.5" HorizontalAlignment="Center"/>
+                                   FontSize="13" Foreground="#8B8FA8" HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Border>
-
-                <!-- Device cards injected here at runtime -->
                 <StackPanel x:Name="DeviceList" Spacing="12"/>
             </StackPanel>
         </ScrollViewer>

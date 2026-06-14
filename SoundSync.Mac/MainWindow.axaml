@@ -1,36 +1,147 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:shapes="clr-namespace:Avalonia.Controls.Shapes;assembly=Avalonia.Controls"
         xmlns:views="clr-namespace:SoundSync.Mac.Views"
         x:Class="SoundSync.Mac.MainWindow"
-        Title="SoundSync" Width="860" Height="640"
-        MinWidth="700" MinHeight="480">
+        Title="SoundSync" Width="1100" Height="760"
+        MinWidth="860" MinHeight="560"
+        Background="#07080E"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome">
 
-    <Grid ColumnDefinitions="200,*">
+    <Grid ColumnDefinitions="220,*">
 
-        <!-- Sidebar navigation -->
-        <Border Grid.Column="0" Padding="12,20,12,12">
-            <StackPanel Spacing="4">
-                <TextBlock Text="SoundSync" FontSize="18" FontWeight="Bold" Margin="8,0,0,16"/>
+        <!-- ── Dark background gradient blobs ── -->
+        <Panel Grid.ColumnSpan="2" IsHitTestVisible="False">
+            <Rectangle Fill="#07080E"/>
+            <Rectangle>
+                <Rectangle.Fill>
+                    <RadialGradientBrush Center="22%,28%" GradientOrigin="22%,28%" RadiusX="90%" RadiusY="90%">
+                        <GradientStop Color="#0F1E55" Offset="0"/>
+                        <GradientStop Color="#0007080E" Offset="1"/>
+                    </RadialGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle>
+                <Rectangle.Fill>
+                    <RadialGradientBrush Center="78%,55%" GradientOrigin="78%,55%" RadiusX="80%" RadiusY="80%">
+                        <GradientStop Color="#0D1B4A" Offset="0"/>
+                        <GradientStop Color="#0007080E" Offset="1"/>
+                    </RadialGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle>
+                <Rectangle.Fill>
+                    <RadialGradientBrush Center="42%,82%" GradientOrigin="42%,82%" RadiusX="72%" RadiusY="72%">
+                        <GradientStop Color="#0B1840" Offset="0"/>
+                        <GradientStop Color="#0007080E" Offset="1"/>
+                    </RadialGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Panel>
 
-                <Button x:Name="NavDevices" Content="Devices" HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left" Padding="12,8"
-                        Click="NavDevices_Click"/>
-                <Button x:Name="NavSync" Content="Sync" HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left" Padding="12,8"
-                        Click="NavSync_Click"/>
-                <Button x:Name="NavSettings" Content="Settings" HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left" Padding="12,8"
-                        Click="NavSettings_Click"/>
-            </StackPanel>
+        <!-- ══════════════════════════════════════
+             LEFT SIDEBAR
+        ══════════════════════════════════════ -->
+        <Border Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="#1F2230"
+                Background="#EE111111">
+            <Grid RowDefinitions="Auto,Auto,*,Auto">
+
+                <!-- Sidebar gradient blobs -->
+                <Panel Grid.RowSpan="4" IsHitTestVisible="False">
+                    <Rectangle>
+                        <Rectangle.Fill>
+                            <RadialGradientBrush Center="-30%,-20%" GradientOrigin="-30%,-20%" RadiusX="110%" RadiusY="110%">
+                                <GradientStop Color="#0C1535" Offset="0"/>
+                                <GradientStop Color="#00111111" Offset="1"/>
+                            </RadialGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle>
+                        <Rectangle.Fill>
+                            <RadialGradientBrush Center="120%,130%" GradientOrigin="120%,130%" RadiusX="110%" RadiusY="110%">
+                                <GradientStop Color="#091228" Offset="0"/>
+                                <GradientStop Color="#00111111" Offset="1"/>
+                            </RadialGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Panel>
+
+                <!-- Logo -->
+                <Border Grid.Row="0" Padding="16,22,16,12">
+                    <StackPanel Orientation="Horizontal" Spacing="9">
+                        <Viewbox Width="22" Height="22" VerticalAlignment="Center">
+                            <Canvas Width="24" Height="20">
+                                <shapes:Path Stroke="#9B7FFF" StrokeThickness="2"
+                                             StrokeLineCap="Round" StrokeLineJoin="Round"
+                                             Data="M2,10 Q4,4 6,10 Q8,16 10,10 Q12,4 14,10 Q16,16 18,10 Q20,4 22,10"/>
+                            </Canvas>
+                        </Viewbox>
+                        <TextBlock Text="SoundSync" FontSize="17" FontWeight="Bold"
+                                   Foreground="White" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Nav -->
+                <StackPanel Grid.Row="1" Margin="0,4,0,0">
+                    <Button x:Name="NavDevices" Classes="NavBtn Active" Click="NavDevices_Click">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="⊞" FontSize="14" VerticalAlignment="Center"/>
+                            <TextBlock Text="Devices" FontSize="14" FontWeight="Medium" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="NavSync" Classes="NavBtn" Click="NavSync_Click">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="◈" FontSize="14" VerticalAlignment="Center"/>
+                            <TextBlock Text="Sync" FontSize="14" FontWeight="Medium" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="NavSettings" Classes="NavBtn" Click="NavSettings_Click">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="⚙" FontSize="14" VerticalAlignment="Center"/>
+                            <TextBlock Text="Settings" FontSize="14" FontWeight="Medium" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!-- Spacer -->
+                <Panel Grid.Row="2"/>
+
+                <!-- Engine card -->
+                <Border Grid.Row="3" Margin="10,0,10,16" Padding="14,16" Classes="AccentCard">
+                    <StackPanel Spacing="4">
+                        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,0,4">
+                            <Ellipse x:Name="StatusDot" Width="8" Height="8"
+                                     Fill="#4B4F6B" VerticalAlignment="Center"/>
+                            <TextBlock Text="ENGINE" FontSize="10" FontWeight="SemiBold"
+                                       Foreground="#4B4F6B"/>
+                        </StackPanel>
+                        <TextBlock x:Name="SidebarStatusText" Text="Stopped"
+                                   FontSize="15" FontWeight="SemiBold" Foreground="#8B8FA8"/>
+                        <Button x:Name="SidebarEngineBtn" Classes="Primary"
+                                Margin="0,10,0,0" HorizontalAlignment="Stretch"
+                                Click="SidebarEngineBtn_Click">
+                            <TextBlock x:Name="SidebarEngineBtnText" Text="Start Engine"
+                                       FontSize="13" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </Grid>
         </Border>
 
-        <!-- Content area -->
-        <ScrollViewer Grid.Column="1" Padding="0,20,0,0">
-            <Panel>
-                <views:DevicesView x:Name="PageDevices"/>
-                <views:SyncView    x:Name="PageSync"    IsVisible="False"/>
+        <!-- ══════════════════════════════════════
+             CONTENT AREA
+        ══════════════════════════════════════ -->
+        <Grid Grid.Column="1" RowDefinitions="32,*">
+            <!-- macOS traffic light drag area -->
+            <Panel Grid.Row="0" Background="Transparent"
+                   PointerPressed="TitleBar_PointerPressed"/>
+            <!-- Pages -->
+            <Panel Grid.Row="1">
+                <views:DevicesView  x:Name="PageDevices"/>
+                <views:SyncView     x:Name="PageSync"     IsVisible="False"/>
                 <views:SettingsView x:Name="PageSettings" IsVisible="False"/>
             </Panel>
-        </ScrollViewer>
+        </Grid>
     </Grid>
 </Window>

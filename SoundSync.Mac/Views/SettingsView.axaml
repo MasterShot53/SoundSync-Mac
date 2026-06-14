@@ -7,17 +7,17 @@
 
             <!-- Header -->
             <StackPanel Spacing="4" Margin="0,0,0,6">
-                <TextBlock Text="Settings" FontSize="22" FontWeight="Bold"/>
-                <TextBlock Text="Global options for SoundSync." FontSize="13" Opacity="0.5"/>
+                <TextBlock Text="Settings" FontSize="22" FontWeight="Bold" Foreground="White"/>
+                <TextBlock Text="Global options for SoundSync." FontSize="13" Foreground="#8B8FA8"/>
             </StackPanel>
 
             <!-- Launch at login -->
-            <Border CornerRadius="10" Padding="16,13">
+            <Border Classes="Card" Padding="16,13">
                 <Grid ColumnDefinitions="*,Auto">
                     <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
-                        <TextBlock Text="Launch at Login" FontSize="14" FontWeight="SemiBold"/>
+                        <TextBlock Text="Launch at Login" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
                         <TextBlock Text="Start SoundSync automatically when you log in."
-                                   FontSize="12" Opacity="0.5"/>
+                                   FontSize="12" Foreground="#8B8FA8"/>
                     </StackPanel>
                     <ToggleSwitch x:Name="ToggleLaunchAtLogin" Grid.Column="1"
                                   IsCheckedChanged="ToggleLaunchAtLogin_Changed"/>
@@ -25,51 +25,48 @@
             </Border>
 
             <!-- Default delay -->
-            <Border CornerRadius="10" Padding="16,13">
+            <Border Classes="Card" Padding="16,13">
                 <StackPanel Spacing="10">
-                    <TextBlock Text="Default Delay" FontSize="14" FontWeight="SemiBold"/>
+                    <TextBlock Text="Default Delay" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
                     <TextBlock Text="Initial buffer size (ms) applied to new speakers before calibration."
-                               FontSize="12" Opacity="0.5"/>
+                               FontSize="12" Foreground="#8B8FA8"/>
                     <Grid ColumnDefinitions="*,10,60">
                         <Slider x:Name="SliderDefaultDelay" Grid.Column="0"
                                 Minimum="0" Maximum="500" TickFrequency="10"
                                 ValueChanged="SliderDefaultDelay_Changed"/>
                         <TextBlock x:Name="DefaultDelayLabel" Grid.Column="2"
-                                   Text="150 ms" VerticalAlignment="Center" FontSize="13"/>
+                                   Text="150 ms" VerticalAlignment="Center" FontSize="13" Foreground="White"/>
                     </Grid>
                 </StackPanel>
             </Border>
 
             <!-- About -->
-            <Border CornerRadius="10" Padding="16,13">
+            <Border Classes="Card" Padding="16,13">
                 <StackPanel Spacing="4">
-                    <TextBlock Text="About SoundSync" FontSize="14" FontWeight="SemiBold"/>
-                    <TextBlock x:Name="VersionLabel" Text="Version 1.0"
-                               FontSize="12" Opacity="0.5"/>
+                    <TextBlock Text="About SoundSync" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
+                    <TextBlock x:Name="VersionLabel" Text="Version 1.0" FontSize="12" Foreground="#8B8FA8"/>
                 </StackPanel>
             </Border>
 
-            <!-- ── Uninstall ── -->
-            <Border CornerRadius="10" Padding="16,13" Margin="0,10,0,0">
+            <!-- Uninstall -->
+            <Border Classes="Card" Padding="16,13" Margin="0,10,0,0">
                 <Grid ColumnDefinitions="*,12,Auto">
                     <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
-                        <TextBlock Text="Uninstall SoundSync" FontSize="14" FontWeight="SemiBold"/>
+                        <TextBlock Text="Uninstall SoundSync" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
                         <TextBlock Text="Removes the BlackHole audio driver and app data. Then drag SoundSync to Trash."
-                                   FontSize="12" Opacity="0.5" TextWrapping="Wrap"/>
+                                   FontSize="12" Foreground="#8B8FA8" TextWrapping="Wrap"/>
                     </StackPanel>
-                    <Button x:Name="BtnUninstall" Grid.Column="2"
+                    <Button x:Name="BtnUninstall" Grid.Column="2" Classes="Destructive"
                             Content="Uninstall…" VerticalAlignment="Center"
-                            Foreground="#FF4444"
                             Click="BtnUninstall_Click"/>
                 </Grid>
             </Border>
 
-            <!-- Uninstall progress (hidden until in use) -->
-            <Border x:Name="UninstallProgress" IsVisible="False"
-                    CornerRadius="10" Padding="16,13">
+            <!-- Uninstall progress -->
+            <Border x:Name="UninstallProgress" IsVisible="False" Classes="Card" Padding="16,13">
                 <StackPanel Spacing="6">
-                    <TextBlock x:Name="UninstallStatusText"
-                               Text="Uninstalling…" FontSize="13"/>
+                    <TextBlock x:Name="UninstallStatusText" Text="Uninstalling…"
+                               FontSize="13" Foreground="White"/>
                     <ProgressBar x:Name="UninstallProgressBar" IsIndeterminate="True" Height="4"/>
                 </StackPanel>
             </Border>
