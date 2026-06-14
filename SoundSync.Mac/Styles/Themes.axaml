@@ -26,12 +26,18 @@
         <Color x:Key="ColorSyncCardBottom">#141820</Color>
         <Color x:Key="ColorSyncCardBorderTop">#604F7CFF</Color>
         <Color x:Key="ColorSyncCardBorderBottom">#12FFFFFF</Color>
+        <Color x:Key="ColorSyncSeparator">#404F7CFF</Color>
+        <Color x:Key="ColorPillTop">#1C2035</Color>
+        <Color x:Key="ColorPillBottom">#141828</Color>
+        <Color x:Key="ColorPillBorderTop">#28FFFFFF</Color>
+        <Color x:Key="ColorPillBorderBottom">#08FFFFFF</Color>
+        <Color x:Key="ColorEmptyTop">#1A1D26</Color>
+        <Color x:Key="ColorEmptyBottom">#131620</Color>
         <Color x:Key="ColorDestructiveBg">#3A1A1A</Color>
         <Color x:Key="ColorDestructiveBorder">#5A2020</Color>
 
         <!-- ── Solid brushes ── -->
         <SolidColorBrush x:Key="BrushBg"              Color="{StaticResource ColorBg}"/>
-        <SolidColorBrush x:Key="BrushSidebar"         Color="{StaticResource ColorSidebar}"/>
         <SolidColorBrush x:Key="BrushSurface"         Color="{StaticResource ColorSurface}"/>
         <SolidColorBrush x:Key="BrushElevated"        Color="{StaticResource ColorElevated}"/>
         <SolidColorBrush x:Key="BrushAccent"          Color="{StaticResource ColorAccent}"/>
@@ -68,6 +74,12 @@
             <GradientStop Color="#1A55EE" Offset="1"/>
         </LinearGradientBrush>
 
+        <!-- ── Corner radii ── -->
+        <CornerRadius x:Key="RadiusCard">14</CornerRadius>
+        <CornerRadius x:Key="RadiusButton">10</CornerRadius>
+        <CornerRadius x:Key="RadiusPill">22</CornerRadius>
+        <CornerRadius x:Key="RadiusSmall">8</CornerRadius>
+
     </Styles.Resources>
 
     <!-- ── Global TextBlock foreground ── -->
@@ -75,7 +87,7 @@
         <Setter Property="Foreground" Value="{StaticResource BrushText}"/>
     </Style>
 
-    <!-- ── Primary (accent gradient) button ── -->
+    <!-- ── Primary button ── -->
     <Style Selector="Button.Primary">
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontSize" Value="13"/>
@@ -85,21 +97,13 @@
         <Setter Property="Background" Value="{StaticResource BrushAccentBtn}"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Transitions">
-            <Transitions>
-                <DoubleTransition Property="Opacity" Duration="0:0:0.1"/>
-            </Transitions>
+            <Transitions><DoubleTransition Property="Opacity" Duration="0:0:0.1"/></Transitions>
         </Setter>
         <Setter Property="Template">
             <ControlTemplate TargetType="Button">
-                <Border Background="{TemplateBinding Background}"
-                        CornerRadius="10"
-                        Padding="{TemplateBinding Padding}">
-                    <ContentPresenter Content="{TemplateBinding Content}"
-                                      ContentTemplate="{TemplateBinding ContentTemplate}"
-                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      HorizontalContentAlignment="Center"
-                                      VerticalContentAlignment="Center"/>
+                <Border Background="{TemplateBinding Background}" CornerRadius="10" Padding="{TemplateBinding Padding}">
+                    <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </Border>
             </ControlTemplate>
         </Setter>
@@ -108,7 +112,7 @@
     <Style Selector="Button.Primary:pressed">     <Setter Property="Opacity" Value="0.70"/> </Style>
     <Style Selector="Button.Primary:disabled">    <Setter Property="Opacity" Value="0.40"/> </Style>
 
-    <!-- ── Secondary (elevated surface) button ── -->
+    <!-- ── Secondary button ── -->
     <Style Selector="Button.Secondary">
         <Setter Property="Background" Value="{StaticResource BrushElevated}"/>
         <Setter Property="Foreground" Value="{StaticResource BrushText}"/>
@@ -118,19 +122,13 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Transitions">
-            <Transitions>
-                <DoubleTransition Property="Opacity" Duration="0:0:0.1"/>
-            </Transitions>
+            <Transitions><DoubleTransition Property="Opacity" Duration="0:0:0.1"/></Transitions>
         </Setter>
         <Setter Property="Template">
             <ControlTemplate TargetType="Button">
-                <Border Background="{TemplateBinding Background}"
-                        CornerRadius="10"
-                        Padding="{TemplateBinding Padding}">
-                    <ContentPresenter Content="{TemplateBinding Content}"
-                                      ContentTemplate="{TemplateBinding ContentTemplate}"
-                                      HorizontalContentAlignment="Center"
-                                      VerticalContentAlignment="Center"/>
+                <Border Background="{TemplateBinding Background}" CornerRadius="10" Padding="{TemplateBinding Padding}">
+                    <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </Border>
             </ControlTemplate>
         </Setter>
@@ -139,7 +137,34 @@
     <Style Selector="Button.Secondary:pressed">     <Setter Property="Opacity" Value="0.65"/> </Style>
     <Style Selector="Button.Secondary:disabled">    <Setter Property="Opacity" Value="0.40"/> </Style>
 
-    <!-- ── Destructive (red) button ── -->
+    <!-- ── Ghost button (accent text, transparent bg) ── -->
+    <Style Selector="Button.Ghost">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource BrushAccent}"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Padding" Value="14,8"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="#30FFFFFF"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Transitions">
+            <Transitions><DoubleTransition Property="Opacity" Duration="0:0:0.1"/></Transitions>
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate TargetType="Button">
+                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="10" Padding="{TemplateBinding Padding}">
+                    <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="Button.Ghost:pointerover"> <Setter Property="Opacity" Value="0.82"/> </Style>
+    <Style Selector="Button.Ghost:pressed">     <Setter Property="Opacity" Value="0.65"/> </Style>
+
+    <!-- ── Destructive button ── -->
     <Style Selector="Button.Destructive">
         <Setter Property="Background" Value="{StaticResource BrushDestructiveBg}"/>
         <Setter Property="Foreground" Value="{StaticResource BrushRed}"/>
@@ -149,27 +174,43 @@
         <Setter Property="BorderBrush" Value="{StaticResource BrushDestructiveBorder}"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Transitions">
-            <Transitions>
-                <DoubleTransition Property="Opacity" Duration="0:0:0.1"/>
-            </Transitions>
+            <Transitions><DoubleTransition Property="Opacity" Duration="0:0:0.1"/></Transitions>
         </Setter>
         <Setter Property="Template">
             <ControlTemplate TargetType="Button">
-                <Border Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
+                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="8"
-                        Padding="{TemplateBinding Padding}">
-                    <ContentPresenter Content="{TemplateBinding Content}"
-                                      ContentTemplate="{TemplateBinding ContentTemplate}"
-                                      HorizontalContentAlignment="Center"
-                                      VerticalContentAlignment="Center"/>
+                        CornerRadius="8" Padding="{TemplateBinding Padding}">
+                    <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </Border>
             </ControlTemplate>
         </Setter>
     </Style>
     <Style Selector="Button.Destructive:pointerover"> <Setter Property="Opacity" Value="0.85"/> </Style>
     <Style Selector="Button.Destructive:pressed">     <Setter Property="Opacity" Value="0.65"/> </Style>
+
+    <!-- ── Pill action button (transparent outer, visual is in the Border child) ── -->
+    <Style Selector="Button.PillActionBtn">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Transitions">
+            <Transitions><DoubleTransition Property="Opacity" Duration="0:0:0.1"/></Transitions>
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate TargetType="Button">
+                <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  HorizontalContentAlignment="Stretch"/>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="Button.PillActionBtn:pointerover"> <Setter Property="Opacity" Value="0.82"/> </Style>
+    <Style Selector="Button.PillActionBtn:pressed">     <Setter Property="Opacity" Value="0.65"/> </Style>
+    <Style Selector="Button.PillActionBtn:disabled">    <Setter Property="Opacity" Value="0.40"/> </Style>
 
     <!-- ── Sidebar nav button ── -->
     <Style Selector="Button.NavBtn">
@@ -185,11 +226,8 @@
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <ControlTemplate TargetType="Button">
-                <Border Background="{TemplateBinding Background}"
-                        CornerRadius="10"
-                        Padding="{TemplateBinding Padding}">
-                    <ContentPresenter Content="{TemplateBinding Content}"
-                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                <Border Background="{TemplateBinding Background}" CornerRadius="10" Padding="{TemplateBinding Padding}">
+                    <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       VerticalAlignment="Center"/>
                 </Border>
@@ -209,7 +247,7 @@
         <Setter Property="Foreground" Value="{StaticResource BrushAccent}"/>
     </Style>
 
-    <!-- ── ToggleButton (secondary) ── -->
+    <!-- ── ToggleButton secondary ── -->
     <Style Selector="ToggleButton.Secondary">
         <Setter Property="Background" Value="{StaticResource BrushElevated}"/>
         <Setter Property="Foreground" Value="{StaticResource BrushText}"/>
@@ -219,19 +257,13 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Transitions">
-            <Transitions>
-                <DoubleTransition Property="Opacity" Duration="0:0:0.12"/>
-            </Transitions>
+            <Transitions><DoubleTransition Property="Opacity" Duration="0:0:0.12"/></Transitions>
         </Setter>
         <Setter Property="Template">
             <ControlTemplate TargetType="ToggleButton">
-                <Border Background="{TemplateBinding Background}"
-                        CornerRadius="10"
-                        Padding="{TemplateBinding Padding}">
-                    <ContentPresenter Content="{TemplateBinding Content}"
-                                      ContentTemplate="{TemplateBinding ContentTemplate}"
-                                      HorizontalContentAlignment="Center"
-                                      VerticalContentAlignment="Center"/>
+                <Border Background="{TemplateBinding Background}" CornerRadius="10" Padding="{TemplateBinding Padding}">
+                    <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </Border>
             </ControlTemplate>
         </Setter>
@@ -248,11 +280,11 @@
         <Setter Property="Background" Value="{StaticResource BrushCardBg}"/>
         <Setter Property="BorderBrush" Value="{StaticResource BrushCardBorder}"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="CornerRadius" Value="14"/>
+        <Setter Property="CornerRadius" Value="12"/>
         <Setter Property="BoxShadow" Value="0 4 24 0 #55000000"/>
     </Style>
 
-    <!-- ── Accent card (blue tint) ── -->
+    <!-- ── Accent card ── -->
     <Style Selector="Border.AccentCard">
         <Setter Property="Background" Value="{StaticResource BrushAccentCardBg}"/>
         <Setter Property="BorderBrush" Value="{StaticResource BrushAccentCardBorder}"/>
@@ -260,5 +292,61 @@
         <Setter Property="CornerRadius" Value="14"/>
         <Setter Property="BoxShadow" Value="0 4 24 0 #55000000"/>
     </Style>
+
+    <!-- ── Custom slider (gradient fill track + vertical bar thumb) ── -->
+    <Style Selector="Slider.SyncSlider">
+        <Setter Property="MinHeight" Value="34"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <ControlTemplate TargetType="Slider">
+                <Grid MinHeight="34">
+                    <Track x:Name="PART_Track" VerticalAlignment="Center">
+                        <Track.DecreaseButton>
+                            <Button IsHitTestVisible="False" Focusable="False">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Height="4" CornerRadius="2">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                                                    <GradientStop Color="#7B5FFF" Offset="0"/>
+                                                    <GradientStop Color="#2266FF" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Track.DecreaseButton>
+                        <Track.IncreaseButton>
+                            <Button IsHitTestVisible="False" Focusable="False">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Height="4" CornerRadius="2"
+                                                Background="{StaticResource BrushElevated}"
+                                                Opacity="0.7"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Track.IncreaseButton>
+                        <Track.Thumb>
+                            <Thumb>
+                                <Thumb.Template>
+                                    <ControlTemplate TargetType="Thumb">
+                                        <Grid Width="28" Height="30" Background="Transparent">
+                                            <Border Width="4" Height="22" CornerRadius="2"
+                                                    Background="White"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Thumb.Template>
+                            </Thumb>
+                        </Track.Thumb>
+                    </Track>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="Slider.SyncSlider:pointerover"> <Setter Property="Opacity" Value="1"/> </Style>
 
 </Styles>

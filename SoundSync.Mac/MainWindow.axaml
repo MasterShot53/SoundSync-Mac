@@ -9,7 +9,7 @@
 
     <Grid ColumnDefinitions="220,*">
 
-        <!-- ── Background gradient blobs (5 total, matching Windows) ── -->
+        <!-- ── Background gradient blobs (5 total, exact Windows positions) ── -->
         <Panel Grid.ColumnSpan="2" IsHitTestVisible="False">
             <Rectangle Fill="#07080E"/>
             <Rectangle>
@@ -38,16 +38,16 @@
             </Rectangle>
             <Rectangle>
                 <Rectangle.Fill>
-                    <RadialGradientBrush Center="8%,72%" GradientOrigin="8%,72%" Radius="0.6">
-                        <GradientStop Color="#091228" Offset="0"/>
+                    <RadialGradientBrush Center="62%,18%" GradientOrigin="62%,18%" Radius="0.70">
+                        <GradientStop Color="#202020" Offset="0"/>
                         <GradientStop Color="#0007080E" Offset="1"/>
                     </RadialGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
             <Rectangle>
                 <Rectangle.Fill>
-                    <RadialGradientBrush Center="88%,18%" GradientOrigin="88%,18%" Radius="0.55">
-                        <GradientStop Color="#080E2A" Offset="0"/>
+                    <RadialGradientBrush Center="14%,70%" GradientOrigin="14%,70%" Radius="0.74">
+                        <GradientStop Color="#1C1C1C" Offset="0"/>
                         <GradientStop Color="#0007080E" Offset="1"/>
                     </RadialGradientBrush>
                 </Rectangle.Fill>
@@ -59,10 +59,10 @@
         ══════════════════════════════════════ -->
         <Border Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="#1F2230"
                 Background="#EE111111">
-            <Grid RowDefinitions="Auto,Auto,Auto,*,Auto,Auto">
+            <Grid RowDefinitions="Auto,Auto,*,Auto">
 
                 <!-- Sidebar gradient blobs -->
-                <Panel Grid.RowSpan="6" IsHitTestVisible="False">
+                <Panel Grid.RowSpan="4" IsHitTestVisible="False">
                     <Rectangle>
                         <Rectangle.Fill>
                             <RadialGradientBrush Center="-30%,-20%" GradientOrigin="-30%,-20%" Radius="1.1">
@@ -81,8 +81,8 @@
                     </Rectangle>
                 </Panel>
 
-                <!-- Row 0 — Logo (left padding leaves room for macOS traffic lights) -->
-                <Border Grid.Row="0" Padding="16,18,16,12">
+                <!-- Row 0 — Logo -->
+                <Border Grid.Row="0" Padding="16,20,16,10">
                     <StackPanel Orientation="Horizontal" Spacing="9">
                         <Viewbox Width="22" Height="22" VerticalAlignment="Center">
                             <Canvas Width="24" Height="20">
@@ -97,82 +97,201 @@
                 </Border>
 
                 <!-- Row 1 — Nav buttons -->
-                <StackPanel Grid.Row="1" Margin="0,4,0,0">
+                <StackPanel Grid.Row="1" Margin="0,6,0,0">
                     <Button x:Name="NavDevices" Classes="NavBtn Active" Click="NavDevices_Click">
                         <StackPanel Orientation="Horizontal" Spacing="10">
-                            <TextBlock Text="⊞" FontSize="14" VerticalAlignment="Center"/>
+                            <TextBlock Text="⊞" FontSize="15" VerticalAlignment="Center"/>
                             <TextBlock Text="Devices" FontSize="14" FontWeight="Medium" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                     <Button x:Name="NavSync" Classes="NavBtn" Click="NavSync_Click">
                         <StackPanel Orientation="Horizontal" Spacing="10">
-                            <TextBlock Text="◈" FontSize="14" VerticalAlignment="Center"/>
+                            <TextBlock Text="◈" FontSize="15" VerticalAlignment="Center"/>
                             <TextBlock Text="Sync" FontSize="14" FontWeight="Medium" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                     <Button x:Name="NavSettings" Classes="NavBtn" Click="NavSettings_Click">
                         <StackPanel Orientation="Horizontal" Spacing="10">
-                            <TextBlock Text="⚙" FontSize="14" VerticalAlignment="Center"/>
+                            <TextBlock Text="⚙" FontSize="15" VerticalAlignment="Center"/>
                             <TextBlock Text="Settings" FontSize="14" FontWeight="Medium" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>
 
-                <!-- Row 2 — Quick Actions -->
-                <StackPanel Grid.Row="2" Margin="10,10,10,4" Spacing="6">
-                    <TextBlock Text="QUICK ACTIONS" FontSize="9" FontWeight="SemiBold"
-                               Foreground="#4B4F6B" Margin="4,0,0,0"/>
-                    <Grid ColumnDefinitions="*,6,*">
-                        <Button x:Name="BtnQaBeat" Grid.Column="0" Classes="Secondary"
-                                Content="Play Beat" FontSize="11" Padding="0,7"
-                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
-                                Click="BtnQaBeat_Click"/>
-                        <Button x:Name="BtnQaMute" Grid.Column="2" Classes="Secondary"
-                                Content="Mute All" FontSize="11" Padding="0,7"
-                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
-                                Click="BtnQaMute_Click"/>
-                    </Grid>
-                </StackPanel>
+                <!-- Row 2 — Volume card + Quick Actions (bottom-aligned, scrollable) -->
+                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Hidden">
+                    <StackPanel VerticalAlignment="Bottom" Margin="10,16,10,10">
 
-                <!-- Row 3 — Spacer -->
-                <Panel Grid.Row="3"/>
+                        <!-- Master Volume card (AccentCard gradient matching Windows) -->
+                        <Border CornerRadius="14" BorderThickness="1" Padding="14,14" Margin="0,0,0,12">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                    <GradientStop Color="#1A2440" Offset="0"/>
+                                    <GradientStop Color="#141820" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Border.BorderBrush>
+                                <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                    <GradientStop Color="#604F7CFF" Offset="0"/>
+                                    <GradientStop Color="#12FFFFFF" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+                            <StackPanel>
+                                <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,0,0,10">
+                                    <TextBlock Grid.Column="0" Text="♪" FontSize="13"
+                                               Foreground="#2266FF"
+                                               VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                    <TextBlock Grid.Column="1" Text="MASTER VOLUME"
+                                               FontSize="10" FontWeight="SemiBold"
+                                               Foreground="#4B4F6B"
+                                               VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="SidebarVolLabel" Grid.Column="2" Text="100%"
+                                               FontSize="15" FontWeight="Bold"
+                                               Foreground="#2266FF"
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+                                <Slider x:Name="SidebarVolumeSlider" Classes="SyncSlider"
+                                        Minimum="0" Maximum="100" Value="100"
+                                        TickFrequency="1"
+                                        ValueChanged="SidebarVolumeSlider_Changed"/>
+                            </StackPanel>
+                        </Border>
 
-                <!-- Row 4 — Master Volume card -->
-                <Border Grid.Row="4" Margin="10,0,10,10" Padding="14,13" Classes="Card">
-                    <StackPanel Spacing="6">
-                        <Grid ColumnDefinitions="*,Auto">
-                            <TextBlock Text="MASTER VOLUME" FontSize="9" FontWeight="SemiBold"
-                                       Foreground="#4B4F6B"/>
-                            <TextBlock x:Name="SidebarVolLabel" Grid.Column="1"
-                                       Text="100%" FontSize="11" Foreground="#8B8FA8"/>
-                        </Grid>
-                        <Slider x:Name="SidebarVolumeSlider" Minimum="0" Maximum="100" Value="100"
-                                TickFrequency="1"
-                                ValueChanged="SidebarVolumeSlider_Changed"/>
+                        <!-- Quick Actions label -->
+                        <TextBlock Text="QUICK ACTIONS"
+                                   FontSize="10" FontWeight="SemiBold"
+                                   Foreground="#4B4F6B"
+                                   Margin="2,0,0,8"/>
+
+                        <!-- 3 full-width vertical pill buttons -->
+                        <StackPanel Spacing="6" Margin="0,0,0,4">
+
+                            <!-- Play Beat -->
+                            <Button x:Name="BtnQaBeat" Classes="PillActionBtn" Click="BtnQaBeat_Click">
+                                <Border CornerRadius="12" BorderThickness="1" Padding="12,0" Height="42">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                            <GradientStop Color="#1C2035" Offset="0"/>
+                                            <GradientStop Color="#141828" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border.BorderBrush>
+                                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                            <GradientStop Color="#28FFFFFF" Offset="0"/>
+                                            <GradientStop Color="#08FFFFFF" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.BorderBrush>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="10">
+                                        <TextBlock Text="♩" FontSize="13"
+                                                   Foreground="#2266FF" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="SidebarBeatBtnText" Text="Play Beat"
+                                                   FontSize="12" FontWeight="SemiBold"
+                                                   Foreground="White" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </Button>
+
+                            <!-- Mute All -->
+                            <Button x:Name="BtnQaMute" Classes="PillActionBtn" Click="BtnQaMute_Click">
+                                <Border CornerRadius="12" BorderThickness="1" Padding="12,0" Height="42">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                            <GradientStop Color="#1C2035" Offset="0"/>
+                                            <GradientStop Color="#141828" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border.BorderBrush>
+                                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                            <GradientStop Color="#28FFFFFF" Offset="0"/>
+                                            <GradientStop Color="#08FFFFFF" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.BorderBrush>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="10">
+                                        <TextBlock Text="⊘" FontSize="13"
+                                                   Foreground="#2266FF" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="SidebarMuteBtnText" Text="Mute All"
+                                                   FontSize="12" FontWeight="SemiBold"
+                                                   Foreground="White" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </Button>
+
+                            <!-- Test Channel -->
+                            <Button x:Name="BtnQaTest" Classes="PillActionBtn" Click="BtnQaTest_Click">
+                                <Border CornerRadius="12" BorderThickness="1" Padding="12,0" Height="42">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                            <GradientStop Color="#1C2035" Offset="0"/>
+                                            <GradientStop Color="#141828" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border.BorderBrush>
+                                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                            <GradientStop Color="#28FFFFFF" Offset="0"/>
+                                            <GradientStop Color="#08FFFFFF" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.BorderBrush>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="10">
+                                        <TextBlock Text="▶" FontSize="13"
+                                                   Foreground="#2266FF" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Test Channel"
+                                                   FontSize="12" FontWeight="SemiBold"
+                                                   Foreground="White" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </Button>
+
+                        </StackPanel>
                     </StackPanel>
-                </Border>
+                </ScrollViewer>
 
-                <!-- Row 5 — Engine card -->
-                <Border Grid.Row="5" Margin="10,0,10,16" Padding="14,16" Classes="AccentCard">
-                    <StackPanel Spacing="4">
-                        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,0,2">
+                <!-- Row 3 — Engine card (regular Card colors, NOT accent) -->
+                <Border Grid.Row="3" Margin="10,6,10,14" Padding="14,18" CornerRadius="12" BorderThickness="1">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                            <GradientStop Color="#1E2230" Offset="0"/>
+                            <GradientStop Color="#141820" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.BorderBrush>
+                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                            <GradientStop Color="#28FFFFFF" Offset="0"/>
+                            <GradientStop Color="#06FFFFFF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.BorderBrush>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
                             <Ellipse x:Name="StatusDot" Width="8" Height="8"
                                      Fill="#4B4F6B" VerticalAlignment="Center"/>
-                            <TextBlock Text="ENGINE" FontSize="9" FontWeight="SemiBold"
-                                       Foreground="#4B4F6B"/>
+                            <TextBlock Text="Engine" FontSize="10" FontWeight="SemiBold"
+                                       Foreground="#8B8FA8"
+                                       VerticalAlignment="Center" Margin="6,0,0,0"/>
                         </StackPanel>
                         <TextBlock x:Name="SidebarStatusText" Text="Stopped"
-                                   FontSize="15" FontWeight="SemiBold" Foreground="#8B8FA8"/>
-                        <TextBlock x:Name="SidebarSourceName" Text="No Source"
+                                   FontSize="15" FontWeight="SemiBold"
+                                   Foreground="#8B8FA8" Margin="0,0,0,2"/>
+                        <TextBlock x:Name="SidebarSourceName" Text=""
                                    FontSize="11" Foreground="#4B4F6B" IsVisible="False"/>
                         <TextBlock x:Name="SidebarSampleRate" Text=""
-                                   FontSize="11" Foreground="#4B4F6B" IsVisible="False"/>
-                        <Button x:Name="SidebarEngineBtn" Classes="Primary"
-                                Margin="0,10,0,0" HorizontalAlignment="Stretch"
+                                   FontSize="11" Foreground="#4B4F6B" IsVisible="False" Margin="0,1,0,0"/>
+                        <Button x:Name="SidebarEngineBtn" Margin="0,14,0,0"
+                                HorizontalAlignment="Stretch"
                                 Click="SidebarEngineBtn_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="EngineBtnBorder"
+                                            Background="{TemplateBinding Background}"
+                                            CornerRadius="10" Height="48">
+                                        <ContentPresenter Content="{TemplateBinding Content}"
+                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                          HorizontalContentAlignment="Center"
+                                                          VerticalContentAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
                             <TextBlock x:Name="SidebarEngineBtnText" Text="Start Engine"
                                        FontSize="13" FontWeight="SemiBold"
-                                       HorizontalAlignment="Center"/>
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Button>
                     </StackPanel>
                 </Border>

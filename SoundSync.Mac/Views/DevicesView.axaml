@@ -1,45 +1,400 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="SoundSync.Mac.Views.DevicesView">
+             x:Class="SoundSync.Mac.Views.DevicesView"
+             Background="Transparent">
 
-    <Grid Margin="24,20,24,20" RowDefinitions="Auto,Auto,*">
+    <Grid Margin="28,0,28,24" RowDefinitions="Auto,Auto,Auto,*">
 
-        <!-- Header -->
-        <StackPanel Grid.Row="0" Margin="0,0,0,16" Spacing="4">
-            <TextBlock Text="Devices" FontSize="28" FontWeight="Bold" Foreground="White"/>
-            <TextBlock x:Name="SubtitleText" Text="Add the speakers you want to sync."
-                       FontSize="13" Foreground="#8B8FA8"/>
-        </StackPanel>
-
-        <!-- Add device bar -->
-        <Grid Grid.Row="1" ColumnDefinitions="*,10,Auto" Margin="0,0,0,14">
-            <TextBox x:Name="TxtNewDeviceName" Grid.Column="0"
-                     Watermark="Speaker name (e.g. Bedroom Sonos)…"
-                     Background="#1A1D24" Foreground="White"
-                     BorderBrush="#252A35" BorderThickness="1"
-                     CornerRadius="10" Padding="12,9"
-                     FontSize="13"/>
-            <Button x:Name="BtnAdd" Grid.Column="2" Classes="Primary"
-                    Content="+ Add Speaker" Click="BtnAdd_Click"/>
+        <!-- ── Header ── -->
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Devices" FontSize="28" FontWeight="Bold" Foreground="White"/>
+                <TextBlock x:Name="SubtitleText"
+                           Text="Manage your connected speakers"
+                           FontSize="13" Foreground="#8B8FA8" Margin="0,3,0,0"/>
+            </StackPanel>
+            <Button Classes="Primary" HorizontalAlignment="Right" VerticalAlignment="Center"
+                    Padding="16,0" Click="BtnAdd_Click">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <TextBlock Text="+" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
+                    <TextBlock Text="Add Speaker" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
         </Grid>
 
-        <!-- Device list / empty state -->
-        <ScrollViewer Grid.Row="2">
-            <StackPanel Spacing="10">
-                <Border x:Name="EmptyState" IsVisible="True" Classes="Card" Padding="40">
-                    <StackPanel HorizontalAlignment="Center" Spacing="10">
-                        <TextBlock Text="◉" FontSize="40" Foreground="#252A35"
+        <!-- ── Status cards (4 columns) ── -->
+        <UniformGrid Grid.Row="1" Columns="4" Margin="0,0,0,16" Opacity="0.80">
+
+            <!-- Card 1: Engine Status -->
+            <Border x:Name="CardEngine" CornerRadius="12" BorderThickness="1" Padding="12,10" Margin="0,0,10,0">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#1E2230" Offset="0"/>
+                        <GradientStop Color="#141820" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.BorderBrush>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#28FFFFFF" Offset="0"/>
+                        <GradientStop Color="#06FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+                <StackPanel>
+                    <TextBlock Text="ENGINE STATUS" FontSize="10" FontWeight="SemiBold"
+                               Foreground="#4B4F6B" Margin="0,0,0,8"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Ellipse x:Name="CardEngineDot" Width="8" Height="8"
+                                 Fill="#4B4F6B" VerticalAlignment="Center" Margin="0,0,7,0"/>
+                        <TextBlock x:Name="CardEngineText" Text="Stopped"
+                                   FontSize="17" FontWeight="SemiBold" Foreground="#8B8FA8"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Card 2: Audio Source -->
+            <Border CornerRadius="12" BorderThickness="1" Padding="12,10" Margin="0,0,10,0">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#1E2230" Offset="0"/>
+                        <GradientStop Color="#141820" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.BorderBrush>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#28FFFFFF" Offset="0"/>
+                        <GradientStop Color="#06FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+                <StackPanel>
+                    <TextBlock Text="AUDIO SOURCE" FontSize="10" FontWeight="SemiBold"
+                               Foreground="#4B4F6B" Margin="0,0,0,8"/>
+                    <TextBlock x:Name="CardSourceName" Text="No Source"
+                               FontSize="17" FontWeight="SemiBold" Foreground="White"
+                               TextTrimming="CharacterEllipsis"/>
+                    <TextBlock x:Name="CardSourceRate" Text=""
+                               FontSize="11" Foreground="#4B4F6B" Margin="0,3,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Card 3: Speakers -->
+            <Border CornerRadius="12" BorderThickness="1" Padding="12,10" Margin="0,0,10,0">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#1E2230" Offset="0"/>
+                        <GradientStop Color="#141820" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.BorderBrush>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#28FFFFFF" Offset="0"/>
+                        <GradientStop Color="#06FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+                <StackPanel>
+                    <TextBlock Text="SPEAKERS" FontSize="10" FontWeight="SemiBold"
+                               Foreground="#4B4F6B" Margin="0,0,0,8"/>
+                    <TextBlock x:Name="CardDeviceCount" Text="0"
+                               FontSize="17" FontWeight="SemiBold" Foreground="White"/>
+                    <TextBlock Text="Connected" FontSize="11" Foreground="#4B4F6B" Margin="0,3,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Card 4: Sync Health -->
+            <Border CornerRadius="12" BorderThickness="1" Padding="12,10">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#1E2230" Offset="0"/>
+                        <GradientStop Color="#141820" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.BorderBrush>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#28FFFFFF" Offset="0"/>
+                        <GradientStop Color="#06FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+                <StackPanel>
+                    <TextBlock Text="SYNC HEALTH" FontSize="10" FontWeight="SemiBold"
+                               Foreground="#4B4F6B" Margin="0,0,0,8"/>
+                    <TextBlock x:Name="CardSyncHealth" Text="Excellent"
+                               FontSize="17" FontWeight="SemiBold" Foreground="#3DDC84"/>
+                    <TextBlock x:Name="CardSyncDiff" Text=""
+                               FontSize="11" Foreground="#4B4F6B" Margin="0,3,0,0"/>
+                </StackPanel>
+            </Border>
+
+        </UniformGrid>
+
+        <!-- ── Sync &amp; Calibration card ── -->
+        <Border Grid.Row="2" CornerRadius="14" BorderThickness="1" Padding="20,18" Margin="0,0,0,16">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                    <GradientStop Color="#1A2440" Offset="0"/>
+                    <GradientStop Color="#141820" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                    <GradientStop Color="#604F7CFF" Offset="0"/>
+                    <GradientStop Color="#12FFFFFF" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <StackPanel>
+
+                <!-- Top row: icon + title | buttons -->
+                <Grid Margin="0,0,0,14" ColumnDefinitions="*,Auto">
+
+                    <!-- Left: icon squircle + title -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border Width="42" Height="42" CornerRadius="12"
+                                Background="#0D1B45" VerticalAlignment="Center">
+                            <TextBlock Text="◉" FontSize="19"
+                                       Foreground="#2266FF"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Margin="14,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="Sync &amp; Calibration"
+                                       FontSize="16" FontWeight="SemiBold" Foreground="White"/>
+                            <TextBlock Text="Keep all speakers in perfect time"
+                                       FontSize="12" Foreground="#8B8FA8"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Right: action buttons -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
+                        <Button x:Name="BtnBeat" Classes="Ghost" Padding="14,0" Click="BtnBeat_Click">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <TextBlock Text="♩" FontSize="12" Foreground="#2266FF" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="BeatLabel" Text="Play Beat"
+                                           FontSize="13" FontWeight="SemiBold" Foreground="#2266FF"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="BtnSyncNow" Classes="Ghost" Padding="14,0"
+                                Background="#1A2266FF" BorderBrush="#604F7CFF"
+                                Click="BtnSyncNow_Click">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <TextBlock Text="◉" FontSize="11" Foreground="#2266FF" VerticalAlignment="Center"/>
+                                <TextBlock Text="Sync Now" FontSize="13" FontWeight="SemiBold" Foreground="#2266FF"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="BtnCalibrate" Classes="Primary" Padding="18,0"
+                                Click="BtnCalibrate_Click">
+                            <TextBlock Text="Run Calibration" FontSize="13" FontWeight="SemiBold"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Separator -->
+                <Border Height="1" Margin="0,0,0,14">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                            <GradientStop Color="#404F7CFF" Offset="0"/>
+                            <GradientStop Color="Transparent" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+
+                <!-- Bottom row: health | drift | last cal -->
+                <Grid ColumnDefinitions="*,Auto,Auto">
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Spacing="6">
+                        <Ellipse Width="7" Height="7" Fill="#3DDC84" VerticalAlignment="Center"/>
+                        <TextBlock Text="Sync Health:" FontSize="12" Foreground="#8B8FA8"/>
+                        <TextBlock x:Name="SyncHealthLabel" Text="Excellent"
+                                   FontSize="12" FontWeight="SemiBold" Foreground="#3DDC84"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
+                                Margin="0,0,22,0" Spacing="8">
+                        <TextBlock Text="Drift Correction" FontSize="12" Foreground="#8B8FA8"
+                                   VerticalAlignment="Center"/>
+                        <ToggleSwitch x:Name="DriftToggle"
+                                      IsCheckedChanged="DriftToggle_Changed"
+                                      VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                        <TextBlock Text="LAST CALIBRATION" FontSize="10" FontWeight="SemiBold"
+                                   Foreground="#4B4F6B"/>
+                        <TextBlock x:Name="LastCalibrationText" Text="Never"
+                                   FontSize="13" FontWeight="Medium" Foreground="#8B8FA8"
+                                   Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- ── Device list scrollable area ── -->
+        <ScrollViewer Grid.Row="3">
+            <StackPanel>
+                <!-- Empty state -->
+                <Border x:Name="EmptyState" CornerRadius="16" BorderThickness="1" Padding="40,44">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                            <GradientStop Color="#1A1D26" Offset="0"/>
+                            <GradientStop Color="#131620" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.BorderBrush>
+                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                            <GradientStop Color="#14FFFFFF" Offset="0"/>
+                            <GradientStop Color="Transparent" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.BorderBrush>
+                    <StackPanel HorizontalAlignment="Center">
+                        <Border Width="64" Height="64" CornerRadius="16"
+                                HorizontalAlignment="Center" Margin="0,0,0,16">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                                    <GradientStop Color="#1A2440" Offset="0"/>
+                                    <GradientStop Color="#141820" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="♪" FontSize="28" Foreground="#2266FF"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="No speakers yet"
+                                   FontSize="18" FontWeight="SemiBold" Foreground="White"
                                    HorizontalAlignment="Center"/>
-                        <TextBlock Text="No speakers yet" FontSize="16" FontWeight="SemiBold"
-                                   Foreground="White" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Type a speaker name above and tap Add Speaker."
+                        <TextBlock Text="Add your first speaker to start routing audio around the room."
                                    FontSize="13" Foreground="#8B8FA8"
-                                   HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                   HorizontalAlignment="Center" TextAlignment="Center"
+                                   TextWrapping="Wrap" MaxWidth="320" Margin="0,8,0,20"/>
+                        <Button Classes="Primary" Padding="20,0"
+                                HorizontalAlignment="Center" Click="BtnAdd_Click">
+                            <TextBlock Text="Add Speaker" FontSize="13" FontWeight="SemiBold"/>
+                        </Button>
                     </StackPanel>
                 </Border>
-                <StackPanel x:Name="DeviceList" Spacing="10"/>
+
+                <!-- Device cards built in code-behind -->
+                <StackPanel x:Name="DeviceList" Spacing="12" Margin="0,12,0,0"/>
             </StackPanel>
         </ScrollViewer>
+
+        <!-- ══════════════════════════════════════
+             ADD SPEAKER OVERLAY
+        ══════════════════════════════════════ -->
+        <Grid x:Name="AddOverlay" Grid.Row="0" Grid.RowSpan="4" IsVisible="False">
+            <Border Background="#BB000000" PointerPressed="AddBackdrop_Click"/>
+            <Border Background="#1A1D24" CornerRadius="18" Padding="0"
+                    MaxWidth="440" MaxHeight="560"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    BoxShadow="0 8 48 0 #AA000000">
+                <Grid RowDefinitions="Auto,*,Auto">
+
+                    <Grid Grid.Row="0" Margin="24,22,24,0" ColumnDefinitions="*,Auto">
+                        <TextBlock Grid.Column="0" Text="Add Speaker"
+                                   FontSize="18" FontWeight="Bold" Foreground="White"
+                                   VerticalAlignment="Center"/>
+                        <Button Grid.Column="1" Classes="Secondary"
+                                Width="30" Height="30" Padding="0"
+                                VerticalAlignment="Center" Click="BtnAddClose_Click">
+                            <TextBlock Text="×" FontSize="16"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button>
+                    </Grid>
+
+                    <ScrollViewer Grid.Row="1" Margin="12,14,12,0">
+                        <StackPanel x:Name="PickerList" Spacing="6">
+                            <Border x:Name="PickerEmpty" Padding="20,16">
+                                <StackPanel Spacing="12">
+                                    <TextBlock Text="No audio devices found."
+                                               FontSize="13" Foreground="#8B8FA8"
+                                               TextWrapping="Wrap" HorizontalAlignment="Center"
+                                               TextAlignment="Center"/>
+                                    <TextBlock Text="Enter a speaker name to add it manually:"
+                                               FontSize="12" Foreground="#4B4F6B"
+                                               HorizontalAlignment="Center"/>
+                                    <TextBox x:Name="TxtPickerName"
+                                             Watermark="Speaker name (e.g. Kitchen, Bedroom)"
+                                             FontSize="13"
+                                             Background="#252A35" Foreground="White"
+                                             BorderBrush="#2266FF" BorderThickness="1"
+                                             CornerRadius="8" Padding="10,8"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <Grid Grid.Row="2" Margin="24,14,24,22" ColumnDefinitions="*,10,Auto">
+                        <Button Grid.Column="0" Classes="Secondary" Padding="0,11"
+                                Click="BtnAddClose_Click">
+                            <TextBlock Text="Cancel" FontSize="14" FontWeight="Medium"
+                                       HorizontalAlignment="Center"/>
+                        </Button>
+                        <Button x:Name="BtnAddConfirm" Grid.Column="2" Classes="Primary"
+                                Padding="28,11" Click="BtnAddConfirm_Click">
+                            <TextBlock x:Name="BtnAddConfirmLabel" Text="Add"
+                                       FontSize="14" FontWeight="SemiBold"/>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- ══════════════════════════════════════
+             DEVICE DETAIL OVERLAY
+        ══════════════════════════════════════ -->
+        <Grid x:Name="DetailOverlay" Grid.Row="0" Grid.RowSpan="4" IsVisible="False">
+            <Border Background="#BB000000" PointerPressed="DetailBackdrop_Click"/>
+            <Border Background="#1A1D24" CornerRadius="18" Padding="24"
+                    MaxWidth="380" MaxHeight="520"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    BoxShadow="0 8 48 0 #AA000000">
+                <Grid RowDefinitions="Auto,*,Auto">
+
+                    <Grid Grid.Row="0" Margin="0,0,0,20" ColumnDefinitions="*,Auto">
+                        <TextBlock x:Name="DetailName" Grid.Column="0"
+                                   FontSize="18" FontWeight="Bold" Foreground="White"
+                                   VerticalAlignment="Center"
+                                   TextWrapping="Wrap" Margin="0,0,12,0"/>
+                        <Button Grid.Column="1" Classes="Secondary"
+                                Width="30" Height="30" Padding="0"
+                                VerticalAlignment="Top" Click="BtnDetailClose_Click">
+                            <TextBlock Text="×" FontSize="16"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button>
+                    </Grid>
+
+                    <StackPanel Grid.Row="1" Spacing="18">
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="STATUS" FontSize="11" FontWeight="SemiBold" Foreground="#4B4F6B"/>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Ellipse x:Name="DetailStatusDot" Width="9" Height="9"
+                                         Fill="#3DDC84" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="DetailStatus" Text="Connected"
+                                           FontSize="15" Foreground="White"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="TYPE" FontSize="11" FontWeight="SemiBold" Foreground="#4B4F6B"/>
+                            <Border x:Name="DetailTypeBadge" CornerRadius="8" Padding="10,4"
+                                    HorizontalAlignment="Left" Background="#252A35">
+                                <TextBlock x:Name="DetailType" Text="Audio Output"
+                                           FontSize="13" FontWeight="Medium" Foreground="#8B8FA8"/>
+                            </Border>
+                        </StackPanel>
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="DELAY OFFSET" FontSize="11" FontWeight="SemiBold" Foreground="#4B4F6B"/>
+                            <TextBlock x:Name="DetailDelay" Text="0 ms" FontSize="15" Foreground="White"/>
+                        </StackPanel>
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="SPATIAL POSITION" FontSize="11" FontWeight="SemiBold" Foreground="#4B4F6B"/>
+                            <TextBlock x:Name="DetailAngle" Text="0° — Front" FontSize="15" Foreground="White"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Button Grid.Row="2" Classes="Destructive"
+                            Padding="0,11" HorizontalAlignment="Stretch"
+                            Margin="0,20,0,0" Click="BtnRemoveDevice_Click">
+                        <TextBlock Text="Remove Device" FontSize="14" FontWeight="Medium"
+                                   HorizontalAlignment="Center"/>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
 
     </Grid>
 </UserControl>

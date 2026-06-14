@@ -20,6 +20,23 @@ public partial class MainWindow : Window
         // Share the single engine with SyncView
         PageSync.Engine = _engine;
 
+        // Wire DevicesView sync-card events (same pattern as Windows MainWindow)
+        PageDevices.CalibrateRequested += async () =>
+        {
+            AppState.Instance.IsCalibrating = true;
+            PageDevices.BtnCalibrate.Content = "Calibrating…";
+            await (_engine.CalibrateAsync(AppState.Instance.Devices));
+            AppState.Instance.IsCalibrating = false;
+            PageDevices.BtnCalibrate.Content = new Avalonia.Controls.TextBlock { Text = "Run Calibration", FontSize = 13, FontWeight = Avalonia.Media.FontWeight.SemiBold };
+        };
+        PageDevices.BeatToggleRequested += () =>
+        {
+            AppState.Instance.IsBeatPlaying = !AppState.Instance.IsBeatPlaying;
+            if (AppState.Instance.IsBeatPlaying) _engine.StartBeat(); else _engine.StopBeat();
+            PageSync.UpdateUI();
+        };
+        PageDevices.SyncNowRequested += () => _engine.SyncNow();
+
         // Load persisted state
         foreach (var d in DevicePersistence.Load())
             AppState.Instance.Devices.Add(d);
@@ -29,7 +46,7 @@ public partial class MainWindow : Window
         SidebarVolumeSlider.Value = AppState.Instance.MasterVolume;
         SidebarVolLabel.Text = $"{(int)AppState.Instance.MasterVolume}%";
 
-        // Engine status → AppState → sidebar + SyncView
+        // Engine status → AppState → sidebar + views
         _engine.StatusChanged += status =>
         {
             AppState.Instance.EngineStatus = status;
@@ -92,23 +109,29 @@ public partial class MainWindow : Window
         }
 
         UpdateEngineCard();
+        PageDevices.UpdateStatusCards();
         PageSync.UpdateUI();
     }
 
     private void UpdateEngineCard()
     {
         bool running = AppState.Instance.EngineRunning;
-        SidebarEngineBtnText.Text   = running ? "Stop Engine" : "Start Engine";
-        SidebarStatusText.Text      = AppState.Instance.EngineStatus;
-        StatusDot.Fill              = new SolidColorBrush(Color.Parse(running ? "#3DDC84" : "#4B4F6B"));
+
+        SidebarEngineBtnText.Text = running ? "Stop Engine" : "Start Engine";
+        SidebarStatusText.Text    = AppState.Instance.EngineStatus;
+        StatusDot.Fill            = new SolidColorBrush(Color.Parse(running ? "#3DDC84" : "#4B4F6B"));
+
+        SidebarEngineBtnText.Foreground = new SolidColorBrush(Color.Parse(running ? "#FFFFFF" : "#021A0A"));
+        SidebarEngineBtn.Background     = new SolidColorBrush(Color.Parse(running ? "#FF453A" : "#00C853"));
+
         SidebarSourceName.IsVisible = running;
         SidebarSampleRate.IsVisible = running && AppState.Instance.AudioSourceRate > 0;
         SidebarSourceName.Text      = AppState.Instance.AudioSourceName;
         SidebarSampleRate.Text      = AppState.Instance.AudioRateText;
 
-        // Disable quick-action buttons when stopped
         BtnQaBeat.IsEnabled = running;
         BtnQaMute.IsEnabled = running;
+        BtnQaTest.IsEnabled = running;
     }
 
     // ── Quick Actions ────────────────────────────────────────────────────────
@@ -117,15 +140,22 @@ public partial class MainWindow : Window
     {
         AppState.Instance.IsBeatPlaying = !AppState.Instance.IsBeatPlaying;
         if (AppState.Instance.IsBeatPlaying) _engine.StartBeat(); else _engine.StopBeat();
-        BtnQaBeat.Content = AppState.Instance.IsBeatPlaying ? "Stop Beat" : "Play Beat";
+        SidebarBeatBtnText.Text = AppState.Instance.IsBeatPlaying ? "Stop Beat" : "Play Beat";
         PageSync.UpdateUI();
+        PageDevices.BeatLabel.Text = SidebarBeatBtnText.Text;
     }
 
+    private bool _muted;
     private void BtnQaMute_Click(object? sender, RoutedEventArgs e)
     {
-        bool muting = (string?)BtnQaMute.Content == "Mute All";
-        BtnQaMute.Content = muting ? "Unmute All" : "Mute All";
-        // TODO: engine.MuteAll(muting) when CoreAudioEngine implements it
+        _muted = !_muted;
+        SidebarMuteBtnText.Text = _muted ? "Unmute All" : "Mute All";
+        // TODO: _engine.MuteAll(_muted) when CoreAudioEngine implements it
+    }
+
+    private void BtnQaTest_Click(object? sender, RoutedEventArgs e)
+    {
+        // TODO: _engine.TestChannel() when CoreAudioEngine implements it
     }
 
     // ── Volume ───────────────────────────────────────────────────────────────
