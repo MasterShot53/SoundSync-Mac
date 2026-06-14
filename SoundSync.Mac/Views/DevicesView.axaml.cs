@@ -69,12 +69,11 @@ public partial class DevicesView : UserControl
             FontSize = 14, FontWeight = FontWeight.SemiBold,
             Foreground = new SolidColorBrush(Colors.White)
         };
-        nameText.Bind(TextBlock.TextProperty,
-            new Avalonia.Data.Binding(nameof(dev.Name)) { Source = dev });
+        nameText.Text = dev.Name;
+        dev.PropertyChanged += (_, e) => { if (e.PropertyName == nameof(dev.Name)) nameText.Text = dev.Name; };
 
-        var statusText = new TextBlock { FontSize = 12, Foreground = new SolidColorBrush(Color.Parse("#8B8FA8")) };
-        statusText.Bind(TextBlock.TextProperty,
-            new Avalonia.Data.Binding(nameof(dev.StatusText)) { Source = dev });
+        var statusText = new TextBlock { FontSize = 12, Foreground = new SolidColorBrush(Color.Parse("#8B8FA8")), Text = dev.StatusText };
+        dev.PropertyChanged += (_, e) => { if (e.PropertyName == nameof(dev.StatusText)) statusText.Text = dev.StatusText; };
 
         info.Children.Add(nameText);
         info.Children.Add(statusText);

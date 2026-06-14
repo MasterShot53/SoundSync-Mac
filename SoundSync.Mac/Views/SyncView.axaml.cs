@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Data;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
@@ -94,9 +93,10 @@ public partial class SyncView : UserControl
         {
             FontSize = 14,
             FontWeight = FontWeight.SemiBold,
-            VerticalAlignment = VerticalAlignment.Center
+            VerticalAlignment = VerticalAlignment.Center,
+            Text = dev.Name
         };
-        name.Bind(TextBlock.TextProperty, new Binding(nameof(dev.Name)) { Source = dev });
+        dev.PropertyChanged += (_, e) => { if (e.PropertyName == nameof(dev.Name)) name.Text = dev.Name; };
 
         var badge = new Border
         {
@@ -109,10 +109,10 @@ public partial class SyncView : UserControl
         var badgeText = new TextBlock
         {
             FontSize = 12,
-            Foreground = new SolidColorBrush(Color.Parse("#2266FF"))
+            Foreground = new SolidColorBrush(Color.Parse("#2266FF")),
+            Text = dev.DelayDisplayText
         };
-        badgeText.Bind(TextBlock.TextProperty,
-            new Binding(nameof(dev.DelayDisplayText)) { Source = dev });
+        dev.PropertyChanged += (_, e) => { if (e.PropertyName == nameof(dev.DelayDisplayText)) badgeText.Text = dev.DelayDisplayText; };
         badge.Child = badgeText;
 
         var resetBtn = new Button
