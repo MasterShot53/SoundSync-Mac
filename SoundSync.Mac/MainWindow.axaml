@@ -73,7 +73,7 @@
                         <Viewbox Width="22" Height="22" VerticalAlignment="Center">
                             <Canvas Width="24" Height="20">
                                 <shapes:Path Stroke="#9B7FFF" StrokeThickness="2"
-                                             StrokeLineCap="Round" StrokeLineJoin="Round"
+                                             StrokeLineCap="Round" StrokeJoin="Round"
                                              Data="M2,10 Q4,4 6,10 Q8,16 10,10 Q12,4 14,10 Q16,16 18,10 Q20,4 22,10"/>
                             </Canvas>
                         </Viewbox>
