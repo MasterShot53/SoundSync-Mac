@@ -104,10 +104,10 @@
                             <TextBlock Text="Devices" FontSize="14" FontWeight="Medium" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="NavSync" Classes="NavBtn" Click="NavSync_Click">
+                    <Button x:Name="NavSpatial" Classes="NavBtn" Click="NavSpatial_Click">
                         <StackPanel Orientation="Horizontal" Spacing="10">
-                            <TextBlock Text="◈" FontSize="15" VerticalAlignment="Center"/>
-                            <TextBlock Text="Sync" FontSize="14" FontWeight="Medium" VerticalAlignment="Center"/>
+                            <TextBlock Text="◎" FontSize="15" VerticalAlignment="Center"/>
+                            <TextBlock Text="Spatial" FontSize="14" FontWeight="Medium" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                     <Button x:Name="NavSettings" Classes="NavBtn" Click="NavSettings_Click">
@@ -302,9 +302,191 @@
         ══════════════════════════════════════ -->
         <Panel Grid.Column="1">
             <views:DevicesView  x:Name="PageDevices"/>
-            <views:SyncView     x:Name="PageSync"     IsVisible="False"/>
+            <views:SpatialView  x:Name="PageSpatial"  IsVisible="False"/>
             <views:SettingsView x:Name="PageSettings" IsVisible="False"/>
         </Panel>
+
+        <!-- ── In-app toast (floats over content area) ── -->
+        <Border x:Name="ToastCard"
+                Grid.Column="1"
+                ZIndex="100"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                Margin="0,0,0,28"
+                MaxWidth="500" MinWidth="280"
+                CornerRadius="12"
+                BorderThickness="1"
+                IsVisible="False"
+                BoxShadow="0 6 24 0 #80FF453A">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                    <GradientStop Color="#F0201828" Offset="0"/>
+                    <GradientStop Color="#F0181420" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                    <GradientStop Color="#80FF453A" Offset="0"/>
+                    <GradientStop Color="#20FF453A" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Grid Margin="16,13,12,13" ColumnDefinitions="Auto,*,Auto">
+                <Border Grid.Column="0" Width="32" Height="32" CornerRadius="8"
+                        Background="#40FF453A" VerticalAlignment="Center" Margin="0,0,12,0">
+                    <TextBlock Text="!" FontSize="16" FontWeight="Bold"
+                               Foreground="#FF453A"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <TextBlock x:Name="ToastMessage" Grid.Column="1"
+                           FontSize="13" FontWeight="Medium"
+                           Foreground="White" TextWrapping="Wrap"
+                           VerticalAlignment="Center"/>
+                <Button Grid.Column="2" Width="28" Height="28"
+                        Background="Transparent" BorderThickness="0"
+                        Margin="10,0,0,0" Cursor="Hand"
+                        Click="ToastClose_Click">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="Transparent" CornerRadius="6">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <TextBlock Text="×" FontSize="14" Foreground="#99FFFFFF"/>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- ══════════════════════════════════════
+             TEST CHANNEL MODAL
+        ══════════════════════════════════════ -->
+        <Grid x:Name="TestChannelOverlay" Grid.ColumnSpan="2" ZIndex="60" IsVisible="False">
+            <!-- Backdrop -->
+            <Border Background="#C0000000" PointerPressed="TestChannelBackdrop_Click"/>
+            <!-- Modal card -->
+            <Border Width="360" CornerRadius="20" BorderThickness="1"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Padding="28,26"
+                    BoxShadow="0 0 50 0 #A5000814">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#1E2230" Offset="0"/>
+                        <GradientStop Color="#141820" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.BorderBrush>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#28FFFFFF" Offset="0"/>
+                        <GradientStop Color="#06FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+                <!-- Inner border stops backdrop from closing when clicking inside card -->
+                <Border PointerPressed="TestChannelCard_Click">
+                    <StackPanel>
+                        <!-- Header -->
+                        <Grid Margin="0,0,0,6" ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="TEST CHANNEL"
+                                           FontSize="10" FontWeight="SemiBold"
+                                           Foreground="#4B4F6B" Margin="0,0,0,5"/>
+                                <TextBlock Text="Play a test tone"
+                                           FontSize="19" FontWeight="Bold" Foreground="White"/>
+                            </StackPanel>
+                            <Button Grid.Column="1" Width="30" Height="30"
+                                    VerticalAlignment="Top" Classes="Secondary" Padding="0"
+                                    Click="TestChannelClose_Click">
+                                <TextBlock Text="×" FontSize="16"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Button>
+                        </Grid>
+
+                        <TextBlock Text="Select a channel to play a 1000 Hz tone through all speakers."
+                                   FontSize="13" Foreground="#8B8FA8"
+                                   TextWrapping="Wrap" Margin="0,8,0,26"/>
+
+                        <!-- L / C / R channel buttons -->
+                        <Grid ColumnDefinitions="*,10,*,10,*">
+
+                            <!-- L — blue -->
+                            <Border Grid.Column="0" Height="84" CornerRadius="14" BorderThickness="1"
+                                    Cursor="Hand" PointerPressed="TestChannelL_Click">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                        <GradientStop Color="#1A2440" Offset="0"/>
+                                        <GradientStop Color="#141820" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                        <GradientStop Color="#604F7CFF" Offset="0"/>
+                                        <GradientStop Color="#12FFFFFF" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+                                    <TextBlock Text="◁" FontSize="22" Foreground="#4F7CFF"
+                                               HorizontalAlignment="Center"/>
+                                    <TextBlock Text="LEFT" FontSize="12" FontWeight="Bold"
+                                               Foreground="#4F7CFF" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- C — gray -->
+                            <Border Grid.Column="2" Height="84" CornerRadius="14" BorderThickness="1"
+                                    Cursor="Hand" PointerPressed="TestChannelC_Click">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                        <GradientStop Color="#1E2230" Offset="0"/>
+                                        <GradientStop Color="#141820" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                        <GradientStop Color="#28FFFFFF" Offset="0"/>
+                                        <GradientStop Color="#06FFFFFF" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+                                    <TextBlock Text="◎" FontSize="22" Foreground="#8B8FA8"
+                                               HorizontalAlignment="Center"/>
+                                    <TextBlock Text="CENTER" FontSize="12" FontWeight="Bold"
+                                               Foreground="#8B8FA8" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- R — purple -->
+                            <Border Grid.Column="4" Height="84" CornerRadius="14" BorderThickness="1"
+                                    Cursor="Hand" PointerPressed="TestChannelR_Click">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                        <GradientStop Color="#1A1040" Offset="0"/>
+                                        <GradientStop Color="#141820" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                        <GradientStop Color="#604F7CFF" Offset="0"/>
+                                        <GradientStop Color="#12FFFFFF" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+                                    <TextBlock Text="▷" FontSize="22" Foreground="#9B7FFF"
+                                               HorizontalAlignment="Center"/>
+                                    <TextBlock Text="RIGHT" FontSize="12" FontWeight="Bold"
+                                               Foreground="#9B7FFF" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+
+                        </Grid>
+
+                        <TextBlock x:Name="TestChannelStatus"
+                                   Text=""
+                                   FontSize="12" Foreground="#8B8FA8"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,18,0,0"/>
+                    </StackPanel>
+                </Border>
+            </Border>
+        </Grid>
 
     </Grid>
 </Window>

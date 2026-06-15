@@ -433,8 +433,12 @@
         <Setter Property="Cursor"    Value="Hand"/>
         <Setter Property="Template">
             <ControlTemplate TargetType="Slider">
-                <Grid MinHeight="{TemplateBinding MinHeight}">
-                    <Track x:Name="PART_Track" VerticalAlignment="Center">
+                <Grid MinHeight="{TemplateBinding MinHeight}" Background="Transparent">
+                    <Track x:Name="PART_Track"
+                           Minimum="{TemplateBinding Minimum}"
+                           Maximum="{TemplateBinding Maximum}"
+                           Value="{TemplateBinding Value, Mode=TwoWay}"
+                           VerticalAlignment="Center">
 
                         <!-- Filled: purple→blue gradient -->
                         <Track.DecreaseButton>
@@ -480,7 +484,7 @@
                                                     BoxShadow="0 0 8 0 #552266FF"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
-                                                    RenderTransformOrigin="0.5,0.5"
+                                                    RenderTransformOrigin="50%,50%"
                                                     RenderTransform="scale(1)">
                                                 <Border.Transitions>
                                                     <Transitions>

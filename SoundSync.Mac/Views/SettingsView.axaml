@@ -2,124 +2,210 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="SoundSync.Mac.Views.SettingsView">
 
-    <ScrollViewer>
-        <StackPanel Margin="24,20,24,20" Spacing="12">
+    <Grid Margin="28,20,28,24" RowDefinitions="Auto,*">
 
-            <!-- Header -->
-            <StackPanel Spacing="4" Margin="0,0,0,6">
-                <TextBlock Text="Settings" FontSize="28" FontWeight="Bold" Foreground="White"/>
-                <TextBlock Text="Configure SoundSync preferences." FontSize="13" Foreground="#8B8FA8"/>
-            </StackPanel>
-
-            <!-- Auto Start -->
-            <Border Classes="Card" Padding="16,13">
-                <Grid ColumnDefinitions="*,Auto">
-                    <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
-                        <TextBlock Text="Start Engine Automatically" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
-                        <TextBlock Text="Start routing audio as soon as SoundSync opens."
-                                   FontSize="12" Foreground="#8B8FA8"/>
-                    </StackPanel>
-                    <ToggleSwitch x:Name="ToggleAutoStart" Grid.Column="1"
-                                  IsCheckedChanged="ToggleAutoStart_Changed"/>
-                </Grid>
-            </Border>
-
-            <!-- Auto Calibrate -->
-            <Border Classes="Card" Padding="16,13">
-                <Grid ColumnDefinitions="*,Auto">
-                    <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
-                        <TextBlock Text="Auto-Calibrate on Start" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
-                        <TextBlock Text="Run a calibration pass automatically when the engine starts."
-                                   FontSize="12" Foreground="#8B8FA8"/>
-                    </StackPanel>
-                    <ToggleSwitch x:Name="ToggleAutoCalibrate" Grid.Column="1"
-                                  IsCheckedChanged="ToggleAutoCalibrate_Changed"/>
-                </Grid>
-            </Border>
-
-            <!-- Drift Correction Interval -->
-            <Border Classes="Card" Padding="16,13">
-                <StackPanel Spacing="10">
-                    <TextBlock Text="Drift Correction Interval" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
-                    <TextBlock Text="How often SoundSync resyncs buffers to prevent clock drift."
-                               FontSize="12" Foreground="#8B8FA8"/>
-                    <Grid ColumnDefinitions="*,10,80">
-                        <Slider x:Name="SliderDriftInterval" Grid.Column="0"
-                                Minimum="10" Maximum="600" TickFrequency="10"
-                                ValueChanged="SliderDriftInterval_Changed"/>
-                        <TextBlock x:Name="DriftIntervalLabel" Grid.Column="2"
-                                   Text="2 min 30 s" VerticalAlignment="Center"
-                                   FontSize="12" Foreground="White"/>
-                    </Grid>
-                </StackPanel>
-            </Border>
-
-            <!-- Launch at Login (macOS only) -->
-            <Border Classes="Card" Padding="16,13">
-                <Grid ColumnDefinitions="*,Auto">
-                    <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
-                        <TextBlock Text="Launch at Login" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
-                        <TextBlock Text="Start SoundSync automatically when you log in."
-                                   FontSize="12" Foreground="#8B8FA8"/>
-                    </StackPanel>
-                    <ToggleSwitch x:Name="ToggleLaunchAtLogin" Grid.Column="1"
-                                  IsCheckedChanged="ToggleLaunchAtLogin_Changed"/>
-                </Grid>
-            </Border>
-
-            <!-- Default Delay (macOS only) -->
-            <Border Classes="Card" Padding="16,13">
-                <StackPanel Spacing="10">
-                    <TextBlock Text="Default Delay" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
-                    <TextBlock Text="Initial buffer size (ms) applied to new speakers before calibration."
-                               FontSize="12" Foreground="#8B8FA8"/>
-                    <Grid ColumnDefinitions="*,10,60">
-                        <Slider x:Name="SliderDefaultDelay" Grid.Column="0"
-                                Minimum="0" Maximum="500" TickFrequency="10"
-                                ValueChanged="SliderDefaultDelay_Changed"/>
-                        <TextBlock x:Name="DefaultDelayLabel" Grid.Column="2"
-                                   Text="150 ms" VerticalAlignment="Center"
-                                   FontSize="13" Foreground="White"/>
-                    </Grid>
-                </StackPanel>
-            </Border>
-
-            <!-- About -->
-            <Border Classes="Card" Padding="16,13">
-                <StackPanel Spacing="4">
-                    <TextBlock Text="SoundSync" FontSize="15" FontWeight="SemiBold" Foreground="White"/>
-                    <TextBlock Text="Multi-room audio synchronization" FontSize="12" Foreground="#8B8FA8"/>
-                    <Border Background="#252A35" CornerRadius="8" Padding="8,4"
-                            Margin="0,4,0,0" HorizontalAlignment="Left">
-                        <TextBlock x:Name="VersionLabel" Text="v1.0.0"
-                                   FontSize="12" Foreground="#2266FF"/>
-                    </Border>
-                </StackPanel>
-            </Border>
-
-            <!-- Uninstall (macOS only) -->
-            <Border Classes="Card" Padding="16,13" Margin="0,6,0,0">
-                <Grid ColumnDefinitions="*,12,Auto">
-                    <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
-                        <TextBlock Text="Uninstall SoundSync" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
-                        <TextBlock Text="Removes the BlackHole audio driver and app data. Then drag SoundSync to Trash."
-                                   FontSize="12" Foreground="#8B8FA8" TextWrapping="Wrap"/>
-                    </StackPanel>
-                    <Button x:Name="BtnUninstall" Grid.Column="2" Classes="Destructive"
-                            Content="Uninstall…" VerticalAlignment="Center"
-                            Click="BtnUninstall_Click"/>
-                </Grid>
-            </Border>
-
-            <!-- Uninstall progress -->
-            <Border x:Name="UninstallProgress" IsVisible="False" Classes="Card" Padding="16,13">
-                <StackPanel Spacing="6">
-                    <TextBlock x:Name="UninstallStatusText" Text="Uninstalling…"
-                               FontSize="13" Foreground="White"/>
-                    <ProgressBar x:Name="UninstallProgressBar" IsIndeterminate="True" Height="4"/>
-                </StackPanel>
-            </Border>
-
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Spacing="4" Margin="0,0,0,20">
+            <TextBlock Text="Settings" FontSize="28" FontWeight="Bold" Foreground="White"/>
+            <TextBlock Text="Configure SoundSync preferences"
+                       FontSize="13" Foreground="#8B8FA8" Margin="0,3,0,0"/>
         </StackPanel>
-    </ScrollViewer>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Spacing="12" MaxWidth="600" HorizontalAlignment="Left">
+
+                <!-- AUDIO SOURCE card -->
+                <Border Classes="Card" Padding="18,16">
+                    <StackPanel>
+                        <TextBlock Text="AUDIO SOURCE"
+                                   FontSize="11" FontWeight="SemiBold"
+                                   Foreground="#4B4F6B" Margin="0,0,0,12"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                <TextBlock Text="Input Source"
+                                           FontSize="14" FontWeight="Medium" Foreground="White"/>
+                                <TextBlock Text="BlackHole (when engine running)"
+                                           FontSize="12" Foreground="#8B8FA8" Margin="0,2,0,0"/>
+                            </StackPanel>
+                            <Border Grid.Column="1" Background="#252A35" CornerRadius="8"
+                                    Padding="10,5" VerticalAlignment="Center">
+                                <TextBlock Text="Auto" FontSize="12" FontWeight="Medium"
+                                           Foreground="#8B8FA8"/>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- APPEARANCE card -->
+                <Border Classes="Card" Padding="18,16">
+                    <StackPanel>
+                        <TextBlock Text="APPEARANCE"
+                                   FontSize="11" FontWeight="SemiBold"
+                                   Foreground="#4B4F6B" Margin="0,0,0,14"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                <TextBlock Text="Theme"
+                                           FontSize="14" FontWeight="Medium" Foreground="White"/>
+                                <TextBlock Text="SoundSync uses dark mode only on macOS"
+                                           FontSize="12" Foreground="#8B8FA8" Margin="0,2,0,0"/>
+                            </StackPanel>
+                            <Border Grid.Column="1" Background="#252A35" CornerRadius="8"
+                                    Padding="10,5" VerticalAlignment="Center">
+                                <TextBlock Text="Dark" FontSize="12" FontWeight="Medium"
+                                           Foreground="#8B8FA8"/>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- STARTUP card: AutoStart + separator + AutoCalibrate (matches Windows) -->
+                <Border Classes="Card" Padding="18,16">
+                    <StackPanel>
+                        <TextBlock Text="STARTUP"
+                                   FontSize="11" FontWeight="SemiBold"
+                                   Foreground="#4B4F6B" Margin="0,0,0,12"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                <TextBlock Text="Start Engine Automatically"
+                                           FontSize="14" FontWeight="Medium" Foreground="White"/>
+                                <TextBlock Text="Launch audio engine when app starts"
+                                           FontSize="12" Foreground="#8B8FA8" Margin="0,2,0,0"/>
+                            </StackPanel>
+                            <ToggleSwitch x:Name="ToggleAutoStart" Grid.Column="1"
+                                          VerticalAlignment="Center"
+                                          IsCheckedChanged="ToggleAutoStart_Changed"/>
+                        </Grid>
+                        <Border Height="1" Background="#1F2230" Margin="0,14"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                <TextBlock Text="Auto-Calibrate on Start"
+                                           FontSize="14" FontWeight="Medium" Foreground="White"/>
+                                <TextBlock Text="Run calibration each time engine starts"
+                                           FontSize="12" Foreground="#8B8FA8" Margin="0,2,0,0"/>
+                            </StackPanel>
+                            <ToggleSwitch x:Name="ToggleAutoCalibrate" Grid.Column="1"
+                                          VerticalAlignment="Center"
+                                          IsCheckedChanged="ToggleAutoCalibrate_Changed"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- SYNC card: Drift Correction Interval -->
+                <Border Classes="Card" Padding="18,16">
+                    <StackPanel>
+                        <TextBlock Text="SYNC"
+                                   FontSize="11" FontWeight="SemiBold"
+                                   Foreground="#4B4F6B" Margin="0,0,0,12"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Grid.Column="0" Text="Drift Correction Interval"
+                                       FontSize="14" FontWeight="Medium" Foreground="White"
+                                       VerticalAlignment="Center"/>
+                            <Border Grid.Column="1" Background="#252A35" CornerRadius="8"
+                                    Padding="10,5" VerticalAlignment="Center">
+                                <TextBlock x:Name="DriftIntervalLabel" Text="2 min 30 s"
+                                           FontSize="12" FontWeight="Medium" Foreground="#8B8FA8"/>
+                            </Border>
+                        </Grid>
+                        <TextBlock Text="How often speakers are automatically resynced"
+                                   FontSize="12" Foreground="#8B8FA8" Margin="0,2,0,0"/>
+                        <Slider x:Name="SliderDriftInterval" Classes="SyncSlider"
+                                Minimum="10" Maximum="600" TickFrequency="10"
+                                Margin="0,14,0,0"
+                                ValueChanged="SliderDriftInterval_Changed"/>
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,6,0,0">
+                            <TextBlock Grid.Column="0" Text="10s" FontSize="10"
+                                       Foreground="#4B4F6B" HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Column="1" Text="10 min" FontSize="10"
+                                       Foreground="#4B4F6B" HorizontalAlignment="Right"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- macOS: Launch at Login -->
+                <Border Classes="Card" Padding="18,16">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="Launch at Login"
+                                       FontSize="14" FontWeight="Medium" Foreground="White"/>
+                            <TextBlock Text="Start SoundSync automatically when you log in"
+                                       FontSize="12" Foreground="#8B8FA8" Margin="0,2,0,0"/>
+                        </StackPanel>
+                        <ToggleSwitch x:Name="ToggleLaunchAtLogin" Grid.Column="1"
+                                      VerticalAlignment="Center"
+                                      IsCheckedChanged="ToggleLaunchAtLogin_Changed"/>
+                    </Grid>
+                </Border>
+
+                <!-- macOS: Default Delay -->
+                <Border Classes="Card" Padding="18,16">
+                    <StackPanel>
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,2">
+                            <TextBlock Grid.Column="0" Text="Default Delay"
+                                       FontSize="14" FontWeight="Medium" Foreground="White"
+                                       VerticalAlignment="Center"/>
+                            <Border Grid.Column="1" Background="#252A35" CornerRadius="8"
+                                    Padding="10,5" VerticalAlignment="Center">
+                                <TextBlock x:Name="DefaultDelayLabel" Text="150 ms"
+                                           FontSize="12" FontWeight="Medium" Foreground="#8B8FA8"/>
+                            </Border>
+                        </Grid>
+                        <TextBlock Text="Initial buffer size applied to new speakers before calibration"
+                                   FontSize="12" Foreground="#8B8FA8"/>
+                        <Slider x:Name="SliderDefaultDelay" Classes="SyncSlider"
+                                Minimum="0" Maximum="500" TickFrequency="10"
+                                Margin="0,14,0,0"
+                                ValueChanged="SliderDefaultDelay_Changed"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- ABOUT card -->
+                <Border Classes="Card" Padding="18,16">
+                    <StackPanel>
+                        <TextBlock Text="ABOUT"
+                                   FontSize="11" FontWeight="SemiBold"
+                                   Foreground="#4B4F6B" Margin="0,0,0,12"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="SoundSync"
+                                           FontSize="15" FontWeight="SemiBold" Foreground="White"/>
+                                <TextBlock Text="Multi-room audio synchronization"
+                                           FontSize="12" Foreground="#8B8FA8" Margin="0,2,0,0"/>
+                            </StackPanel>
+                            <Border Grid.Column="1" Background="#252A35" CornerRadius="8"
+                                    Padding="10,5" VerticalAlignment="Center">
+                                <TextBlock x:Name="VersionLabel" Text="v1.0.0"
+                                           FontSize="12" Foreground="#8B8FA8"/>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Uninstall -->
+                <Border Classes="Card" Padding="18,16" Margin="0,6,0,0">
+                    <Grid ColumnDefinitions="*,12,Auto">
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="Uninstall SoundSync"
+                                       FontSize="14" FontWeight="Medium" Foreground="White"/>
+                            <TextBlock Text="Removes the BlackHole audio driver and app data. Then drag SoundSync to Trash."
+                                       FontSize="12" Foreground="#8B8FA8" TextWrapping="Wrap"
+                                       Margin="0,2,0,0"/>
+                        </StackPanel>
+                        <Button x:Name="BtnUninstall" Grid.Column="2" Classes="Destructive"
+                                Content="Uninstall…" VerticalAlignment="Center"
+                                Click="BtnUninstall_Click"/>
+                    </Grid>
+                </Border>
+
+                <!-- Uninstall progress -->
+                <Border x:Name="UninstallProgress" IsVisible="False" Classes="Card" Padding="16,13">
+                    <StackPanel Spacing="6">
+                        <TextBlock x:Name="UninstallStatusText" Text="Uninstalling…"
+                                   FontSize="13" Foreground="White"/>
+                        <ProgressBar x:Name="UninstallProgressBar" IsIndeterminate="True" Height="4"/>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

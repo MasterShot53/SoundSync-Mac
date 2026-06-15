@@ -17,23 +17,24 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        // Share the single engine with SyncView
-        PageSync.Engine = _engine;
-
-        // Wire DevicesView sync-card events (same pattern as Windows MainWindow)
+        // Wire DevicesView sync-card events
         PageDevices.CalibrateRequested += async () =>
         {
             AppState.Instance.IsCalibrating = true;
             PageDevices.BtnCalibrate.Content = "Calibrating…";
             await (_engine.CalibrateAsync(AppState.Instance.Devices));
             AppState.Instance.IsCalibrating = false;
-            PageDevices.BtnCalibrate.Content = new Avalonia.Controls.TextBlock { Text = "Run Calibration", FontSize = 13, FontWeight = Avalonia.Media.FontWeight.SemiBold };
+            PageDevices.BtnCalibrate.Content = new Avalonia.Controls.TextBlock
+            {
+                Text = "Run Calibration",
+                FontSize = 13,
+                FontWeight = Avalonia.Media.FontWeight.SemiBold
+            };
         };
         PageDevices.BeatToggleRequested += () =>
         {
             AppState.Instance.IsBeatPlaying = !AppState.Instance.IsBeatPlaying;
             if (AppState.Instance.IsBeatPlaying) _engine.StartBeat(); else _engine.StopBeat();
-            PageSync.UpdateUI();
         };
         PageDevices.SyncNowRequested += () => _engine.SyncNow();
 
@@ -46,12 +47,11 @@ public partial class MainWindow : Window
         SidebarVolumeSlider.Value = AppState.Instance.MasterVolume;
         SidebarVolLabel.Text = $"{(int)AppState.Instance.MasterVolume}%";
 
-        // Engine status → AppState → sidebar + views
+        // Engine status → sidebar
         _engine.StatusChanged += status =>
         {
             AppState.Instance.EngineStatus = status;
             SidebarStatusText.Text = status;
-            PageSync.UpdateUI();
         };
 
         ShowPage("Devices");
@@ -70,23 +70,23 @@ public partial class MainWindow : Window
 
     private void ShowPage(string name)
     {
-        foreach (var btn in new[] { NavDevices, NavSync, NavSettings })
+        foreach (var btn in new[] { NavDevices, NavSpatial, NavSettings })
             btn.Classes.Remove("Active");
 
         switch (name)
         {
             case "Devices":  NavDevices.Classes.Add("Active");  break;
-            case "Sync":     NavSync.Classes.Add("Active");     break;
+            case "Spatial":  NavSpatial.Classes.Add("Active");  break;
             case "Settings": NavSettings.Classes.Add("Active"); break;
         }
 
         PageDevices.IsVisible  = name == "Devices";
-        PageSync.IsVisible     = name == "Sync";
+        PageSpatial.IsVisible  = name == "Spatial";
         PageSettings.IsVisible = name == "Settings";
     }
 
     private void NavDevices_Click(object? sender, RoutedEventArgs e)  => ShowPage("Devices");
-    private void NavSync_Click(object? sender, RoutedEventArgs e)     => ShowPage("Sync");
+    private void NavSpatial_Click(object? sender, RoutedEventArgs e)  => ShowPage("Spatial");
     private void NavSettings_Click(object? sender, RoutedEventArgs e) => ShowPage("Settings");
 
     // ── Engine ──────────────────────────────────────────────────────────────
@@ -102,7 +102,7 @@ public partial class MainWindow : Window
         }
         else
         {
-            if (!BlackHoleManager.IsInstalled()) { ShowPage("Sync"); return; }
+            if (!BlackHoleManager.IsInstalled()) { ShowPage("Settings"); return; }
             BlackHoleManager.Acquire();
             _engine.Start(AppState.Instance.Devices, autoCalibrate: AppState.Instance.AutoCalibrate);
             AppState.Instance.EngineRunning = true;
@@ -110,7 +110,6 @@ public partial class MainWindow : Window
 
         UpdateEngineCard();
         PageDevices.UpdateStatusCards();
-        PageSync.UpdateUI();
     }
 
     private void UpdateEngineCard()
@@ -140,8 +139,7 @@ public partial class MainWindow : Window
     {
         AppState.Instance.IsBeatPlaying = !AppState.Instance.IsBeatPlaying;
         if (AppState.Instance.IsBeatPlaying) _engine.StartBeat(); else _engine.StopBeat();
-        SidebarBeatBtnText.Text = AppState.Instance.IsBeatPlaying ? "Stop Beat" : "Play Beat";
-        PageSync.UpdateUI();
+        SidebarBeatBtnText.Text    = AppState.Instance.IsBeatPlaying ? "Stop Beat" : "Play Beat";
         PageDevices.BeatLabel.Text = SidebarBeatBtnText.Text;
     }
 
@@ -150,13 +148,53 @@ public partial class MainWindow : Window
     {
         _muted = !_muted;
         SidebarMuteBtnText.Text = _muted ? "Unmute All" : "Mute All";
-        // TODO: _engine.MuteAll(_muted) when CoreAudioEngine implements it
     }
 
     private void BtnQaTest_Click(object? sender, RoutedEventArgs e)
     {
-        // TODO: _engine.TestChannel() when CoreAudioEngine implements it
+        TestChannelStatus.Text = "";
+        TestChannelOverlay.IsVisible = true;
     }
+
+    // ── Test Channel modal ───────────────────────────────────────────────────
+
+    private void TestChannelClose_Click(object? sender, RoutedEventArgs e)
+        => TestChannelOverlay.IsVisible = false;
+
+    private void TestChannelBackdrop_Click(object? sender, PointerPressedEventArgs e)
+        => TestChannelOverlay.IsVisible = false;
+
+    private void TestChannelCard_Click(object? sender, PointerPressedEventArgs e)
+        => e.Handled = true;
+
+    private void TestChannelL_Click(object? sender, PointerPressedEventArgs e)
+    {
+        e.Handled = true;
+        TestChannelStatus.Text = "Playing tone → LEFT channel";
+    }
+
+    private void TestChannelC_Click(object? sender, PointerPressedEventArgs e)
+    {
+        e.Handled = true;
+        TestChannelStatus.Text = "Playing tone → ALL channels";
+    }
+
+    private void TestChannelR_Click(object? sender, PointerPressedEventArgs e)
+    {
+        e.Handled = true;
+        TestChannelStatus.Text = "Playing tone → RIGHT channel";
+    }
+
+    // ── Toast ────────────────────────────────────────────────────────────────
+
+    public void ShowToast(string message)
+    {
+        ToastMessage.Text = message;
+        ToastCard.IsVisible = true;
+    }
+
+    private void ToastClose_Click(object? sender, RoutedEventArgs e)
+        => ToastCard.IsVisible = false;
 
     // ── Volume ───────────────────────────────────────────────────────────────
 

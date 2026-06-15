@@ -1,0 +1,91 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="SoundSync.Mac.Views.SpatialView"
+             Background="Transparent">
+
+    <Grid Margin="28,20,28,24" RowDefinitions="Auto,*">
+
+        <!-- Header + toggle -->
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <StackPanel>
+                <TextBlock Text="Spatial" FontSize="28" FontWeight="Bold" Foreground="White"/>
+                <TextBlock Text="Drag each speaker to set its position in the room."
+                           FontSize="13" Foreground="#8B8FA8" Margin="0,3,0,0"/>
+            </StackPanel>
+            <Border HorizontalAlignment="Right" VerticalAlignment="Top">
+                <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                    <TextBlock x:Name="SpatialToggleLabel" Text="Off"
+                               FontSize="14" Foreground="#8B8FA8" VerticalAlignment="Center"/>
+                    <ToggleSwitch x:Name="SpatialToggle"
+                                  IsCheckedChanged="SpatialToggle_Changed"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Content area -->
+        <Grid Grid.Row="1">
+
+            <!-- Disabled overlay (default) -->
+            <Border x:Name="DisabledOverlay" CornerRadius="14" BorderThickness="1" Padding="32">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#1E2230" Offset="0"/>
+                        <GradientStop Color="#141820" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.BorderBrush>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#28FFFFFF" Offset="0"/>
+                        <GradientStop Color="#06FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8">
+                    <TextBlock Text="Spatial audio is off"
+                               FontSize="16" FontWeight="SemiBold"
+                               Foreground="#8B8FA8" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Toggle the switch above to enable surround placement."
+                               FontSize="13" Foreground="#4B4F6B"
+                               HorizontalAlignment="Center"
+                               TextWrapping="Wrap" TextAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Active: map placeholder + speaker list -->
+            <Grid x:Name="SpatialContent" IsVisible="False" ColumnDefinitions="*,200">
+
+                <!-- Circle map placeholder -->
+                <Border Grid.Column="0" CornerRadius="14" BorderThickness="1" Margin="0,0,12,0">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                            <GradientStop Color="#1E2230" Offset="0"/>
+                            <GradientStop Color="#141820" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.BorderBrush>
+                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                            <GradientStop Color="#28FFFFFF" Offset="0"/>
+                            <GradientStop Color="#06FFFFFF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.BorderBrush>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+                        <TextBlock Text="◎" FontSize="64" Foreground="#151D35"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="Speaker Map" FontSize="14" Foreground="#4B4F6B"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="Coming soon" FontSize="12" Foreground="#4B4F6B"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Speaker position list (built in code-behind) -->
+                <StackPanel Grid.Column="1" Spacing="10">
+                    <TextBlock Text="SPEAKER POSITIONS"
+                               FontSize="11" FontWeight="SemiBold"
+                               Foreground="#4B4F6B" Margin="0,0,0,4"/>
+                    <StackPanel x:Name="SpeakerPositionList" Spacing="8"/>
+                </StackPanel>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
