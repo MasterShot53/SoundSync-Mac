@@ -62,10 +62,10 @@ public class SyncSlider : Slider
         _trackGrid.ColumnDefinitions[0].Width = new GridLength(ratio,     GridUnitType.Star);
         _trackGrid.ColumnDefinitions[2].Width = new GridLength(1 - ratio, GridUnitType.Star);
 
-        // Fill spans col0+col1. Right margin trims it so visual fill width = ratio × totalWidth:
-        //   fill_available = col0_px + 28  →  visual_fill = fill_available − 28×(1−ratio) = ratio×totalWidth
+        // Fill spans col0+col1 (28px). A constant right margin of 14 (half thumb) makes
+        // the fill always end exactly at the thumb centre: col0_px + 28 − 14 = thumb_centre.
         if (_fillBorder != null)
-            _fillBorder.Margin = new Thickness(0, 0, 28 * (1 - ratio), 0);
+            _fillBorder.Margin = new Thickness(0, 0, 14, 0);
     }
 
     protected override void OnPointerPressed(PointerPressedEventArgs e)
