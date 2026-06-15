@@ -261,6 +261,7 @@ public partial class DevicesView : UserControl
         {
             Minimum = 0, Maximum = 100,
             Value = dev.VolumePercent,
+            ResetValue = 100,
             VerticalAlignment = VerticalAlignment.Center
         };
         var volLabel = new TextBlock
@@ -302,6 +303,7 @@ public partial class DevicesView : UserControl
         {
             Minimum = -600, Maximum = 600,
             Value = dev.DelayOffsetMs,
+            ResetValue = 0,
             VerticalAlignment = VerticalAlignment.Center
         };
         var delayLabel = new TextBlock

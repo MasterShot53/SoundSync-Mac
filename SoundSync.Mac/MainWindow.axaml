@@ -153,6 +153,7 @@
                                 <controls:SyncSlider x:Name="SidebarVolumeSlider"
                                         Minimum="0" Maximum="100" Value="100"
                                         TickFrequency="1"
+                                        ResetValue="100"
                                         ValueChanged="SidebarVolumeSlider_Changed"/>
                             </StackPanel>
                         </Border>

@@ -7,8 +7,32 @@ namespace SoundSync.Mac.Controls;
 
 public class SyncSlider : Slider
 {
+    // Set this to enable double-click-to-reset behaviour (NaN = disabled)
+    public static readonly StyledProperty<double> ResetValueProperty =
+        AvaloniaProperty.Register<SyncSlider, double>(nameof(ResetValue), double.NaN);
+
+    public double ResetValue
+    {
+        get => GetValue(ResetValueProperty);
+        set => SetValue(ResetValueProperty, value);
+    }
+
     private Grid? _trackGrid;
     private bool _dragging;
+
+    public SyncSlider()
+    {
+        // Prevent single/double tap events from bubbling to parent card/container handlers
+        Tapped       += (_, e) => e.Handled = true;
+        DoubleTapped += OnDoubleTapped;
+    }
+
+    private void OnDoubleTapped(object? sender, TappedEventArgs e)
+    {
+        if (!double.IsNaN(ResetValue))
+            SetCurrentValue(ValueProperty, Math.Clamp(ResetValue, Minimum, Maximum));
+        e.Handled = true;
+    }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
@@ -20,7 +44,7 @@ public class SyncSlider : Slider
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
-        if (change.Property == ValueProperty ||
+        if (change.Property == ValueProperty  ||
             change.Property == MinimumProperty ||
             change.Property == MaximumProperty)
             RefreshFill();
@@ -31,8 +55,8 @@ public class SyncSlider : Slider
         if (_trackGrid == null || _trackGrid.ColumnDefinitions.Count < 3) return;
         var range = Maximum - Minimum;
         var ratio = range > 0 ? Math.Clamp((Value - Minimum) / range, 0, 1) : 0;
-        _trackGrid.ColumnDefinitions[0].Width = new GridLength(ratio, GridUnitType.Star);
-        _trackGrid.ColumnDefinitions[2].Width = new GridLength(1 - ratio, GridUnitType.Star);
+        _trackGrid.ColumnDefinitions[0].Width = new GridLength(ratio,       GridUnitType.Star);
+        _trackGrid.ColumnDefinitions[2].Width = new GridLength(1 - ratio,   GridUnitType.Star);
     }
 
     protected override void OnPointerPressed(PointerPressedEventArgs e)
@@ -70,7 +94,12 @@ public class SyncSlider : Slider
     private void SetValueFromX(double x)
     {
         var w = Bounds.Width;
-        if (w <= 0) return;
-        SetCurrentValue(ValueProperty, Minimum + Math.Clamp(x / w, 0, 1) * (Maximum - Minimum));
+        // The thumb column is 28px; offset by half (14px) so the thumb centre
+        // tracks the pointer exactly rather than jumping on first click.
+        const double thumbHalf = 14.0;
+        var trackW = w - thumbHalf * 2;
+        if (trackW <= 0) return;
+        var ratio = Math.Clamp((x - thumbHalf) / trackW, 0, 1);
+        SetCurrentValue(ValueProperty, Minimum + ratio * (Maximum - Minimum));
     }
 }
