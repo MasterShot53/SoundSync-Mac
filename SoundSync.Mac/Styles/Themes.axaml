@@ -450,8 +450,9 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <!-- Gradient fill (left of thumb, col 0) -->
-                        <Border Grid.Column="0" Height="4" CornerRadius="2">
+                        <!-- Gradient fill — spans col0+col1 so it can extend to thumb centre;
+                             right margin is adjusted in code to give fill_width = ratio * totalWidth -->
+                        <Border x:Name="PART_Fill" Grid.Column="0" Grid.ColumnSpan="2" Height="4" CornerRadius="2">
                             <Border.Background>
                                 <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
                                     <GradientStop Color="#7B5FFF" Offset="0"/>

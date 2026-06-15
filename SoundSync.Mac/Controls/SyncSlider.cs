@@ -17,8 +17,9 @@ public class SyncSlider : Slider
         set => SetValue(ResetValueProperty, value);
     }
 
-    private Grid? _trackGrid;
-    private bool _dragging;
+    private Grid?   _trackGrid;
+    private Border? _fillBorder;
+    private bool    _dragging;
 
     public SyncSlider()
     {
@@ -37,7 +38,8 @@ public class SyncSlider : Slider
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-        _trackGrid = e.NameScope.Find<Grid>("PART_TrackGrid");
+        _trackGrid  = e.NameScope.Find<Grid>("PART_TrackGrid");
+        _fillBorder = e.NameScope.Find<Border>("PART_Fill");
         RefreshFill();
     }
 
@@ -55,8 +57,15 @@ public class SyncSlider : Slider
         if (_trackGrid == null || _trackGrid.ColumnDefinitions.Count < 3) return;
         var range = Maximum - Minimum;
         var ratio = range > 0 ? Math.Clamp((Value - Minimum) / range, 0, 1) : 0;
-        _trackGrid.ColumnDefinitions[0].Width = new GridLength(ratio,       GridUnitType.Star);
-        _trackGrid.ColumnDefinitions[2].Width = new GridLength(1 - ratio,   GridUnitType.Star);
+
+        // Stars control thumb position (col0 = fill area, col1 = 28px thumb, col2 = empty)
+        _trackGrid.ColumnDefinitions[0].Width = new GridLength(ratio,     GridUnitType.Star);
+        _trackGrid.ColumnDefinitions[2].Width = new GridLength(1 - ratio, GridUnitType.Star);
+
+        // Fill spans col0+col1. Right margin trims it so visual fill width = ratio × totalWidth:
+        //   fill_available = col0_px + 28  →  visual_fill = fill_available − 28×(1−ratio) = ratio×totalWidth
+        if (_fillBorder != null)
+            _fillBorder.Margin = new Thickness(0, 0, 28 * (1 - ratio), 0);
     }
 
     protected override void OnPointerPressed(PointerPressedEventArgs e)
