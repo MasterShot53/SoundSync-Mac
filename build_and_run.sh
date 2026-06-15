@@ -39,7 +39,6 @@ build_and_launch() {
         -r "$RID" \
         -c "$CONFIG" \
         --self-contained true \
-        -p:PublishSingleFile=true \
         -o "$PUBLISH_DIR"
 
     echo ""
@@ -48,7 +47,8 @@ build_and_launch() {
     mkdir -p "$APP/Contents/MacOS"
     mkdir -p "$APP/Contents/Resources"
 
-    cp "$PUBLISH_DIR/SoundSync"                     "$APP/Contents/MacOS/SoundSync"
+    # Copy everything (executable + all native dylibs like libSkiaSharp, libHarfBuzz, etc.)
+    cp -R "$PUBLISH_DIR/." "$APP/Contents/MacOS/"
     chmod +x "$APP/Contents/MacOS/SoundSync"
     cp "SoundSync.Mac/Assets/AppIcon.icns"          "$APP/Contents/Resources/AppIcon.icns"
     cp "SoundSync.Mac/Assets/Info.plist"            "$APP/Contents/Info.plist"
