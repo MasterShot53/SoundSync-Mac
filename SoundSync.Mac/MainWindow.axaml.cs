@@ -5,6 +5,7 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using SoundSync.Audio;
 using SoundSync.Mac.Audio;
+using SoundSync.Mac.Controls;
 using SoundSync.Models;
 
 namespace SoundSync.Mac;

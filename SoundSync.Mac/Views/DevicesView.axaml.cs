@@ -4,6 +4,7 @@ using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
 using SoundSync.Audio;
+using SoundSync.Mac.Controls;
 using SoundSync.Models;
 
 namespace SoundSync.Mac.Views;
@@ -256,13 +257,12 @@ public partial class DevicesView : UserControl
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Avalonia.Thickness(0, 0, 8, 0)
         };
-        var volSlider = new Slider
+        var volSlider = new SyncSlider
         {
             Minimum = 0, Maximum = 100,
             Value = dev.VolumePercent,
             VerticalAlignment = VerticalAlignment.Center
         };
-        volSlider.Classes.Add("SyncSlider");
         var volLabel = new TextBlock
         {
             FontSize = 11, FontWeight = FontWeight.Medium,
@@ -298,13 +298,12 @@ public partial class DevicesView : UserControl
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Avalonia.Thickness(0, 0, 8, 0)
         };
-        var delaySlider = new Slider
+        var delaySlider = new SyncSlider
         {
             Minimum = -600, Maximum = 600,
             Value = dev.DelayOffsetMs,
             VerticalAlignment = VerticalAlignment.Center
         };
-        delaySlider.Classes.Add("SyncSlider");
         var delayLabel = new TextBlock
         {
             FontSize = 11, FontWeight = FontWeight.Medium,

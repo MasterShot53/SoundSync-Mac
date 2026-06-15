@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using SoundSync.Mac.Audio;
+using SoundSync.Mac.Controls;
 using SoundSync.Models;
 
 namespace SoundSync.Mac.Views;

@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:shapes="clr-namespace:Avalonia.Controls.Shapes;assembly=Avalonia.Controls"
         xmlns:views="clr-namespace:SoundSync.Mac.Views"
+        xmlns:controls="clr-namespace:SoundSync.Mac.Controls"
         x:Class="SoundSync.Mac.MainWindow"
         Title="SoundSync" Width="1200" Height="840"
         MinWidth="860" MinHeight="600"
@@ -149,7 +150,7 @@
                                                Foreground="#2266FF"
                                                VerticalAlignment="Center"/>
                                 </Grid>
-                                <Slider x:Name="SidebarVolumeSlider" Classes="SyncSlider"
+                                <controls:SyncSlider x:Name="SidebarVolumeSlider"
                                         Minimum="0" Maximum="100" Value="100"
                                         TickFrequency="1"
                                         ValueChanged="SidebarVolumeSlider_Changed"/>

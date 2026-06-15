@@ -1,5 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SoundSync.Mac.Controls"
              x:Class="SoundSync.Mac.Views.SettingsView">
 
     <Grid Margin="28,20,28,24" RowDefinitions="Auto,*">
@@ -108,7 +109,7 @@
                         </Grid>
                         <TextBlock Text="How often speakers are automatically resynced"
                                    FontSize="12" Foreground="#8B8FA8" Margin="0,2,0,0"/>
-                        <Slider x:Name="SliderDriftInterval" Classes="SyncSlider"
+                        <controls:SyncSlider x:Name="SliderDriftInterval"
                                 Minimum="10" Maximum="600" TickFrequency="10"
                                 Margin="0,14,0,0"
                                 ValueChanged="SliderDriftInterval_Changed"/>
@@ -151,7 +152,7 @@
                         </Grid>
                         <TextBlock Text="Initial buffer size applied to new speakers before calibration"
                                    FontSize="12" Foreground="#8B8FA8"/>
-                        <Slider x:Name="SliderDefaultDelay" Classes="SyncSlider"
+                        <controls:SyncSlider x:Name="SliderDefaultDelay"
                                 Minimum="0" Maximum="500" TickFrequency="10"
                                 Margin="0,14,0,0"
                                 ValueChanged="SliderDefaultDelay_Changed"/>
