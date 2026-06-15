@@ -18,6 +18,9 @@
     <PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
     <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.10" />
+    <!-- Explicit native dylibs — required for self-contained publish on macOS -->
+    <PackageReference Include="SkiaSharp.NativeAssets.macOS" Version="2.88.6" />
+    <PackageReference Include="HarfBuzzSharp.NativeAssets.macOS" Version="7.3.0.2" />
   </ItemGroup>
 
   <ItemGroup>

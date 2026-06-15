@@ -30,6 +30,14 @@ APP="./SoundSync.app"
 
 build_and_launch() {
     echo ""
+    echo "=== Checking dependencies ==="
+    if ! command -v dotnet &>/dev/null; then
+        echo "ERROR: dotnet is not installed."
+        echo "Install it from: https://dotnet.microsoft.com/download"
+        exit 1
+    fi
+
+    echo ""
     echo "=== Pulling latest from git ==="
     git pull --ff-only || echo "(git pull skipped — not a git repo or nothing to pull)"
 
@@ -52,6 +60,12 @@ build_and_launch() {
     chmod +x "$APP/Contents/MacOS/SoundSync"
     cp "SoundSync.Mac/Assets/AppIcon.icns"          "$APP/Contents/Resources/AppIcon.icns"
     cp "SoundSync.Mac/Assets/Info.plist"            "$APP/Contents/Info.plist"
+
+    # Verify critical native library was bundled
+    if [[ ! -f "$APP/Contents/MacOS/libSkiaSharp.dylib" ]]; then
+        echo "ERROR: libSkiaSharp.dylib missing from bundle — publish may have failed."
+        exit 1
+    fi
 
     # Kill any running instance before relaunching
     pkill -x SoundSync 2>/dev/null || true

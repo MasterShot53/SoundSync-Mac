@@ -90,11 +90,11 @@
                     <StackPanel Orientation="Horizontal" Spacing="9">
                         <Viewbox Width="22" Height="22" VerticalAlignment="Center">
                             <Canvas Width="24" Height="20">
-                                <Rectangle Canvas.Left="1"    Canvas.Top="6.5" Width="3" Height="7"  RadiusX="1.5" RadiusY="1.5" Fill="#8C64FF"/>
-                                <Rectangle Canvas.Left="5.5"  Canvas.Top="4"   Width="3" Height="12" RadiusX="1.5" RadiusY="1.5" Fill="#7370FF"/>
-                                <Rectangle Canvas.Left="10"   Canvas.Top="1"   Width="3" Height="18" RadiusX="1.5" RadiusY="1.5" Fill="#5A7CFF"/>
-                                <Rectangle Canvas.Left="14.5" Canvas.Top="4"   Width="3" Height="12" RadiusX="1.5" RadiusY="1.5" Fill="#4188FF"/>
-                                <Rectangle Canvas.Left="19"   Canvas.Top="6.5" Width="3" Height="7"  RadiusX="1.5" RadiusY="1.5" Fill="#286EFF"/>
+                                <Rectangle Canvas.Left="2.5"  Canvas.Top="5.5" Width="3" Height="9"  RadiusX="1.5" RadiusY="1.5" Fill="#8C64FF"/>
+                                <Rectangle Canvas.Left="6.5"  Canvas.Top="3"   Width="3" Height="14" RadiusX="1.5" RadiusY="1.5" Fill="#7370FF"/>
+                                <Rectangle Canvas.Left="10.5" Canvas.Top="1"   Width="3" Height="18" RadiusX="1.5" RadiusY="1.5" Fill="#5A7CFF"/>
+                                <Rectangle Canvas.Left="14.5" Canvas.Top="3"   Width="3" Height="14" RadiusX="1.5" RadiusY="1.5" Fill="#4188FF"/>
+                                <Rectangle Canvas.Left="18.5" Canvas.Top="5.5" Width="3" Height="9"  RadiusX="1.5" RadiusY="1.5" Fill="#286EFF"/>
                             </Canvas>
                         </Viewbox>
                         <TextBlock Text="SoundSync" FontSize="17" FontWeight="Bold"
