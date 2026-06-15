@@ -495,5 +495,73 @@
             </Border>
         </Grid>
 
+        <!-- BlackHole install overlay -->
+        <Grid x:Name="BlackHoleOverlay" Grid.ColumnSpan="2" ZIndex="60" IsVisible="False">
+            <Border Background="#C0000000" PointerPressed="BlackHoleBackdrop_Click"/>
+            <Border Width="380" CornerRadius="20" BorderThickness="1"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Padding="28,26" BoxShadow="0 0 50 0 #A5000814">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#1E2230" Offset="0"/>
+                        <GradientStop Color="#141820" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.BorderBrush>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#28FFFFFF" Offset="0"/>
+                        <GradientStop Color="#06FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+                <Border PointerPressed="BlackHoleCard_Click">
+                    <StackPanel Spacing="0">
+                        <Grid Margin="0,0,0,6" ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="AUDIO DRIVER" FontSize="10" FontWeight="SemiBold"
+                                           Foreground="#4B4F6B" Margin="0,0,0,5"/>
+                                <TextBlock Text="Install BlackHole" FontSize="19" FontWeight="Bold"
+                                           Foreground="White"/>
+                            </StackPanel>
+                            <Button Grid.Column="1" Width="30" Height="30"
+                                    VerticalAlignment="Top" Classes="Secondary" Padding="0"
+                                    Click="BlackHoleClose_Click">
+                                <TextBlock Text="×" FontSize="16"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Button>
+                        </Grid>
+
+                        <TextBlock Text="SoundSync needs BlackHole, a free virtual audio driver, to route audio between your speakers. Installation requires your Mac password once."
+                                   FontSize="13" Foreground="#8B8FA8"
+                                   TextWrapping="Wrap" Margin="0,10,0,24"/>
+
+                        <!-- Status / progress -->
+                        <Border x:Name="BlackHoleProgressRow" IsVisible="False" Margin="0,0,0,16">
+                            <StackPanel Spacing="8">
+                                <TextBlock x:Name="BlackHoleProgressText" FontSize="13"
+                                           Foreground="#8B8FA8" TextWrapping="Wrap"/>
+                                <ProgressBar IsIndeterminate="True" Height="3"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Button x:Name="BtnInstallBlackHole"
+                                HorizontalAlignment="Stretch"
+                                Height="42" CornerRadius="10"
+                                Click="BtnInstallBlackHole_Click">
+                            <Button.Background>
+                                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                                    <GradientStop Color="#7B5FFF" Offset="0"/>
+                                    <GradientStop Color="#2266FF" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Button.Background>
+                            <TextBlock Text="Install BlackHole (Free)"
+                                       FontSize="14" FontWeight="SemiBold"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"/>
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </Border>
+        </Grid>
+
     </Grid>
 </Window>

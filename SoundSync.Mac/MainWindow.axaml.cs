@@ -106,7 +106,7 @@ public partial class MainWindow : Window
         }
         else
         {
-            if (!BlackHoleManager.IsInstalled()) { ShowPage("Settings"); return; }
+            if (!BlackHoleManager.IsInstalled()) { ShowBlackHoleOverlay(); return; }
             BlackHoleManager.Acquire();
             _engine.Start(AppState.Instance.Devices, autoCalibrate: AppState.Instance.AutoCalibrate);
             AppState.Instance.EngineRunning = true;
@@ -206,6 +206,43 @@ public partial class MainWindow : Window
     {
         foreach (var btn in new[] { TestChannelLBtn, TestChannelCBtn, TestChannelRBtn })
             btn.Opacity = btn == selected ? 1.0 : 0.45;
+    }
+
+    // ── BlackHole overlay ────────────────────────────────────────────────────
+
+    private void ShowBlackHoleOverlay()
+    {
+        BlackHoleProgressRow.IsVisible  = false;
+        BtnInstallBlackHole.IsEnabled   = true;
+        BlackHoleOverlay.IsVisible      = true;
+    }
+
+    private void BlackHoleClose_Click(object? sender, RoutedEventArgs e)
+        => BlackHoleOverlay.IsVisible = false;
+
+    private void BlackHoleBackdrop_Click(object? sender, PointerPressedEventArgs e)
+        => BlackHoleOverlay.IsVisible = false;
+
+    private void BlackHoleCard_Click(object? sender, PointerPressedEventArgs e)
+        => e.Handled = true;
+
+    private async void BtnInstallBlackHole_Click(object? sender, RoutedEventArgs e)
+    {
+        BtnInstallBlackHole.IsEnabled  = false;
+        BlackHoleProgressRow.IsVisible = true;
+
+        var progress = new Progress<string>(msg => BlackHoleProgressText.Text = msg);
+        try
+        {
+            await BlackHoleManager.InstallAsync(progress);
+            BlackHoleOverlay.IsVisible = false;
+            ShowToast("BlackHole installed — you can now start the engine.");
+        }
+        catch (Exception ex)
+        {
+            BlackHoleProgressText.Text    = $"Install failed: {ex.Message}";
+            BtnInstallBlackHole.IsEnabled = true;
+        }
     }
 
     // ── Toast ────────────────────────────────────────────────────────────────
