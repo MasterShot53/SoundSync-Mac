@@ -424,93 +424,76 @@
     </Style>
 
     <!-- ═══════════════════════════════════════════════
-         SYNC SLIDER
-         Gradient fill track, white 4×22 bar thumb with scale animation.
-         TemplateBinding on Track wires Minimum/Maximum/Value so the
-         master-volume slider (and all others) respond correctly.
+         SYNC SLIDER  (Track-free implementation)
+         3-column grid: [fill★] [thumb auto] [unfill★]
+         Column widths driven from SyncSlider.RefreshFill() in code,
+         bypassing all Avalonia 11 Track/TemplateBinding issues.
     ═══════════════════════════════════════════════ -->
     <Style Selector="controls|SyncSlider">
         <Setter Property="MinHeight" Value="34"/>
         <Setter Property="Cursor"    Value="Hand"/>
         <Setter Property="Template">
             <ControlTemplate TargetType="Slider">
-                <Grid MinHeight="{TemplateBinding MinHeight}" Background="Transparent">
-                    <Track x:Name="PART_Track"
-                           Minimum="{TemplateBinding Minimum}"
-                           Maximum="{TemplateBinding Maximum}"
-                           Value="{TemplateBinding Value, Mode=TwoWay}"
-                           VerticalAlignment="Center">
+                <Grid MinHeight="34" Background="Transparent">
 
-                        <!-- Filled: purple→blue gradient -->
-                        <Track.DecreaseButton>
-                            <Button IsHitTestVisible="False" Focusable="False">
-                                <Button.Template>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border Height="4" CornerRadius="2">
-                                            <Border.Background>
-                                                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
-                                                    <GradientStop Color="#7B5FFF" Offset="0"/>
-                                                    <GradientStop Color="#2266FF" Offset="1"/>
-                                                </LinearGradientBrush>
-                                            </Border.Background>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
-                        </Track.DecreaseButton>
+                    <!-- Full-width dark rail (always visible beneath fill) -->
+                    <Border Height="4" CornerRadius="2"
+                            Background="{StaticResource BrushElevated}"
+                            Opacity="0.7"
+                            VerticalAlignment="Center"/>
 
-                        <!-- Unfilled: dark elevated -->
-                        <Track.IncreaseButton>
-                            <Button IsHitTestVisible="False" Focusable="False">
-                                <Button.Template>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border Height="4" CornerRadius="2"
-                                                Background="{StaticResource BrushElevated}"
-                                                Opacity="0.7"/>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
-                        </Track.IncreaseButton>
+                    <!-- Three-column track: [fill★] [thumb auto] [unfill★]  -->
+                    <Grid x:Name="PART_TrackGrid" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
 
-                        <!-- Thumb: 28×30 transparent hit zone, 4×22 white bar with glow -->
-                        <Track.Thumb>
-                            <Thumb>
-                                <Thumb.Template>
-                                    <ControlTemplate TargetType="Thumb">
-                                        <Grid Width="28" Height="30" Background="Transparent">
-                                            <Border x:Name="Handle"
-                                                    Width="4" Height="22"
-                                                    CornerRadius="2"
-                                                    Background="White"
-                                                    BoxShadow="0 0 8 0 #552266FF"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    RenderTransformOrigin="50%,50%"
-                                                    RenderTransform="scale(1)">
-                                                <Border.Transitions>
-                                                    <Transitions>
-                                                        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.12"/>
-                                                    </Transitions>
-                                                </Border.Transitions>
-                                            </Border>
-                                        </Grid>
-                                    </ControlTemplate>
-                                </Thumb.Template>
-                            </Thumb>
-                        </Track.Thumb>
-                    </Track>
+                        <!-- Gradient fill (left of thumb, col 0) -->
+                        <Border Grid.Column="0" Height="4" CornerRadius="2">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                                    <GradientStop Color="#7B5FFF" Offset="0"/>
+                                    <GradientStop Color="#2266FF" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+
+                        <!-- Thumb: 28×30 hit zone with 4×22 white bar (col 1) -->
+                        <Grid Grid.Column="1" Width="28" Height="30" Background="Transparent">
+                            <Border x:Name="Handle"
+                                    Width="4" Height="22"
+                                    CornerRadius="2"
+                                    Background="White"
+                                    BoxShadow="0 0 8 0 #552266FF"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    RenderTransformOrigin="50%,50%"
+                                    RenderTransform="scale(1)">
+                                <Border.Transitions>
+                                    <Transitions>
+                                        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.12"/>
+                                    </Transitions>
+                                </Border.Transitions>
+                            </Border>
+                        </Grid>
+
+                        <!-- Col 2: empty — dark rail from background layer shows through -->
+                    </Grid>
+
                 </Grid>
             </ControlTemplate>
         </Setter>
     </Style>
 
-    <!-- Thumb handle scale on hover (1.5×wide, 1.15×tall) — matches Windows storyboard -->
-    <Style Selector="controls|SyncSlider /template/ Thumb:pointerover /template/ Border#Handle">
+    <!-- Handle scale on hover -->
+    <Style Selector="controls|SyncSlider:pointerover /template/ Border#Handle">
         <Setter Property="RenderTransform" Value="scaleX(1.5) scaleY(1.15)"/>
         <Setter Property="BoxShadow"       Value="0 0 14 2 #882266FF"/>
     </Style>
-    <!-- Thumb handle scale while dragging (1.8×wide, 1.25×tall) -->
-    <Style Selector="controls|SyncSlider /template/ Thumb:dragging /template/ Border#Handle">
+    <!-- Handle scale while pressing/dragging -->
+    <Style Selector="controls|SyncSlider:pressed /template/ Border#Handle">
         <Setter Property="RenderTransform" Value="scaleX(1.8) scaleY(1.25)"/>
         <Setter Property="BoxShadow"       Value="0 0 18 4 #AA2266FF"/>
     </Style>
