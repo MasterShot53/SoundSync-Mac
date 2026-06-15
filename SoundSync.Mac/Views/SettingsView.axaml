@@ -121,24 +121,24 @@
                     </StackPanel>
                 </Border>
 
-                <!-- macOS: Launch at Login -->
-                <Border Classes="Card" Padding="18,16">
-                    <Grid ColumnDefinitions="*,Auto">
-                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                            <TextBlock Text="Launch at Login"
-                                       FontSize="14" FontWeight="Medium" Foreground="White"/>
-                            <TextBlock Text="Start SoundSync automatically when you log in"
-                                       FontSize="12" Foreground="#8B8FA8" Margin="0,2,0,0"/>
-                        </StackPanel>
-                        <ToggleSwitch x:Name="ToggleLaunchAtLogin" Grid.Column="1"
-                                      VerticalAlignment="Center"
-                                      IsCheckedChanged="ToggleLaunchAtLogin_Changed"/>
-                    </Grid>
-                </Border>
-
-                <!-- macOS: Default Delay -->
+                <!-- MACOS card: Launch at Login + Default Delay -->
                 <Border Classes="Card" Padding="18,16">
                     <StackPanel>
+                        <TextBlock Text="MACOS"
+                                   FontSize="11" FontWeight="SemiBold"
+                                   Foreground="#4B4F6B" Margin="0,0,0,12"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                <TextBlock Text="Launch at Login"
+                                           FontSize="14" FontWeight="Medium" Foreground="White"/>
+                                <TextBlock Text="Start SoundSync automatically when you log in"
+                                           FontSize="12" Foreground="#8B8FA8" Margin="0,2,0,0"/>
+                            </StackPanel>
+                            <ToggleSwitch x:Name="ToggleLaunchAtLogin" Grid.Column="1"
+                                          VerticalAlignment="Center"
+                                          IsCheckedChanged="ToggleLaunchAtLogin_Changed"/>
+                        </Grid>
+                        <Border Height="1" Background="#1F2230" Margin="0,14"/>
                         <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,2">
                             <TextBlock Grid.Column="0" Text="Default Delay"
                                        FontSize="14" FontWeight="Medium" Foreground="White"
@@ -155,6 +155,12 @@
                                 Minimum="0" Maximum="500" TickFrequency="10"
                                 Margin="0,14,0,0"
                                 ValueChanged="SliderDefaultDelay_Changed"/>
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,6,0,0">
+                            <TextBlock Grid.Column="0" Text="0 ms" FontSize="10"
+                                       Foreground="#4B4F6B" HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Column="1" Text="500 ms" FontSize="10"
+                                       Foreground="#4B4F6B" HorizontalAlignment="Right"/>
+                        </Grid>
                     </StackPanel>
                 </Border>
 

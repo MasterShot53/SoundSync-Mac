@@ -107,7 +107,7 @@
         <Setter Property="BorderThickness"       Value="0"/>
         <Setter Property="Background"            Value="{StaticResource BrushAccentBtn}"/>
         <Setter Property="Cursor"                Value="Hand"/>
-        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="RenderTransformOrigin" Value="50%,50%"/>
         <Setter Property="RenderTransform"       Value="scale(1)"/>
         <Setter Property="Transitions">
             <Transitions>
@@ -158,7 +158,7 @@
         <Setter Property="Height"                Value="38"/>
         <Setter Property="BorderThickness"       Value="0"/>
         <Setter Property="Cursor"                Value="Hand"/>
-        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="RenderTransformOrigin" Value="50%,50%"/>
         <Setter Property="RenderTransform"       Value="scale(1)"/>
         <Setter Property="Transitions">
             <Transitions>
@@ -208,7 +208,7 @@
         <Setter Property="BorderThickness"       Value="1"/>
         <Setter Property="BorderBrush"           Value="{StaticResource BrushSeparator}"/>
         <Setter Property="Cursor"                Value="Hand"/>
-        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="RenderTransformOrigin" Value="50%,50%"/>
         <Setter Property="RenderTransform"       Value="scale(1)"/>
         <Setter Property="Transitions">
             <Transitions>
@@ -255,7 +255,7 @@
         <Setter Property="BorderThickness"       Value="1"/>
         <Setter Property="BorderBrush"           Value="{StaticResource BrushDestructiveBorder}"/>
         <Setter Property="Cursor"                Value="Hand"/>
-        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="RenderTransformOrigin" Value="50%,50%"/>
         <Setter Property="RenderTransform"       Value="scale(1)"/>
         <Setter Property="Transitions">
             <Transitions>
@@ -374,7 +374,7 @@
         <Setter Property="Height"                Value="38"/>
         <Setter Property="BorderThickness"       Value="0"/>
         <Setter Property="Cursor"                Value="Hand"/>
-        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="RenderTransformOrigin" Value="50%,50%"/>
         <Setter Property="RenderTransform"       Value="scale(1)"/>
         <Setter Property="Transitions">
             <Transitions>

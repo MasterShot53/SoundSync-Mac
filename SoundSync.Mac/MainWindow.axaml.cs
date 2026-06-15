@@ -126,7 +126,7 @@ public partial class MainWindow : Window
         SidebarEngineBtnText.Foreground = new SolidColorBrush(Color.Parse(running ? "#FFFFFF" : "#021A0A"));
         SidebarEngineBtn.Background     = new SolidColorBrush(Color.Parse(running ? "#FF453A" : "#00C853"));
 
-        SidebarSourceName.IsVisible = running;
+        SidebarSourceName.IsVisible = running && AppState.Instance.AudioSourceName != "No Source";
         SidebarSampleRate.IsVisible = running && AppState.Instance.AudioSourceRate > 0;
         SidebarSourceName.Text      = AppState.Instance.AudioSourceName;
         SidebarSampleRate.Text      = AppState.Instance.AudioRateText;
@@ -151,6 +151,8 @@ public partial class MainWindow : Window
     {
         _muted = !_muted;
         SidebarMuteBtnText.Text = _muted ? "Unmute All" : "Mute All";
+        MuteIcon.Foreground = new SolidColorBrush(Color.Parse(_muted ? "#FF453A" : "#2266FF"));
+        SidebarMuteBtnText.Foreground = new SolidColorBrush(Color.Parse(_muted ? "#FF453A" : "#FFFFFF"));
     }
 
     private void BtnQaTest_Click(object? sender, RoutedEventArgs e)
@@ -162,10 +164,18 @@ public partial class MainWindow : Window
     // ── Test Channel modal ───────────────────────────────────────────────────
 
     private void TestChannelClose_Click(object? sender, RoutedEventArgs e)
-        => TestChannelOverlay.IsVisible = false;
+    {
+        TestChannelOverlay.IsVisible = false;
+        foreach (var btn in new[] { TestChannelLBtn, TestChannelCBtn, TestChannelRBtn })
+            btn.Opacity = 1.0;
+    }
 
     private void TestChannelBackdrop_Click(object? sender, PointerPressedEventArgs e)
-        => TestChannelOverlay.IsVisible = false;
+    {
+        TestChannelOverlay.IsVisible = false;
+        foreach (var btn in new[] { TestChannelLBtn, TestChannelCBtn, TestChannelRBtn })
+            btn.Opacity = 1.0;
+    }
 
     private void TestChannelCard_Click(object? sender, PointerPressedEventArgs e)
         => e.Handled = true;
@@ -174,18 +184,27 @@ public partial class MainWindow : Window
     {
         e.Handled = true;
         TestChannelStatus.Text = "Playing tone → LEFT channel";
+        SetTestChannelSelection(TestChannelLBtn);
     }
 
     private void TestChannelC_Click(object? sender, PointerPressedEventArgs e)
     {
         e.Handled = true;
         TestChannelStatus.Text = "Playing tone → ALL channels";
+        SetTestChannelSelection(TestChannelCBtn);
     }
 
     private void TestChannelR_Click(object? sender, PointerPressedEventArgs e)
     {
         e.Handled = true;
         TestChannelStatus.Text = "Playing tone → RIGHT channel";
+        SetTestChannelSelection(TestChannelRBtn);
+    }
+
+    private void SetTestChannelSelection(Avalonia.Controls.Border selected)
+    {
+        foreach (var btn in new[] { TestChannelLBtn, TestChannelCBtn, TestChannelRBtn })
+            btn.Opacity = btn == selected ? 1.0 : 0.45;
     }
 
     // ── Toast ────────────────────────────────────────────────────────────────

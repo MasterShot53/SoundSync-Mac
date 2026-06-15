@@ -22,7 +22,7 @@ public partial class SettingsView : UserControl
         ToggleAutoStart.IsChecked     = AppState.Instance.AutoStart;
         ToggleAutoCalibrate.IsChecked = AppState.Instance.AutoCalibrate;
         SliderDriftInterval.Value     = AppState.Instance.DriftCorrectionIntervalMs / 1000.0;
-        SliderDefaultDelay.Value      = 150;
+        SliderDefaultDelay.Value      = AppState.Instance.DefaultDelayMs;
         _loading = false;
         UpdateDriftLabel((int)SliderDriftInterval.Value);
     }
@@ -73,6 +73,8 @@ public partial class SettingsView : UserControl
 
     private void SliderDefaultDelay_Changed(object? sender, RangeBaseValueChangedEventArgs e)
     {
+        if (_loading) return;
+        AppState.Instance.DefaultDelayMs = (int)e.NewValue;
         DefaultDelayLabel.Text = $"{(int)e.NewValue} ms";
     }
 

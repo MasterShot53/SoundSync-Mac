@@ -30,6 +30,7 @@ public class AppState : INotifyPropertyChanged
     private string _audioSourceName = "No Source";
     private int    _audioSourceRate  = 0;
     private float  _syncDiffMs      = 0f;
+    private int    _defaultDelayMs  = 150;
 
     public bool EngineRunning
     {
@@ -119,6 +120,12 @@ public class AppState : INotifyPropertyChanged
     {
         get => _syncDiffMs;
         set { _syncDiffMs = value; OnPropertyChanged(); }
+    }
+
+    public int DefaultDelayMs
+    {
+        get => _defaultDelayMs;
+        set { _defaultDelayMs = Math.Clamp(value, 0, 500); OnPropertyChanged(); }
     }
 
     private DateTime? _lastCalibrationTime;

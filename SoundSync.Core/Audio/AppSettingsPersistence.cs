@@ -10,7 +10,7 @@ public static class AppSettingsPersistence
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
         "SoundSync", "settings.json");
 
-    private record Settings(bool AutoStart = false, bool AutoCalibrate = false, bool DriftCorrection = false, bool? FollowSystemTheme = null, int DriftCorrectionIntervalMs = 150_000);
+    private record Settings(bool AutoStart = false, bool AutoCalibrate = false, bool DriftCorrection = false, bool? FollowSystemTheme = null, int DriftCorrectionIntervalMs = 150_000, int DefaultDelayMs = 150);
 
     public static void Save()
     {
@@ -21,7 +21,8 @@ public static class AppSettingsPersistence
                 AppState.Instance.AutoCalibrate,
                 AppState.Instance.DriftCorrection,
                 (bool?)AppState.Instance.FollowSystemTheme,
-                AppState.Instance.DriftCorrectionIntervalMs);
+                AppState.Instance.DriftCorrectionIntervalMs,
+                AppState.Instance.DefaultDelayMs);
             Directory.CreateDirectory(Path.GetDirectoryName(_path)!);
             File.WriteAllText(_path, JsonSerializer.Serialize(s));
         }
@@ -40,6 +41,7 @@ public static class AppSettingsPersistence
             AppState.Instance.DriftCorrection            = s.DriftCorrection;
             AppState.Instance.FollowSystemTheme          = s.FollowSystemTheme ?? true;
             AppState.Instance.DriftCorrectionIntervalMs  = s.DriftCorrectionIntervalMs;
+            AppState.Instance.DefaultDelayMs             = s.DefaultDelayMs;
         }
         catch { }
     }
