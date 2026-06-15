@@ -23,6 +23,7 @@ public class CoreAudioEngine : IAudioEngine
     {
         // TODO: init AVAudioEngine, enumerate Core Audio render endpoints,
         // set up tap on BlackHole output, route to physical speakers with delay buffers.
+        try { AppState.Instance.AvailableOutputs = BlackHoleManager.GetOutputDeviceNames(); } catch { }
         IsRunning = true;
         StatusChanged?.Invoke($"Running — {devices.Count()} speaker(s)");
     }

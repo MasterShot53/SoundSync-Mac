@@ -43,6 +43,9 @@ public partial class MainWindow : Window
             AppState.Instance.Devices.Add(d);
         AppSettingsPersistence.Load();
 
+        // Enumerate audio outputs at startup so Add Speaker picker is populated before engine starts
+        try { AppState.Instance.AvailableOutputs = BlackHoleManager.GetOutputDeviceNames(); } catch { }
+
         // Restore volume slider
         SidebarVolumeSlider.Value = AppState.Instance.MasterVolume;
         SidebarVolLabel.Text = $"{(int)AppState.Instance.MasterVolume}%";

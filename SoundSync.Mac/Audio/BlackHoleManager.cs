@@ -153,8 +153,10 @@ public static class BlackHoleManager
     private const uint kAudioHardwarePropertyDevices         = 0x64657623; // 'dev#'
     private const uint kAudioHardwarePropertyDefaultOutput   = 0x644F7574; // 'dOut'
     private const uint kAudioObjectPropertyScopeGlobal       = 0x676C6F62; // 'glob'
+    private const uint kAudioObjectPropertyScopeOutput       = 0x6F757470; // 'outp'
     private const uint kAudioObjectPropertyElementMain       = 0;
     private const uint kAudioObjectPropertyName              = 0x6C6E616D; // 'lnam'
+    private const uint kAudioDevicePropertyStreams           = 0x73746D23; // 'stm#'
     private const uint kCFStringEncodingUTF8                 = 0x08000100;
 
     private const string CoreAudio        = "/System/Library/Frameworks/CoreAudio.framework/CoreAudio";
@@ -280,6 +282,36 @@ public static class BlackHoleManager
             if (GetDeviceName(id).Equals(name, StringComparison.OrdinalIgnoreCase))
                 return id;
         return 0;
+    }
+
+    private static bool HasOutputStreams(uint deviceId)
+    {
+        var addr = new AudioObjectPropertyAddress
+        {
+            mSelector = kAudioDevicePropertyStreams,
+            mScope    = kAudioObjectPropertyScopeOutput,
+            mElement  = kAudioObjectPropertyElementMain
+        };
+        int err = AudioObjectGetPropertyDataSize(deviceId, ref addr, 0, IntPtr.Zero, out uint dataSize);
+        return err == 0 && dataSize > 0;
+    }
+
+    /// <summary>
+    /// Returns the names of all macOS audio output devices, excluding BlackHole.
+    /// Used to populate the Add Speaker picker in DevicesView.
+    /// </summary>
+    public static string[] GetOutputDeviceNames()
+    {
+        var names = new List<string>();
+        foreach (uint id in GetAllDeviceIds())
+        {
+            if (!HasOutputStreams(id)) continue;
+            string name = GetDeviceName(id);
+            if (string.IsNullOrEmpty(name)) continue;
+            if (name.Equals(BlackHoleDeviceName, StringComparison.OrdinalIgnoreCase)) continue;
+            names.Add(name);
+        }
+        return names.ToArray();
     }
 
     // ── Helpers ──────────────────────────────────────────────────────────────
